@@ -2,15 +2,17 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="theme-color" content="#1e3a8a">
-  <title>Ward 29 Pilani - Electoral Information & Community Poll 2026 | नगर पालिका पिलानी</title>
-  <meta name="description" content="Ward 29 Pilani electoral information, unofficial community poll, candidate voting, interactive boundary map, statistics, and WhatsApp community.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Ward 29 Pilani - Civic Data Intelligence & Community Portal 2026 | नगर पालिका पिलानी</title>
+  <meta name="description" content="Ward 29 Pilani futuristic civic intelligence dashboard, voter directory, candidate poll, interactive boundary map, statistics, and WhatsApp community.">
   
   <!-- Preconnect Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="./css/style.css">
@@ -19,88 +21,154 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231e3a8a%22/><text y=%22.9em%22 x=%22.1em%22 font-size=%2280%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>29</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230f172a%22/><text y=%22.9em%22 x=%22.1em%22 font-size=%2280%22 fill=%22%233b82f6%22 font-family=%22sans-serif%22 font-weight=%22bold%22>29</text></svg>">
 </head>
 <body>
-
-  <!-- Top Sticky Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#overview" class="brand" aria-label="Ward 29 Pilani Home">
-        <div class="brand-badge">29</div>
-        <div class="brand-info">
-          <span class="brand-name">Ward 29 - Pilani</span>
-          <span class="brand-sub">नगर पालिका पिलानी (Pilani)</span>
-        </div>
-      </a>
-      
-      <div class="header-right">
-        <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="btn-header-pdf" title="मूल आधिकारिक PDF देखें">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span>मूल PDF</span>
-        </a>
-      </div>
-    </div>
-  </header>
 
   <main>
     <div class="container">
 
       <!-- ==========================================
-           1. HERO & WARD TITLE SECTION
+           1. APP-INTEGRATED HERO DASHBOARD
            ========================================== -->
-      <section id="overview" class="hero-ward-section">
-        <div class="hero-ward-header">
-          <div class="hero-ward-pretitle">
-            <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span>WARD 29</span>
-          </div>
-          <h1 class="hero-ward-title">Ward 29 - Pilani</h1>
-          <div class="hero-ward-subtitle-block">
-            <span class="hero-ward-subtitle">नगर पालिका निर्वाचन नामावली - 2026</span>
-            <span class="hero-ward-bullet">•</span>
-            <span class="hero-ward-ac-text">विधानसभा क्षेत्र: 25 - पिलानी</span>
-          </div>
-        </div>
+      <section id="overview" class="app-hero-container">
+        <div class="hero-app-card">
+          <div class="hero-glow-blob"></div>
 
-        <!-- Horizontal Quick Facts Pill Bar -->
-        <div class="quick-facts-bar" aria-label="वार्ड सारांश">
-          <div class="quick-fact-pill">
-            <span class="dot"></span>
-            <span>Ward 29</span>
+          <!-- Hero Top App Bar -->
+          <div class="hero-top-row">
+            <div class="hero-identity-group">
+              <div class="hero-ward-badge">29</div>
+              <div class="hero-identity-text">
+                <span class="hero-identity-title">Ward 29 - Pilani</span>
+                <span class="hero-identity-sub">नगर पालिका पिलानी (Pilani, Rajasthan)</span>
+              </div>
+            </div>
+
+            <div class="hero-actions-group">
+              <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="btn-hero-pdf-action" title="मूल आधिकारिक PDF देखें">
+                <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>मूल PDF</span>
+              </a>
+            </div>
           </div>
-          <div class="quick-fact-pill">
-            <span>Part 1</span>
+
+          <!-- Hero Giant Metric -->
+          <div class="hero-giant-stat-box">
+            <div class="hero-giant-number" id="heroGiantTotal">901</div>
+            <div class="hero-giant-label">Total Registered Voters</div>
+            <div class="hero-meta-tagline">नगर पालिका निर्वाचन नामावली - 2026 • विधानसभा क्षेत्र: 25 - पिलानी</div>
           </div>
-          <div class="quick-fact-pill">
-            <span>901 Voters</span>
+
+          <!-- Quick Facts Horizontal Scroll Bar -->
+          <div class="quick-facts-bar-futuristic" aria-label="वार्ड सारांश">
+            <div class="hero-fact-chip">
+              <span class="pulse-dot"></span>
+              <span>Ward: <strong>29</strong></span>
+            </div>
+            <div class="hero-fact-chip">
+              <span>Part: <strong>1</strong></span>
+            </div>
+            <div class="hero-fact-chip">
+              <span>Voters: <strong>901</strong></span>
+            </div>
+            <div class="hero-fact-chip">
+              <span>Booth: <strong>29 (गौतम स्कूल)</strong></span>
+            </div>
+            <div class="hero-fact-chip">
+              <span>District: <strong>झुंझुनू</strong></span>
+            </div>
+            <div class="hero-fact-chip">
+              <span>Year: <strong>2026</strong></span>
+            </div>
           </div>
-          <div class="quick-fact-pill">
-            <span>Polling Station 29</span>
-          </div>
-          <div class="quick-fact-pill">
-            <span>Pilani, Jhunjhunu</span>
-          </div>
+
         </div>
       </section>
 
       <!-- ==========================================
-           2. DASHBOARD: VOTER COMPOSITION & METRICS
+           2. WARD 29 AT A GLANCE (KEY INSIGHTS GRID)
            ========================================== -->
-      <section id="stats" class="section-container" style="padding-top: 0.5rem;">
-        
-        <div class="dashboard-grid">
+      <section id="at-a-glance" style="margin-bottom: 0.5rem;">
+        <div class="at-a-glance-grid">
           
-          <!-- Voter Composition 2-Segment Donut Visualization -->
-          <div class="donut-card">
-            <div class="donut-card-title">मतदाता संरचना (VOTER COMPOSITION)</div>
-            
+          <div class="glance-card" style="border-left: 3px solid var(--primary-600);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">👥</span>
+              <span class="glance-card-val" id="glanceTotal">901</span>
+            </div>
+            <div class="glance-card-lbl-hi">कुल मतदाता</div>
+            <div class="glance-card-lbl-en">Total Voters</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--male-color);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">♂</span>
+              <span class="glance-card-val" id="glanceMale">463</span>
+            </div>
+            <div class="glance-card-lbl-hi">पुरुष मतदाता</div>
+            <div class="glance-card-lbl-en">Male (51.4%)</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--female-color);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">♀</span>
+              <span class="glance-card-val" id="glanceFemale">438</span>
+            </div>
+            <div class="glance-card-lbl-hi">महिला मतदाता</div>
+            <div class="glance-card-lbl-en">Female (48.6%)</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--accent-cyan);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">🎂</span>
+              <span class="glance-card-val">44.9</span>
+            </div>
+            <div class="glance-card-lbl-hi">औसत आयु (Avg)</div>
+            <div class="glance-card-lbl-en">Median: 41 yrs</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--accent-amber);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">👴</span>
+              <span class="glance-card-val">214</span>
+            </div>
+            <div class="glance-card-lbl-hi">वरिष्ठ नागरिक</div>
+            <div class="glance-card-lbl-en">Age 60+ (23.8%)</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--accent-emerald);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">🏠</span>
+              <span class="glance-card-val">257</span>
+            </div>
+            <div class="glance-card-lbl-hi">पंजीकृत मकान</div>
+            <div class="glance-card-lbl-en">Unique Houses</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           3. CHARTS DUO: VOTER COMPOSITION & AGE DISTRIBUTION
+           ========================================== -->
+      <section id="stats" class="section-container" style="padding-top: 0.75rem;">
+        
+        <div class="charts-duo-grid">
+          
+          <!-- Chart 1: 2-Segment Donut -->
+          <div class="futuristic-card">
+            <div class="card-header-clean">
+              <div class="card-title-pill">
+                <span>📊</span>
+                <span>मतदाता संरचना (Voter Composition)</span>
+              </div>
+            </div>
+
             <div class="donut-chart-container" aria-label="Voter gender ratio donut chart">
               <svg class="donut-svg" viewBox="0 0 100 100">
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
-                <!-- Male Segment (51.4% -> 122.7 of 238.76 circumference) -->
                 <circle id="donutMale" class="donut-segment-male" cx="50" cy="50" r="38" stroke-dasharray="122.7 238.76" stroke-dashoffset="0"></circle>
-                <!-- Female Segment (48.6% -> 116.0 of 238.76 circumference) -->
                 <circle id="donutFemale" class="donut-segment-female" cx="50" cy="50" r="38" stroke-dasharray="116.0 238.76" stroke-dashoffset="-122.7"></circle>
               </svg>
               
@@ -110,7 +178,7 @@
               </div>
             </div>
 
-            <!-- Refined Legend: Only Male & Female -->
+            <!-- Legend: Male & Female Only -->
             <div class="donut-legend-2col">
               <div class="legend-item">
                 <div class="legend-header">
@@ -132,56 +200,190 @@
             </div>
           </div>
 
-          <!-- Key Statistics 2x2 Metric Cards + Election Info -->
-          <div class="metrics-section">
-            <div class="stats-2x2-grid">
-              <div class="stat-card-compact highlight-blue">
-                <div class="stat-val-big" id="statMale">463</div>
-                <div class="stat-lbl-hi">पुरुष मतदाता</div>
-                <div class="stat-lbl-en">Male Voters</div>
+          <!-- Chart 2: Interactive Age Distribution Horizontal Bars -->
+          <div class="futuristic-card">
+            <div class="card-header-clean">
+              <div class="card-title-pill">
+                <span>📈</span>
+                <span>आयु वर्ग वितरण (Age Distribution)</span>
+              </div>
+              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">Tap bar to filter</span>
+            </div>
+
+            <div class="age-bars-container" id="ageBarsList">
+              
+              <div class="age-bar-row" data-age-filter="18-25" title="Filter voters aged 18-25">
+                <div class="age-bar-top">
+                  <span class="age-bracket-name">18-25 वर्ष (Young Voters)</span>
+                  <div class="age-count-info">
+                    <span>100</span> <span class="age-pct-text">(11.1%)</span>
+                  </div>
+                </div>
+                <div class="age-progress-track">
+                  <div class="age-progress-fill" style="width: 40.3%; background: #38bdf8;"></div>
+                </div>
               </div>
 
-              <div class="stat-card-compact highlight-rose">
-                <div class="stat-val-big" id="statFemale">438</div>
-                <div class="stat-lbl-hi">महिला मतदाता</div>
-                <div class="stat-lbl-en">Female Voters</div>
+              <div class="age-bar-row" data-age-filter="26-35" title="Filter voters aged 26-35">
+                <div class="age-bar-top">
+                  <span class="age-bracket-name">
+                    <span>26-35 वर्ष</span>
+                    <span class="largest-group-tag">★ Largest Group</span>
+                  </span>
+                  <div class="age-count-info">
+                    <span>248</span> <span class="age-pct-text">(27.5%)</span>
+                  </div>
+                </div>
+                <div class="age-progress-track">
+                  <div class="age-progress-fill" style="width: 100%; background: #2563eb;"></div>
+                </div>
               </div>
 
-              <div class="stat-card-compact highlight-primary">
-                <div class="stat-val-big" id="statTotal">901</div>
-                <div class="stat-lbl-hi">कुल मतदाता</div>
-                <div class="stat-lbl-en">Total Voters</div>
+              <div class="age-bar-row" data-age-filter="36-45" title="Filter voters aged 36-45">
+                <div class="age-bar-top">
+                  <span class="age-bracket-name">36-45 वर्ष</span>
+                  <div class="age-count-info">
+                    <span>141</span> <span class="age-pct-text">(15.6%)</span>
+                  </div>
+                </div>
+                <div class="age-progress-track">
+                  <div class="age-progress-fill" style="width: 56.8%; background: #8b5cf6;"></div>
+                </div>
               </div>
 
-              <div class="stat-card-compact highlight-emerald">
-                <div class="stat-val-big">29</div>
-                <div class="stat-lbl-hi">वार्ड संख्या</div>
-                <div class="stat-lbl-en">Ward Number</div>
+              <div class="age-bar-row" data-age-filter="46-60" title="Filter voters aged 46-60">
+                <div class="age-bar-top">
+                  <span class="age-bracket-name">46-60 वर्ष (Middle Age)</span>
+                  <div class="age-count-info">
+                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
+                  </div>
+                </div>
+                <div class="age-progress-track">
+                  <div class="age-progress-fill" style="width: 83.0%; background: #f59e0b;"></div>
+                </div>
+              </div>
+
+              <div class="age-bar-row" data-age-filter="61+" title="Filter voters aged 61+">
+                <div class="age-bar-top">
+                  <span class="age-bracket-name">61+ वर्ष (Senior Citizens)</span>
+                  <div class="age-count-info">
+                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
+                  </div>
+                </div>
+                <div class="age-progress-track">
+                  <div class="age-progress-fill" style="width: 83.0%; background: #ec4899;"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Ward Insights & Election Information -->
+        <div class="insights-metadata-grid">
+          
+          <div class="futuristic-card">
+            <div class="card-header-clean">
+              <div class="card-title-pill">
+                <span>💡</span>
+                <span>Ward Insights (मुख्य अंतर्दृष्टि)</span>
               </div>
             </div>
 
-            <!-- Redesigned Election Metadata Panel -->
-            <div class="election-info-card">
-              <div class="info-card-header">निर्वाचन विवरण (ELECTION METADATA)</div>
-              <div class="info-2col-grid">
-                <div class="info-item-box">
-                  <span class="info-item-label">विधानसभा क्षेत्र</span>
-                  <span class="info-item-value">25 - पिलानी (Pilani)</span>
+            <div class="insight-bullets-list">
+              <div class="insight-item-box">
+                <span class="insight-icon">🏆</span>
+                <div>
+                  <div class="insight-title">सर्वाधिक मतदाता आयु वर्ग: 26-35 वर्ष</div>
+                  <div class="insight-desc">वार्ड 29 के कुल 248 मतदाता (27.5%) 26-35 वर्ष आयु समूह में हैं।</div>
                 </div>
-                <div class="info-item-box">
-                  <span class="info-item-label">तहसील / जिला</span>
-                  <span class="info-item-value">पिलानी, झुंझुनू</span>
+              </div>
+
+              <div class="insight-item-box">
+                <span class="insight-icon">👴</span>
+                <div>
+                  <div class="insight-title">वरिष्ठ मतदाता (60+ वर्ष): 214 नागरिक</div>
+                  <div class="insight-desc">वार्ड में कुल 23.8% मतदाता 60 वर्ष या उससे अधिक आयु के वरिष्ठ नागरिक हैं।</div>
                 </div>
-                <div class="info-item-box">
-                  <span class="info-item-label">पुनरीक्षण वर्ष</span>
-                  <span class="info-item-value">2026</span>
-                </div>
-                <div class="info-item-box">
-                  <span class="info-item-label">प्रकाशन दिनांक</span>
-                  <span class="info-item-value">08-05-2026</span>
+              </div>
+
+              <div class="insight-item-box">
+                <span class="insight-icon">🏠</span>
+                <div>
+                  <div class="insight-title">सर्वाधिक मतदाता एकाग्रता: मकान सं. 166</div>
+                  <div class="insight-desc">मकान संख्या 166 में सर्वाधिक 25 पंजीकृत मतदाता हैं।</div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="futuristic-card">
+            <div class="card-header-clean">
+              <div class="card-title-pill">
+                <span>🏛️</span>
+                <span>निर्वाचन विवरण (Election Metadata)</span>
+              </div>
+            </div>
+
+            <div class="info-2col-grid">
+              <div class="info-item-box">
+                <span class="info-item-label">विधानसभा क्षेत्र</span>
+                <span class="info-item-value">25 - पिलानी (Pilani)</span>
+              </div>
+              <div class="info-item-box">
+                <span class="info-item-label">तहसील / जिला</span>
+                <span class="info-item-value">पिलानी, झुंझुनू</span>
+              </div>
+              <div class="info-item-box">
+                <span class="info-item-label">पुनरीक्षण वर्ष</span>
+                <span class="info-item-value">2026</span>
+              </div>
+              <div class="info-item-box">
+                <span class="info-item-label">प्रकाशन दिनांक</span>
+                <span class="info-item-value">08-05-2026</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Snapshots Grid (Live Poll & Ward Map) -->
+        <div class="snapshots-grid">
+          
+          <!-- Live Poll Snapshot Card -->
+          <div class="snapshot-card">
+            <div>
+              <div class="snapshot-header">
+                <div class="poll-live-indicator">
+                  <span class="live-pulse-dot"></span>
+                  <span>Live Community Poll</span>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 700;">One Vote / Session</span>
+              </div>
+              <div style="font-size: 1.125rem; font-weight: 800; color: var(--primary-900);">Ward 29 Candidate Voting</div>
+              <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem;">अपने पसंदीदा प्रत्याशी के पक्ष में अपनी राय दें एवं लाइव परिणाम देखें।</div>
+            </div>
+            <a href="#candidates" class="btn-snapshot-action">
+              <span>View Candidates & Vote</span>
+              <span>→</span>
+            </a>
+          </div>
+
+          <!-- Ward Map Snapshot Card -->
+          <div class="snapshot-card">
+            <div>
+              <div class="snapshot-header">
+                <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--primary-700); letter-spacing: 0.05em;">🗺️ OFFICIAL BOUNDARY MAP</div>
+                <span style="font-size: 0.75rem; color: var(--text-tertiary);">300 DPI</span>
+              </div>
+              <div style="font-size: 1.125rem; font-weight: 800; color: var(--primary-900);">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
+              <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem;">Ward 29 की प्रस्तावित परिसीमा का आधिकारिक मानचित्र।</div>
+            </div>
+            <a href="#map" class="btn-snapshot-action" style="background: var(--primary-900);">
+              <span>🔍 Zoom Fullscreen Map</span>
+              <span>→</span>
+            </a>
           </div>
 
         </div>
@@ -189,7 +391,7 @@
       </section>
 
       <!-- ==========================================
-           3. WARD MAP SECTION (CORRECT TITLE & CAPTION)
+           4. WARD MAP
            ========================================== -->
       <section id="map" class="section-container">
         <div class="section-header-clean">
@@ -221,7 +423,7 @@
       </section>
 
       <!-- ==========================================
-           4. POLLING STATION
+           5. POLLING STATION
            ========================================== -->
       <section id="polling-station" class="section-container">
         <div class="section-header-clean">
@@ -257,7 +459,7 @@
       </section>
 
       <!-- ==========================================
-           5. WARD 29 CANDIDATES & COMMUNITY POLL
+           6. WARD 29 CANDIDATES & COMMUNITY POLL
            ========================================== -->
       <section id="candidates" class="section-container">
         <div class="section-header-clean">
@@ -282,7 +484,7 @@
       </section>
 
       <!-- ==========================================
-           6. LIVE POLL RESULTS
+           7. LIVE POLL RESULTS
            ========================================== -->
       <section id="poll-results" class="section-container">
         <div class="section-header-clean">
@@ -302,7 +504,7 @@
             </div>
           </div>
 
-          <div class="dashboard-grid" style="margin: 0; align-items: center;">
+          <div class="charts-duo-grid" style="margin: 0; align-items: center;">
             
             <!-- Poll Donut Visualization -->
             <div class="donut-chart-container" style="width: 170px; height: 170px; margin: 0.5rem auto 1rem;">
@@ -327,7 +529,7 @@
       </section>
 
       <!-- ==========================================
-           7. WHATSAPP WARD 29 COMMUNITY CTA
+           8. WHATSAPP WARD 29 COMMUNITY CTA
            ========================================== -->
       <section id="whatsapp" class="section-container" style="padding-top: 1rem; padding-bottom: 1.5rem;">
         <div class="whatsapp-community-card">
@@ -351,7 +553,7 @@
       </section>
 
       <!-- ==========================================
-           8. BOUNDARIES
+           9. BOUNDARIES
            ========================================== -->
       <section id="boundaries" class="section-container">
         <div class="section-header-clean">
@@ -386,7 +588,7 @@
       </section>
 
       <!-- ==========================================
-           9. VOTER DIRECTORY (SEARCH & FILTER)
+           10. VOTER DIRECTORY (SEARCH & AGE GROUP CHIPS)
            ========================================== -->
       <section id="voters" class="section-container" style="border-bottom: none;">
         <div class="section-header-clean">
@@ -409,6 +611,16 @@
               <span>Filter</span>
               <span id="filterBadgeCount" class="filter-badge-number" style="display: none;">0</span>
             </button>
+          </div>
+
+          <!-- Quick Interactive Age Filter Chips Row -->
+          <div class="quick-age-chips-row" id="quickAgeChips">
+            <button type="button" class="age-filter-chip active" data-age-chip="all">All (901)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="18-25">18-25 (100)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="26-35">26-35 (248)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="36-45">36-45 (141)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="46-60">46-60 (206)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="61+">61+ (206)</button>
           </div>
         </div>
 
@@ -467,7 +679,7 @@
       </section>
 
       <!-- ==========================================
-           10. ORIGINAL SOURCE PDF SECTION
+           11. ORIGINAL SOURCE PDF SECTION
            ========================================== -->
       <section id="source" class="section-container" style="border-top: 1px solid var(--border-color);">
         <div class="section-header-clean">
@@ -476,7 +688,7 @@
           <p class="section-caption">राज्य निर्वाचन आयोग राजस्थान द्वारा जारी 39-पृष्ठीय आधिकारिक दस्तावेज़</p>
         </div>
 
-        <div class="election-info-card" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div class="snapshot-card" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
           <div style="display: flex; align-items: center; gap: 0.875rem;">
             <div style="width: 44px; height: 44px; background: #fee2e2; color: #dc2626; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
               <svg class="icon-svg" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -578,23 +790,23 @@
             </label>
             <label class="radio-chip-item">
               <input type="radio" name="filterAge" value="18-25">
-              <span class="radio-chip-label">18–25</span>
+              <span class="radio-chip-label">18-25</span>
             </label>
             <label class="radio-chip-item">
               <input type="radio" name="filterAge" value="26-35">
-              <span class="radio-chip-label">26–35</span>
+              <span class="radio-chip-label">26-35</span>
             </label>
             <label class="radio-chip-item">
-              <input type="radio" name="filterAge" value="36-50">
-              <span class="radio-chip-label">36–50</span>
+              <input type="radio" name="filterAge" value="36-45">
+              <span class="radio-chip-label">36-45</span>
             </label>
             <label class="radio-chip-item">
-              <input type="radio" name="filterAge" value="51-65">
-              <span class="radio-chip-label">51–65</span>
+              <input type="radio" name="filterAge" value="46-60">
+              <span class="radio-chip-label">46-60</span>
             </label>
             <label class="radio-chip-item">
-              <input type="radio" name="filterAge" value="65+">
-              <span class="radio-chip-label">65+</span>
+              <input type="radio" name="filterAge" value="61+">
+              <span class="radio-chip-label">61+</span>
             </label>
           </div>
         </div>
@@ -609,11 +821,11 @@
             </label>
             <label class="radio-chip-item">
               <input type="radio" name="filterSection" value="mool">
-              <span class="radio-chip-label">Main List (1–863)</span>
+              <span class="radio-chip-label">Main List (1-863)</span>
             </label>
             <label class="radio-chip-item">
               <input type="radio" name="filterSection" value="pari">
-              <span class="radio-chip-label">Additions (864–901)</span>
+              <span class="radio-chip-label">Additions (864-901)</span>
             </label>
           </div>
         </div>
@@ -659,13 +871,13 @@
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       <span>Home</span>
     </a>
+    <a href="#stats" class="bottom-nav-link">
+      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+      <span>Stats</span>
+    </a>
     <a href="#candidates" class="bottom-nav-link">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-      <span>Poll</span>
-    </a>
-    <a href="#poll-results" class="bottom-nav-link">
-      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-      <span>Results</span>
+      <span>Candidates</span>
     </a>
     <a href="#voters" class="bottom-nav-link">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -673,11 +885,11 @@
     </a>
     <a href="#whatsapp" class="bottom-nav-link">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-      <span>WhatsApp</span>
+      <span>Community</span>
     </a>
   </nav>
 
-  <!-- Site Footer (Cleaned: No public GitHub link) -->
+  <!-- Site Footer -->
   <footer class="site-footer-modern">
     <div class="container">
       <div class="footer-inner-grid">
@@ -689,9 +901,9 @@
           <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Navigation</div>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
             <li><a href="#overview">Overview</a></li>
-            <li><a href="#candidates">Community Poll</a></li>
-            <li><a href="#poll-results">Live Results</a></li>
-            <li><a href="#whatsapp">WhatsApp Community</a></li>
+            <li><a href="#stats">Statistics & Insights</a></li>
+            <li><a href="#candidates">Candidates & Poll</a></li>
+            <li><a href="#map">Ward Map</a></li>
             <li><a href="#voters">Voter Directory</a></li>
           </ul>
         </div>

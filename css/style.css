@@ -1,32 +1,37 @@
 /* ==========================================================================
-   WARD 29 PILANI - CIVIC ELECTORAL INFORMATION SYSTEM
-   Senior UI/UX Design System & Mobile-First Stylesheet
+   WARD 29 PILANI - CIVIC DATA INTELLIGENCE & COMMUNITY PORTAL
+   Futuristic Full-Screen Mobile-First Design System
    ========================================================================== */
 
 /* --- Design Tokens & Variables --- */
 :root {
-  /* Brand Palette */
+  /* Futuristic Civic Palette */
+  --primary-950: #090d16;
   --primary-900: #0f172a;
+  --primary-850: #141f36;
   --primary-800: #1e293b;
-  --primary-700: #1e3a8a;       /* Civic Blue */
-  --primary-600: #2563eb;       /* Royal Accent */
+  --primary-700: #1d4ed8;       /* Civic Blue */
+  --primary-600: #2563eb;       /* Electric Royal */
   --primary-500: #3b82f6;
+  --primary-400: #60a5fa;
   --primary-100: #eff6ff;
   --primary-50:  #f8fafc;
 
-  /* Gender & Demographic Accents */
+  /* Accent Demographics */
   --male-color:   #2563eb;
   --male-light:   #eff6ff;
   --male-border:  #bfdbfe;
   
-  --female-color: #e11d48;
-  --female-light: #fff1f2;
-  --female-border:#fecdd3;
-  
-  --neutral-accent: #64748b;
-  --neutral-light:  #f1f5f9;
+  --female-color: #ec4899;
+  --female-light: #fdf2f8;
+  --female-border:#fbcfe8;
 
-  /* State & Community Colors */
+  --accent-cyan:  #06b6d4;
+  --accent-amber: #f59e0b;
+  --accent-purple:#8b5cf6;
+  --accent-emerald:#10b981;
+  
+  /* State Colors */
   --success:        #059669;
   --success-light:  #ecfdf5;
   --success-border: #a7f3d0;
@@ -37,48 +42,47 @@
 
   --whatsapp-green: #25d366;
   --whatsapp-dark:  #128c7e;
-  --whatsapp-light: #dcf8c6;
+  --whatsapp-light: #dcfce7;
 
   /* Surfaces & Backgrounds */
-  --bg-app:     #f8fafc;        /* Slate 50 */
-  --bg-surface: #ffffff;        /* Pure White */
-  --bg-subtle:  #f1f5f9;        /* Slate 100 */
-  --bg-elevated:#ffffff;
+  --bg-app:      #f8fafc;
+  --bg-surface:  #ffffff;
+  --bg-subtle:   #f1f5f9;
+  --bg-glass:    rgba(255, 255, 255, 0.85);
 
   /* Text & Hierarchy */
-  --text-primary:   #0f172a;    /* High-contrast Title/Body */
-  --text-secondary: #475569;    /* Supporting Body/Labels */
-  --text-tertiary:  #64748b;    /* Captions/Metadata */
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary:  #64748b;
   --text-inverse:   #ffffff;
 
   /* Borders & Dividers */
   --border-subtle: #f1f5f9;
-  --border-color:  #e2e8f0;    /* Slate 200 */
-  --border-strong: #cbd5e1;    /* Slate 300 */
+  --border-color:  #e2e8f0;
+  --border-strong: #cbd5e1;
 
   /* Radius System */
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 22px;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
   --radius-full: 9999px;
 
-  /* Elevation Shadows */
+  /* Soft Elevation Shadows */
   --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 2px 4px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 6px 12px -2px rgba(15, 23, 42, 0.07), 0 3px 6px -3px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 14px 24px -4px rgba(15, 23, 42, 0.09), 0 6px 10px -5px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 24px 38px -8px rgba(15, 23, 42, 0.12), 0 10px 16px -6px rgba(15, 23, 42, 0.05);
 
   /* Typography */
   --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-hindi: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Layout Dimensions */
-  --header-height: 60px;
+  /* Dimensions */
   --bottom-nav-height: 64px;
-  --max-content-width: 1140px;
+  --max-content-width: 1160px;
 }
 
 /* --- Base & Reset --- */
@@ -103,7 +107,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: var(--bottom-nav-height);
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 768px) {
@@ -161,249 +165,320 @@ img, svg {
 }
 
 /* ==========================================================================
-   HEADER & BRANDING
+   1. APP-INTEGRATED HERO DASHBOARD (NO SEPARATE FIXED HEADER)
    ========================================================================== */
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-color);
-  height: var(--header-height);
+.app-hero-container {
+  padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+  padding-bottom: 1.25rem;
 }
 
-.header-inner {
+.hero-app-card {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #1e3a8a 100%);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.25rem;
+  color: white;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .hero-app-card {
+    padding: 2rem 1.75rem;
+  }
+}
+
+.hero-glow-blob {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(30, 58, 138, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  margin-bottom: 1.25rem;
 }
 
-.brand {
+.hero-identity-group {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  text-decoration: none;
 }
 
-.brand-badge {
-  width: 36px;
-  height: 36px;
-  background: var(--primary-700);
-  color: white;
+.hero-ward-badge {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.125rem;
   font-weight: 800;
-  font-size: 1.0625rem;
-  letter-spacing: -0.02em;
-  box-shadow: var(--shadow-sm);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.brand-info {
+.hero-identity-text {
   display: flex;
   flex-direction: column;
 }
 
-.brand-name {
-  font-size: 0.9375rem;
+.hero-identity-title {
+  font-size: 1.125rem;
   font-weight: 800;
-  color: var(--primary-900);
+  color: white;
   letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
-.brand-sub {
-  font-size: 0.6875rem;
-  color: var(--text-tertiary);
+.hero-identity-sub {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 500;
   font-family: var(--font-hindi);
 }
 
-.header-right {
+.hero-actions-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.btn-header-pdf {
+.btn-hero-pdf-action {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  background: var(--primary-50);
-  color: var(--primary-700);
-  border: 1px solid var(--border-color);
-  padding: 0.35rem 0.75rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.4rem 0.8rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.15s ease;
 }
 
-.btn-header-pdf:hover {
-  background: var(--primary-100);
-  color: var(--primary-800);
+.btn-hero-pdf-action:hover {
+  background: rgba(255, 255, 255, 0.22);
 }
 
-/* ==========================================================================
-   1. HERO & WARD TITLE SECTION
-   ========================================================================== */
-
-.hero-ward-section {
-  padding-top: 1.25rem;
-  padding-bottom: 0.75rem;
+/* Big Hero Total Counter Display */
+.hero-giant-stat-box {
+  margin: 1rem 0 1.25rem;
 }
 
-.hero-ward-header {
-  margin-bottom: 1rem;
-}
-
-.hero-ward-pretitle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--primary-600);
-  margin-bottom: 0.25rem;
-}
-
-.hero-ward-title {
-  font-size: 1.875rem;
-  font-weight: 800;
-  color: var(--primary-900);
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+.hero-giant-number {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: white;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 @media (min-width: 640px) {
-  .hero-ward-title {
-    font-size: 2.25rem;
+  .hero-giant-number {
+    font-size: 4.25rem;
   }
 }
 
-.hero-ward-subtitle-block {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.35rem;
-  font-family: var(--font-hindi);
-}
-
-.hero-ward-subtitle {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.hero-ward-bullet {
-  color: var(--text-tertiary);
+.hero-giant-label {
   font-size: 0.8125rem;
-}
-
-.hero-ward-ac-text {
-  font-size: 0.875rem;
-  color: var(--primary-700);
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #93c5fd;
+  margin-top: 0.35rem;
 }
 
-/* Quick Facts Horizontal Pill Scroll Bar */
-.quick-facts-bar {
+.hero-meta-tagline {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-hindi);
+  margin-top: 0.25rem;
+}
+
+/* Quick Facts Horizontal Scroll Pills */
+.quick-facts-bar-futuristic {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 
-.quick-facts-bar::-webkit-scrollbar {
+.quick-facts-bar-futuristic::-webkit-scrollbar {
   display: none;
 }
 
-.quick-fact-pill {
+.hero-fact-chip {
   white-space: nowrap;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-full);
-  padding: 0.35rem 0.75rem;
+  padding: 0.3rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  box-shadow: var(--shadow-xs);
+  gap: 0.35rem;
   flex-shrink: 0;
 }
 
-.quick-fact-pill strong {
-  color: var(--primary-900);
+.hero-fact-chip strong {
+  color: white;
 }
 
-.quick-fact-pill .dot {
+.hero-fact-chip .pulse-dot {
   width: 6px;
   height: 6px;
-  background: var(--success);
+  background: #34d399;
   border-radius: 50%;
 }
 
 /* ==========================================================================
-   2. DASHBOARD: VOTER COMPOSITION & METRICS
+   2. AT A GLANCE METRIC CARDS (2x2 Mobile, 4-Col Desktop)
    ========================================================================== */
 
-.dashboard-grid {
+.at-a-glance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .at-a-glance-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .at-a-glance-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.glance-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.875rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.glance-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.glance-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.glance-card-icon {
+  font-size: 1rem;
+}
+
+.glance-card-val {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.glance-card-lbl-hi {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-hindi);
+  margin-top: 0.2rem;
+}
+
+.glance-card-lbl-en {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ==========================================================================
+   3. VISUALIZATION DUO: VOTER COMPOSITION & AGE DISTRIBUTION
+   ========================================================================== */
+
+.charts-duo-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  margin-top: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
 @media (min-width: 1024px) {
-  .dashboard-grid {
+  .charts-duo-grid {
     grid-template-columns: 380px 1fr;
-    align-items: stretch;
   }
 }
 
-/* Donut Visualization Card */
-.donut-card {
+/* Card Container */
+.futuristic-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem 1.25rem;
+  padding: 1.375rem 1.25rem;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
 }
 
-.donut-card-title {
+.card-header-clean {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title-pill {
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-tertiary);
-  margin-bottom: 0.75rem;
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
+/* Donut Visualization */
 .donut-chart-container {
   position: relative;
   width: 180px;
   height: 180px;
-  margin: 0.5rem auto 1.25rem;
+  margin: 0.5rem auto 1rem;
 }
 
 .donut-svg {
@@ -461,13 +536,12 @@ img, svg {
   margin-top: 0.2rem;
 }
 
-/* Donut 2-Column Legend (Male & Female Only) */
 .donut-legend-2col {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-  padding-top: 1rem;
+  padding-top: 0.875rem;
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -508,109 +582,137 @@ img, svg {
   font-weight: 600;
 }
 
-/* Statistics Metric Cards Grid */
-.metrics-section {
+/* Age Distribution Interactive Horizontal Bar Chart */
+.age-bars-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.stats-2x2-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .stats-2x2-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.stat-card-compact {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  box-shadow: var(--shadow-xs);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.stat-card-compact:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.stat-card-compact.highlight-blue {
-  border-left: 3px solid var(--male-color);
-}
-
-.stat-card-compact.highlight-rose {
-  border-left: 3px solid var(--female-color);
-}
-
-.stat-card-compact.highlight-primary {
-  border-left: 3px solid var(--primary-700);
-}
-
-.stat-card-compact.highlight-emerald {
-  border-left: 3px solid var(--success);
-}
-
-.stat-val-big {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-900);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.stat-lbl-hi {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  font-family: var(--font-hindi);
   margin-top: 0.25rem;
 }
 
-.stat-lbl-en {
-  font-size: 0.6875rem;
+.age-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease;
+}
+
+.age-bar-row:hover, .age-bar-row.active {
+  background: var(--primary-50);
+}
+
+.age-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+}
+
+.age-bracket-name {
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.largest-group-tag {
+  background: #fef08a;
+  color: #854d0e;
+  border: 1px solid #facc15;
+  font-size: 0.625rem;
+  font-weight: 800;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-full);
+}
+
+.age-count-info {
+  font-weight: 800;
+  color: var(--primary-900);
+}
+
+.age-pct-text {
+  font-weight: 600;
   color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-weight: 500;
+  font-size: 0.75rem;
 }
 
-/* Election Info Metadata Cards */
-.election-info-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-xs);
+.age-progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
 }
 
-.info-card-header {
+.age-progress-fill {
+  height: 100%;
+  background: var(--primary-600);
+  border-radius: var(--radius-full);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.age-bar-row.active .age-progress-fill {
+  background: var(--primary-700);
+}
+
+/* ==========================================================================
+   4. WARD INSIGHTS & ELECTION METADATA
+   ========================================================================== */
+
+.insights-metadata-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .insights-metadata-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.insight-bullets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insight-item-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.insight-icon {
+  font-size: 1.125rem;
+  margin-top: 1px;
+}
+
+.insight-title {
   font-size: 0.8125rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-tertiary);
-  margin-bottom: 0.875rem;
+  color: var(--text-primary);
 }
 
+.insight-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+/* Election Info Metadata */
 .info-2col-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.875rem;
-}
-
-@media (max-width: 400px) {
-  .info-2col-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .info-item-box {
@@ -635,7 +737,61 @@ img, svg {
 }
 
 /* ==========================================================================
-   3. COMMUNITY POLL & CANDIDATES SECTION
+   5. DASHBOARD ACTION SNAPSHOTS (MAP & POLL)
+   ========================================================================== */
+
+.snapshots-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .snapshots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.snapshot-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.snapshot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.btn-snapshot-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  background: var(--primary-700);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  align-self: flex-start;
+  transition: background 0.15s ease;
+}
+
+.btn-snapshot-action:hover {
+  background: var(--primary-800);
+}
+
+/* ==========================================================================
+   6. CANDIDATES & COMMUNITY POLL SECTION
    ========================================================================== */
 
 .poll-disclaimer-box {
@@ -656,7 +812,6 @@ img, svg {
   color: #78350f;
 }
 
-/* Candidate Cards Grid */
 .candidates-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -897,7 +1052,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   4. WHATSAPP WARD 29 COMMUNITY CTA
+   7. WHATSAPP WARD 29 COMMUNITY CTA
    ========================================================================== */
 
 .whatsapp-community-card {
@@ -985,7 +1140,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   5. REUSABLE SECTION HEADERS & MAP
+   8. REUSABLE SECTION HEADERS & MAP
    ========================================================================== */
 
 .section-container {
@@ -1315,16 +1470,16 @@ img, svg {
 }
 
 /* ==========================================================================
-   6. VOTER DIRECTORY: SEARCH & FILTER ENGINE
+   9. VOTER DIRECTORY: SEARCH & AGE GROUP CHIPS ENGINE
    ========================================================================== */
 
 .sticky-search-wrapper {
   position: sticky;
-  top: var(--header-height);
+  top: 0;
   z-index: 80;
   background: rgba(248, 250, 252, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0.75rem 0;
   margin-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
@@ -1352,7 +1507,7 @@ img, svg {
 
 .voter-search-input {
   width: 100%;
-  height: 44px;
+  height: 46px;
   padding: 0.5rem 2.375rem 0.5rem 2.625rem;
   background: var(--bg-surface);
   border: 1.5px solid var(--border-strong);
@@ -1390,7 +1545,7 @@ img, svg {
 }
 
 .btn-filter-trigger {
-  height: 44px;
+  height: 46px;
   padding: 0 0.875rem;
   background: var(--bg-surface);
   border: 1.5px solid var(--border-strong);
@@ -1418,6 +1573,46 @@ img, svg {
   font-size: 0.6875rem;
   padding: 0.1rem 0.35rem;
   border-radius: var(--radius-full);
+}
+
+/* Quick Interactive Age Chips Row */
+.quick-age-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  overflow-x: auto;
+  padding-top: 0.5rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quick-age-chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+.age-filter-chip {
+  white-space: nowrap;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.age-filter-chip:hover {
+  border-color: var(--primary-600);
+  color: var(--primary-700);
+}
+
+.age-filter-chip.active {
+  background: var(--primary-700);
+  color: white;
+  border-color: var(--primary-700);
 }
 
 /* Results Status Bar */
@@ -1666,7 +1861,7 @@ img, svg {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border-strong);
   position: sticky;
-  top: calc(var(--header-height) + 60px);
+  top: 60px;
   z-index: 10;
 }
 
@@ -1777,7 +1972,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   7. MODALS & BOTTOM SHEETS
+   10. MODALS & BOTTOM SHEETS
    ========================================================================== */
 
 .bottom-sheet-backdrop {
@@ -1898,7 +2093,6 @@ img, svg {
   gap: 0.5rem;
 }
 
-/* Detail Modal Key-Value Grid */
 .detail-meta-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1932,7 +2126,6 @@ img, svg {
   font-family: var(--font-hindi), var(--font-sans);
 }
 
-/* Filter Sheet Form Elements */
 .filter-sheet-group {
   margin-bottom: 1.25rem;
 }
@@ -1990,7 +2183,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   8. MOBILE BOTTOM NAVIGATION BAR
+   11. MOBILE BOTTOM NAVIGATION BAR
    ========================================================================== */
 
 .mobile-bottom-nav {
@@ -1999,7 +2192,8 @@ img, svg {
   bottom: 0;
   left: 0;
   right: 0;
-  height: var(--bottom-nav-height);
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);

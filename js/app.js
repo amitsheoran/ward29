@@ -1,12 +1,12 @@
 /**
- * Ward 29 Pilani - Electoral Information System & Live Community Poll
+ * Ward 29 Pilani - Civic Data Intelligence & Live Community Poll
  * Senior UI/UX Application Engine
  */
 
 (function () {
   'use strict';
 
-  // Supabase Configuration (Client-side publishable configuration)
+  // Supabase Configuration (Client publishable configuration)
   const SUPABASE_CONFIG = {
     url: window.SUPABASE_URL || 'https://cjkskasxnzgzkxfksexm.supabase.co',
     anonKey: window.SUPABASE_ANON_KEY || ''
@@ -15,7 +15,7 @@
   // 5 Candidates Data (Single Source of Truth)
   const CANDIDATES = [
     { id: 1, name: 'Monika Baloda', relation: 'W/O Manish Baloda', color: '#2563eb' },
-    { id: 2, name: 'Aditi Godara', relation: 'W/O Amardeep Godara', color: '#e11d48' },
+    { id: 2, name: 'Aditi Godara', relation: 'W/O Amardeep Godara', color: '#ec4899' },
     { id: 3, name: 'Poonam Sihag', relation: 'W/O Anil Sihag', color: '#059669' },
     { id: 4, name: 'Suman', relation: 'W/O Tilak', color: '#d97706' },
     { id: 5, name: 'Aruna Madam', relation: 'W/O Bhupendra Sheoran', color: '#8b5cf6' }
@@ -64,6 +64,8 @@
     filterBadgeCount: document.getElementById('filterBadgeCount'),
     resultsCount: document.getElementById('resultsCount'),
     activeFilterChips: document.getElementById('activeFilterChips'),
+    quickAgeChips: document.getElementById('quickAgeChips'),
+    ageBarsList: document.getElementById('ageBarsList'),
     
     // Voter List Containers
     votersGrid: document.getElementById('votersGrid'),
@@ -222,7 +224,7 @@
     window.requestAnimationFrame(step);
   }
 
-  // Render Dashboard Visualizations (Male & Female 2-segment donut)
+  // Render Dashboard Visualizations
   function renderDashboardVisuals() {
     if (!state.ward || !state.voters.length) return;
     const stats = state.ward.statistics.totalVoters;
@@ -230,10 +232,11 @@
     const male = stats.male;   // 463
     const female = stats.female; // 438
 
+    animateValue(document.getElementById('heroGiantTotal'), 0, total, 900);
+    animateValue(document.getElementById('glanceTotal'), 0, total, 800);
+    animateValue(document.getElementById('glanceMale'), 0, male, 800);
+    animateValue(document.getElementById('glanceFemale'), 0, female, 800);
     animateValue(document.getElementById('donutTotalCount'), 0, total, 800);
-    animateValue(document.getElementById('statTotal'), 0, total, 800);
-    animateValue(document.getElementById('statMale'), 0, male, 800);
-    animateValue(document.getElementById('statFemale'), 0, female, 800);
     animateValue(document.getElementById('legendMaleCount'), 0, male, 800);
     animateValue(document.getElementById('legendFemaleCount'), 0, female, 800);
 
@@ -594,9 +597,9 @@
         const a = v.age;
         if (ageG === '18-25' && (a < 18 || a > 25)) return false;
         if (ageG === '26-35' && (a < 26 || a > 35)) return false;
-        if (ageG === '36-50' && (a < 36 || a > 50)) return false;
-        if (ageG === '51-65' && (a < 51 || a > 65)) return false;
-        if (ageG === '65+' && a < 66) return false;
+        if (ageG === '36-45' && (a < 36 || a > 45)) return false;
+        if (ageG === '46-60' && (a < 46 || a > 60)) return false;
+        if (ageG === '61+' && a < 61) return false;
       }
 
       return true;
@@ -606,6 +609,21 @@
     updatePaginationMath();
     renderVoters();
     updateResultsSummary();
+    syncAgeVisuals();
+  }
+
+  function syncAgeVisuals() {
+    // 1. Sync quick age filter chips
+    document.querySelectorAll('[data-age-chip]').forEach(chip => {
+      const chipVal = chip.getAttribute('data-age-chip');
+      chip.classList.toggle('active', chipVal === state.filters.ageGroup);
+    });
+
+    // 2. Sync age chart bar active states
+    document.querySelectorAll('[data-age-filter]').forEach(bar => {
+      const barVal = bar.getAttribute('data-age-filter');
+      bar.classList.toggle('active', barVal === state.filters.ageGroup);
+    });
   }
 
   function updatePaginationMath() {
@@ -790,7 +808,7 @@
     }
 
     if (state.filters.ageGroup !== 'all') {
-      elements.activeFilterChips.appendChild(createChip(`आयु: ${state.filters.ageGroup}`, () => {
+      elements.activeFilterChips.appendChild(createChip(`आयु: ${state.filters.ageGroup} वर्ष`, () => {
         state.filters.ageGroup = 'all';
         syncFilterRadios();
         applyFilters();
@@ -1089,6 +1107,30 @@
       applyFilters();
     });
 
+    // Quick Age Filter Chips Click Handlers
+    elements.quickAgeChips?.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-age-chip]');
+      if (chip) {
+        const val = chip.getAttribute('data-age-chip');
+        state.filters.ageGroup = val;
+        syncFilterRadios();
+        applyFilters();
+      }
+    });
+
+    // Age Bar Chart Interactive Click Handlers
+    elements.ageBarsList?.addEventListener('click', (e) => {
+      const bar = e.target.closest('[data-age-filter]');
+      if (bar) {
+        const val = bar.getAttribute('data-age-filter');
+        state.filters.ageGroup = state.filters.ageGroup === val ? 'all' : val;
+        syncFilterRadios();
+        applyFilters();
+        scrollToVoterSection();
+        showToast(`Filtered: ${state.filters.ageGroup === 'all' ? 'All Voters' : 'Age ' + state.filters.ageGroup + ' years'}`);
+      }
+    });
+
     // Boundary Toggle
     elements.boundaryToggleBtn?.addEventListener('click', () => {
       if (elements.boundaryFullText) {
@@ -1225,13 +1267,13 @@
   function scrollToVoterSection() {
     const sec = document.getElementById('voters');
     if (sec) {
-      const top = sec.getBoundingClientRect().top + window.scrollY - 110;
+      const top = sec.getBoundingClientRect().top + window.scrollY - 30;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   }
 
   function updateBottomNavActiveState() {
-    const sections = ['overview', 'candidates', 'poll-results', 'voters', 'whatsapp'];
+    const sections = ['overview', 'stats', 'candidates', 'voters', 'whatsapp'];
     const scrollPos = window.scrollY + 160;
 
     for (const id of sections) {
