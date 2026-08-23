@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0f172a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Ward 29 Pilani - Civic Dashboard & Community App 2026 | नगर पालिका पिलानी</title>
-  <meta name="description" content="Ward 29 Pilani official electoral dashboard, voter directory, candidate live poll, boundary map, and community portal.">
+  <title>Ward 29 Pilani - Civic Intelligence & Community App 2026 | नगर पालिका पिलानी</title>
+  <meta name="description" content="Ward 29 Pilani official electoral intelligence dashboard, voter directory, candidate live poll, boundary map, and community portal.">
   
   <!-- Preconnect Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,13 +29,15 @@
     <div class="container">
 
       <!-- ==========================================
-           1. NATIVE MOBILE APP DASHBOARD HERO
+           1. HOME SCREEN (#overview)
            ========================================== -->
       <section id="overview" class="app-hero-container">
+        
+        <!-- Hero App Card -->
         <div class="hero-app-card">
           <div class="hero-glow-blob"></div>
 
-          <!-- Hero Top App Bar -->
+          <!-- Hero Top Bar -->
           <div class="hero-top-row">
             <div class="hero-identity-group">
               <div class="hero-ward-badge">29</div>
@@ -60,20 +62,19 @@
           <!-- Hero Dominant Metric -->
           <div class="hero-giant-stat-box">
             <div class="hero-giant-number" id="heroGiantTotal">901</div>
-            <div class="hero-giant-label">REGISTERED VOTERS</div>
-            <div class="hero-meta-tagline">2026 • Pilani • Rajasthan</div>
+            <div class="hero-giant-label">TOTAL REGISTERED VOTERS</div>
+            <div class="hero-meta-tagline">Pilani • Rajasthan • 2026</div>
           </div>
 
         </div>
+
       </section>
 
-      <!-- ==========================================
-           2. WARD 29 AT A GLANCE (KEY METRICS)
-           ========================================== -->
-      <section id="at-a-glance" style="margin-bottom: 0.5rem;">
+      <!-- Key Insights 6-Card Metric Grid -->
+      <section style="margin-bottom: 0.5rem;" aria-label="Ward Statistics Summary">
         <div class="at-a-glance-grid">
           
-          <div class="glance-card" style="border-left: 3px solid var(--primary-600);">
+          <div class="glance-card" style="border-left: 3px solid var(--blue-600);">
             <div class="glance-card-top">
               <span class="glance-card-icon">👥</span>
               <span class="glance-card-val" id="glanceTotal">901</span>
@@ -85,19 +86,19 @@
           <div class="glance-card" style="border-left: 3px solid var(--male-color);">
             <div class="glance-card-top">
               <span class="glance-card-icon">♂</span>
-              <span class="glance-card-val" id="glanceMale">462</span>
+              <span class="glance-card-val" id="glanceMale">463</span>
             </div>
             <div class="glance-card-lbl-hi">पुरुष मतदाता</div>
-            <div class="glance-card-lbl-en">Male (51.3%)</div>
+            <div class="glance-card-lbl-en">Male (51.4%)</div>
           </div>
 
           <div class="glance-card" style="border-left: 3px solid var(--female-color);">
             <div class="glance-card-top">
               <span class="glance-card-icon">♀</span>
-              <span class="glance-card-val" id="glanceFemale">439</span>
+              <span class="glance-card-val" id="glanceFemale">438</span>
             </div>
             <div class="glance-card-lbl-hi">महिला मतदाता</div>
-            <div class="glance-card-lbl-en">Female (48.7%)</div>
+            <div class="glance-card-lbl-en">Female (48.6%)</div>
           </div>
 
           <div class="glance-card" style="border-left: 3px solid var(--accent-cyan);">
@@ -105,8 +106,17 @@
               <span class="glance-card-icon">🎂</span>
               <span class="glance-card-val">44.9</span>
             </div>
-            <div class="glance-card-lbl-hi">औसत आयु (Avg)</div>
-            <div class="glance-card-lbl-en">Median: 41 yrs</div>
+            <div class="glance-card-lbl-hi">औसत आयु</div>
+            <div class="glance-card-lbl-en">Average Age</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--accent-purple);">
+            <div class="glance-card-top">
+              <span class="glance-card-icon">📊</span>
+              <span class="glance-card-val">41</span>
+            </div>
+            <div class="glance-card-lbl-hi">मध्यिका आयु</div>
+            <div class="glance-card-lbl-en">Median Age</div>
           </div>
 
           <div class="glance-card" style="border-left: 3px solid var(--accent-amber);">
@@ -118,30 +128,26 @@
             <div class="glance-card-lbl-en">Age 60+ (23.8%)</div>
           </div>
 
-          <div class="glance-card" style="border-left: 3px solid var(--accent-emerald);">
-            <div class="glance-card-top">
-              <span class="glance-card-icon">🏠</span>
-              <span class="glance-card-val">257</span>
-            </div>
-            <div class="glance-card-lbl-hi">पंजीकृत मकान</div>
-            <div class="glance-card-lbl-en">Unique Houses</div>
-          </div>
-
         </div>
       </section>
 
       <!-- ==========================================
-           3. CHARTS DUO: VOTER COMPOSITION & AGE DISTRIBUTION
+           2. STATS SCREEN (#stats)
            ========================================== -->
       <section id="stats" class="section-container" style="padding-top: 0.5rem;">
-        
+        <div class="section-header-clean">
+          <div class="section-eyebrow">सांख्यिकी एवं विश्लेषण</div>
+          <h2 class="section-main-title">वार्ड 29 जनसांख्यिकी (Demographics)</h2>
+          <p class="section-caption">मतदाता संरचना, आयु वर्ग वितरण एवं डेटा विश्लेषण</p>
+        </div>
+
         <div class="charts-duo-grid">
           
           <!-- Chart 1: 2-Segment Donut -->
-          <div class="futuristic-card">
-            <div class="card-header-clean">
-              <div class="card-title-pill">
-                <span>📊</span>
+          <div class="app-card">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10h-10z"></path></svg>
                 <span>मतदाता संरचना (Voter Composition)</span>
               </div>
             </div>
@@ -166,8 +172,8 @@
                   <span class="legend-dot male"></span>
                   <span>पुरुष (Male)</span>
                 </div>
-                <div class="legend-count" id="legendMaleCount">462</div>
-                <div class="legend-pct">51.3%</div>
+                <div class="legend-count" id="legendMaleCount">463</div>
+                <div class="legend-pct">51.4%</div>
               </div>
 
               <div class="legend-item">
@@ -175,20 +181,20 @@
                   <span class="legend-dot female"></span>
                   <span>महिला (Female)</span>
                 </div>
-                <div class="legend-count" id="legendFemaleCount">439</div>
-                <div class="legend-pct">48.7%</div>
+                <div class="legend-count" id="legendFemaleCount">438</div>
+                <div class="legend-pct">48.6%</div>
               </div>
             </div>
           </div>
 
           <!-- Chart 2: Interactive Age Distribution Horizontal Bars -->
-          <div class="futuristic-card">
-            <div class="card-header-clean">
-              <div class="card-title-pill">
-                <span>📈</span>
+          <div class="app-card">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                 <span>आयु वर्ग वितरण (Age Distribution)</span>
               </div>
-              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">Tap bar to filter</span>
+              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 700;">Tap bar to filter</span>
             </div>
 
             <div class="age-bars-container" id="ageBarsList">
@@ -224,7 +230,7 @@
                 <div class="age-bar-top">
                   <span class="age-bracket-name">36-45 वर्ष</span>
                   <div class="age-count-info">
-                    <span>143</span> <span class="age-pct-text">(15.6%)</span>
+                    <span>141</span> <span class="age-pct-text">(15.6%)</span>
                   </div>
                 </div>
                 <div class="age-progress-track">
@@ -236,7 +242,7 @@
                 <div class="age-bar-top">
                   <span class="age-bracket-name">46-60 वर्ष (Middle Age)</span>
                   <div class="age-count-info">
-                    <span>205</span> <span class="age-pct-text">(22.9%)</span>
+                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
                   </div>
                 </div>
                 <div class="age-progress-track">
@@ -248,7 +254,7 @@
                 <div class="age-bar-top">
                   <span class="age-bracket-name">61+ वर्ष (Senior Citizens)</span>
                   <div class="age-count-info">
-                    <span>205</span> <span class="age-pct-text">(22.9%)</span>
+                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
                   </div>
                 </div>
                 <div class="age-progress-track">
@@ -261,13 +267,13 @@
 
         </div>
 
-        <!-- Ward Insights & Contextual Election Details -->
+        <!-- Ward Demographic Insights -->
         <div class="insights-metadata-grid">
           
-          <div class="futuristic-card">
-            <div class="card-header-clean">
-              <div class="card-title-pill">
-                <span>💡</span>
+          <div class="app-card">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
                 <span>Ward Insights (मुख्य अंतर्दृष्टि)</span>
               </div>
             </div>
@@ -299,30 +305,30 @@
             </div>
           </div>
 
-          <div class="futuristic-card">
-            <div class="card-header-clean">
-              <div class="card-title-pill">
-                <span>🏛️</span>
-                <span>Election Details (निर्वाचन विवरण)</span>
+          <div class="app-card">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <span>पंजीकृत मकान सांख्यिकी (Households)</span>
               </div>
             </div>
 
             <div class="info-2col-grid">
               <div class="info-item-box">
-                <span class="info-item-label">वार्ड संख्या</span>
-                <span class="info-item-value">29 (भाग संख्या: 1)</span>
+                <span class="info-item-label">कुल पंजीकृत मकान</span>
+                <span class="info-item-value">257 मकान</span>
               </div>
               <div class="info-item-box">
-                <span class="info-item-label">विधानसभा क्षेत्र</span>
-                <span class="info-item-value">25 - पिलानी (Pilani)</span>
+                <span class="info-item-label">औसत मतदाता / मकान</span>
+                <span class="info-item-value">~3.5 मतदाता</span>
               </div>
               <div class="info-item-box">
-                <span class="info-item-label">तहसील / जिला</span>
-                <span class="info-item-value">पिलानी, झुंझुनू</span>
+                <span class="info-item-label">शीर्ष मकान #1</span>
+                <span class="info-item-value">मकान सं. 166 (25 मतदाता)</span>
               </div>
               <div class="info-item-box">
-                <span class="info-item-label">पुनरीक्षण वर्ष / दिनांक</span>
-                <span class="info-item-value">2026 (08-05-2026)</span>
+                <span class="info-item-label">शीर्ष मकान #2</span>
+                <span class="info-item-value">मकान सं. 128 (21 मतदाता)</span>
               </div>
             </div>
           </div>
@@ -332,78 +338,7 @@
       </section>
 
       <!-- ==========================================
-           4. WARD MAP (USING Map.jpeg)
-           ========================================== -->
-      <section id="map" class="section-container">
-        <div class="section-header-clean">
-          <div class="section-eyebrow">मानचित्र</div>
-          <h2 class="section-main-title">वार्ड 29 का सीमा नक्शा (Ward Map)</h2>
-          <p class="section-caption">Ward 29 की प्रस्तावित परिसीमा का आधिकारिक मानचित्र</p>
-        </div>
-
-        <div class="map-card-preview">
-          <div class="map-thumbnail-area" id="mapTriggerBtn" title="फुलस्क्रीन नक्शा देखने हेतु क्लिक करें">
-            <img src="./assets/ward-map.jpg" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-thumbnail-img" loading="lazy">
-            <div class="map-overlay-badge">
-              <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              <span>🔍 Zoom / ⛶ Fullscreen</span>
-            </div>
-          </div>
-
-          <div class="map-preview-footer">
-            <div>
-              <div class="map-preview-info-title">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
-              <div class="map-preview-info-sub">पिलानी, झुंझुनू (राजस्थान)</div>
-            </div>
-            <button type="button" class="btn-open-map" id="btnOpenMapAction">
-              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
-              <span>View Full Map -></span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==========================================
-           5. POLLING STATION (REDESIGNED NATIVE CARD)
-           ========================================== -->
-      <section id="polling-station" class="section-container">
-        <div class="section-header-clean">
-          <div class="section-eyebrow">मतदान केंद्र</div>
-          <h2 class="section-main-title">मतदान केंद्र विवरण (Polling Station)</h2>
-          <p class="section-caption">वार्ड 29 के मतदाताओं हेतु निर्धारित मतदान स्थल</p>
-        </div>
-
-        <div class="polling-station-app-card">
-          <div class="ps-badge-row">
-            <span class="ps-station-pill">
-              <svg class="icon-svg" style="width: 13px; height: 13px;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-              <span>मतदान केंद्र संख्या: 29</span>
-            </span>
-            <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 700;">कमरा नं: 1</span>
-          </div>
-
-          <div class="ps-main-heading">29 - गौतम सेकण्डरी स्कूल, पिलानी</div>
-
-          <div class="ps-location-box">
-            <svg class="icon-svg" style="width: 16px; height: 16px; color: var(--primary-600); margin-top: 2px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>वार्ड संख्या 29, पिलानी, झुंझुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन, कमरा नं 1)</span>
-          </div>
-
-          <div class="ps-actions-grid">
-            <a href="https://maps.google.com/?q=Gautam+Secondary+School+Pilani" target="_blank" rel="noopener" class="btn-ps-action-secondary">
-              <svg class="icon-svg" style="width: 15px; height: 15px; color: #dc2626;" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span>Google Maps</span>
-            </a>
-            <a href="#voters" class="btn-ps-action-primary">
-              <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-              <span>इस केंद्र के मतदाता देखें</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==========================================
-           6. WARD 29 CANDIDATES & COMMUNITY POLL
+           3. CANDIDATES & COMMUNITY POLL (#candidates)
            ========================================== -->
       <section id="candidates" class="section-container">
         <div class="section-header-clean">
@@ -412,23 +347,12 @@
           <p class="section-caption">अपने पसंदीदा प्रत्याशी के पक्ष में अपनी राय व्यक्त करें (One vote per user/session)</p>
         </div>
 
-        <!-- 5 Candidates Cards Grid (with Candidate Photos) -->
+        <!-- 5 Candidates Cards Grid (with Prominent Photo Frames) -->
         <div class="candidates-grid" id="candidatesGrid">
           <!-- Rendered dynamically by JavaScript -->
         </div>
 
-      </section>
-
-      <!-- ==========================================
-           7. LIVE POLL RESULTS
-           ========================================== -->
-      <section id="poll-results" class="section-container">
-        <div class="section-header-clean">
-          <div class="section-eyebrow">लाइव परिणाम</div>
-          <h2 class="section-main-title">Live Poll Results</h2>
-          <p class="section-caption">रियल-टाइम वोट सांख्यिकी एवं प्रतिशत वितरण (Live Community Votes)</p>
-        </div>
-
+        <!-- Live Poll Results Card -->
         <div class="poll-results-card">
           <div class="poll-results-header">
             <div class="poll-live-indicator">
@@ -436,20 +360,20 @@
               <span>Live Poll Results</span>
             </div>
             <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary);">
-              Total Community Votes: <strong id="totalPollVotesCount" style="color: var(--primary-900);">0</strong>
+              Total Community Votes: <strong id="totalPollVotesCount" style="color: var(--navy-900);">0</strong>
             </div>
           </div>
 
           <div class="charts-duo-grid" style="margin: 0; align-items: center;">
             
             <!-- Poll Donut Visualization -->
-            <div class="donut-chart-container" style="width: 140px; height: 140px; margin: 0.25rem auto 0.75rem;">
+            <div class="donut-chart-container" style="width: 150px; height: 150px; margin: 0.25rem auto 0.75rem;">
               <svg class="donut-svg" viewBox="0 0 100 100">
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
                 <g id="pollDonutSegments"></g>
               </svg>
               <div class="donut-center-content">
-                <div class="donut-center-total" id="pollDonutCenterTotal" style="font-size: 1.625rem;">0</div>
+                <div class="donut-center-total" id="pollDonutCenterTotal" style="font-size: 1.75rem;">0</div>
                 <div class="donut-center-label" style="font-size: 0.5625rem;">Total Votes</div>
               </div>
             </div>
@@ -465,83 +389,9 @@
       </section>
 
       <!-- ==========================================
-           8. WHATSAPP COMMUNITY CTA & SHARE APP CARD
+           4. VOTER DIRECTORY (#voters)
            ========================================== -->
-      <section id="whatsapp" class="section-container" style="padding-top: 1rem; padding-bottom: 1.25rem;">
-        
-        <!-- WhatsApp Community Card -->
-        <div class="whatsapp-community-card">
-          <div class="whatsapp-card-inner">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-              <div class="whatsapp-icon-large">
-                <svg style="width: 24px; height: 24px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-              </div>
-              <div>
-                <div class="whatsapp-cta-title">Join the Ward 29 Community</div>
-                <div class="whatsapp-cta-desc">Stay connected with Ward 29 residents and get community updates.</div>
-              </div>
-            </div>
-
-            <a href="https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join">
-              <svg style="width: 16px; height: 16px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-              <span>Join WhatsApp Community</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Share Ward 29 Card -->
-        <div class="share-app-card">
-          <div>
-            <div style="font-size: 1.0625rem; font-weight: 800; color: var(--primary-900);">📤 Share Ward 29 App</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Share this civic app with your family, friends, and community members.</div>
-          </div>
-          <button type="button" class="btn-share-app-main" id="bottomShareBtn">
-            <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-            <span>Share Ward 29 App</span>
-          </button>
-        </div>
-
-      </section>
-
-      <!-- ==========================================
-           9. BOUNDARIES
-           ========================================== -->
-      <section id="boundaries" class="section-container">
-        <div class="section-header-clean">
-          <div class="section-eyebrow">भौगोलिक सीमाएं</div>
-          <h2 class="section-main-title">वार्ड सीमा एवं प्रमुख स्थल (Boundaries)</h2>
-          <p class="section-caption">वार्ड 29 का आधिकारिक परिसीमन विवरण</p>
-        </div>
-
-        <div class="boundary-preview-card">
-          <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary);">प्रमुख स्थल एवं मार्ग (Key Landmarks)</div>
-          <div class="landmark-chips-wrap">
-            <span class="landmark-tag">🏫 गौतम सेकण्डरी स्कूल</span>
-            <span class="landmark-tag">⭕ सी.एल.आर. सर्किल</span>
-            <span class="landmark-tag">🛣️ लोहारू रोड़</span>
-            <span class="landmark-tag">🎓 इंद्रमणि मण्डेलिया कॉलेज, पिलानी</span>
-            <span class="landmark-tag">🚰 जलदाय विभाग पंप</span>
-            <span class="landmark-tag">🏘️ गली नं. 02</span>
-            <span class="landmark-tag">🎖️ शहीद महेंद्र सिंह गोदारा मकान</span>
-            <span class="landmark-tag">🏭 पेठा फैक्ट्री</span>
-            <span class="landmark-tag">🛣️ राजपुरा रोड़</span>
-          </div>
-
-          <button type="button" class="boundary-accordion-btn" id="boundaryToggleBtn">
-            <span>आधिकारिक सीमा विवरण पढ़ें (Read full boundary)</span>
-            <span id="boundaryToggleIcon">↓</span>
-          </button>
-
-          <div class="boundary-full-text-body" id="boundaryFullText">
-            रतन चाप वाले की दुकान के पीछे से पूर्व की तरफ बांये हाथ की आबादी को शामिल कर राकेश स्कूल की पुरानी बिल्डिंग को छोड़ते हुए दक्षिण में मुड़कर बांये हाथ की आबादी को शामिल करते हुए पूर्व में मुड़कर राकेश स्कूल की नई बिल्डिंग को छोड़ते हुए गौतम स्कूल को शामिल कर सीधे बाईपास रोड़ पर आकर उत्तर में मुड़कर सीधे उत्तर दिशा में सी.एल.आर. सर्किल पर आकर पश्चिम दिशा में लोहारू रोड़ पर चलते हुए बांये हाथ की आबादी को शामिल कर, इंद्रमणि मण्डेलिया कॉलेज, पिलानी के दक्षिण पूर्व कोने से पूर्व में एवं पश्चिम में जाने वाली दीवार के सहारे बांये हाथ की आबादी को शामिल करते हुए लोहारू रोड़ तक जलदाय विभाग पंप तक वहां से रास्ते-रास्ते बांये हाथ की आबादी को शामिल करते हुए लोहारू तक व गली नं. 02 में दोनो तरफ के मकानों को शामिल करते हुए रामनिवास सोलंकी एवं शहीद महेंद्र सिंह गोदारा के मकान को शामिल करते हुए गली नं- 02 के अन्त तक, आमने-सामने के मकानों को शामिल करते हुए, विक्रम सिंह ओजटू के मकान को छोड़ते हुए पेठा फैक्ट्री को शामिल करते हुए उमराव सिंह के मकान होते हुए राजपुरा रोड़ से पथरिया वाले कच्चे रास्ते-रास्ते इंद्रमणि मण्डेलिया कॉलेज, पिलानी के दक्षिण पूर्व कोने तक।
-          </div>
-        </div>
-      </section>
-
-      <!-- ==========================================
-           10. VOTER DIRECTORY (SEARCH & AGE GROUP CHIPS)
-           ========================================== -->
-      <section id="voters" class="section-container" style="border-bottom: none;">
+      <section id="voters" class="section-container">
         <div class="section-header-clean">
           <div class="section-eyebrow">मतदाता खोज</div>
           <h2 class="section-main-title">मतदाता सूची (Voter Directory)</h2>
@@ -569,15 +419,15 @@
             <button type="button" class="age-filter-chip active" data-age-chip="all">All (901)</button>
             <button type="button" class="age-filter-chip" data-age-chip="18-25">18-25 (100)</button>
             <button type="button" class="age-filter-chip" data-age-chip="26-35">26-35 (248)</button>
-            <button type="button" class="age-filter-chip" data-age-chip="36-45">36-45 (143)</button>
-            <button type="button" class="age-filter-chip" data-age-chip="46-60">46-60 (205)</button>
-            <button type="button" class="age-filter-chip" data-age-chip="61+">61+ (205)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="36-45">36-45 (141)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="46-60">46-60 (206)</button>
+            <button type="button" class="age-filter-chip" data-age-chip="61+">61+ (206)</button>
           </div>
         </div>
 
         <!-- Results Status & Active Filter Chips -->
-        <div class="results-status-bar">
-          <div id="resultsCount" class="results-count-text">901 मतदाता</div>
+        <div class="results-status-bar" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div id="resultsCount" class="results-count-text" style="font-weight: 800; font-size: 0.8125rem; color: var(--navy-900);">901 मतदाता</div>
           <div id="activeFilterChips" class="active-chips-container"></div>
         </div>
 
@@ -608,53 +458,174 @@
         </div>
 
         <!-- Empty State -->
-        <div id="emptyState" class="empty-results-box" style="display: none;">
-          <svg class="icon-svg" style="width: 40px; height: 40px; margin: 0 auto; color: var(--text-tertiary);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <div class="empty-results-title">कोई मतदाता नहीं मिला</div>
-          <p class="empty-results-desc">कृपया अपनी खोज या फ़िल्टर बदलकर पुनः प्रयास करें।</p>
-          <button type="button" id="emptyResetBtn" class="btn-hero-pdf-action" style="margin-top: 1rem; background: var(--primary-700); color: white; border: none; padding: 0.5rem 1rem;">
+        <div id="emptyState" class="app-card" style="text-align: center; padding: 2.5rem 1rem; display: none;">
+          <svg class="icon-svg" style="width: 36px; height: 36px; margin: 0 auto; color: var(--text-tertiary);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <div style="font-size: 1rem; font-weight: 800; color: var(--text-primary); margin-top: 0.5rem;">कोई मतदाता नहीं मिला</div>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">कृपया अपनी खोज या फ़िल्टर बदलकर पुनः प्रयास करें।</p>
+          <button type="button" id="emptyResetBtn" class="btn-open-map" style="margin: 1rem auto 0; background: var(--blue-700);">
             <span>सभी फ़िल्टर रीसेट करें</span>
           </button>
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationWrapper" class="pagination-container">
-          <div id="pageInfo" class="pagination-info-text">दिखाए जा रहे हैं 1–30 (कुल 901)</div>
-          <div class="pagination-nav-group">
-            <button type="button" id="prevPageBtn" class="btn-page-nav" aria-label="Previous Page">←</button>
+        <div id="paginationWrapper" class="pagination-container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+          <div id="pageInfo" class="pagination-info-text" style="font-size: 0.75rem; color: var(--text-secondary);">दिखाए जा रहे हैं 1–30 (कुल 901)</div>
+          <div class="pagination-nav-group" style="display: flex; align-items: center; gap: 0.25rem;">
+            <button type="button" id="prevPageBtn" class="btn-page-nav" style="min-width: 32px; height: 32px; padding: 0 0.5rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;" aria-label="Previous Page">←</button>
             <div id="pageNumbersContainer" style="display: flex; gap: 0.25rem;"></div>
-            <button type="button" id="nextPageBtn" class="btn-page-nav" aria-label="Next Page">→</button>
+            <button type="button" id="nextPageBtn" class="btn-page-nav" style="min-width: 32px; height: 32px; padding: 0 0.5rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;" aria-label="Next Page">→</button>
           </div>
         </div>
 
       </section>
 
       <!-- ==========================================
-           11. ORIGINAL SOURCE PDF SECTION
+           5. COMMUNITY HUB & UTILITIES (#community)
            ========================================== -->
-      <section id="source" class="section-container" style="border-top: 1px solid var(--border-color);">
+      <section id="community" class="section-container" style="border-bottom: none;">
         <div class="section-header-clean">
-          <div class="section-eyebrow">स्रोत दस्तावेज</div>
-          <h2 class="section-main-title">मूल निर्वाचन दस्तावेज (Original Source PDF)</h2>
-          <p class="section-caption">राज्य निर्वाचन आयोग राजस्थान द्वारा जारी 39-पृष्ठीय आधिकारिक दस्तावेज़</p>
+          <div class="section-eyebrow">नागरिक केंद्र एवं संपर्क</div>
+          <h2 class="section-main-title">Ward 29 Community Hub</h2>
+          <p class="section-caption">व्हाट्सएप कम्युनिटी, आधिकारिक सीमा नक्शा, मतदान केंद्र एवं साझाकरण</p>
         </div>
 
-        <div class="glance-card" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.125rem;">
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <div style="width: 40px; height: 40px; background: #fee2e2; color: #dc2626; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-              <svg class="icon-svg" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <!-- WhatsApp Community Card -->
+        <div class="whatsapp-community-card">
+          <div class="whatsapp-card-inner">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div class="whatsapp-icon-large">
+                <svg style="width: 24px; height: 24px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              </div>
+              <div>
+                <div class="whatsapp-cta-title">Join the Ward 29 Community</div>
+                <div class="whatsapp-cta-desc">Stay connected with Ward 29 residents and get community updates.</div>
+              </div>
             </div>
-            <div>
-              <div style="font-weight: 800; font-size: 0.875rem; color: var(--text-primary);">WardNo29.pdf</div>
-              <div style="font-size: 0.6875rem; color: var(--text-tertiary);">39 Pages • Official Electoral Roll • 2026</div>
+
+            <a href="https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join">
+              <svg style="width: 16px; height: 16px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              <span>Join WhatsApp Community</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Share Ward 29 Card -->
+        <div class="share-app-card">
+          <div>
+            <div style="font-size: 1.0625rem; font-weight: 800; color: var(--navy-900);">📤 Share Ward 29 App</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Share this civic app with your family, friends, and community members.</div>
+          </div>
+          <button type="button" class="btn-share-app-main" id="bottomShareBtn">
+            <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Share Ward 29 App</span>
+          </button>
+        </div>
+
+        <!-- Ward Map Preview Card -->
+        <div class="map-card-preview" style="margin-bottom: 1.25rem;">
+          <div class="map-thumbnail-area" id="mapTriggerBtn" title="फुलस्क्रीन नक्शा देखने हेतु क्लिक करें">
+            <img src="./assets/ward-map.jpg" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-thumbnail-img" loading="lazy">
+            <div class="map-overlay-badge">
+              <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              <span>🔍 Zoom / ⛶ Fullscreen</span>
             </div>
           </div>
 
-          <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="btn-open-map">
-            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span>मूल PDF डाउनलोड करें</span>
-          </a>
+          <div class="map-preview-footer">
+            <div>
+              <div class="map-preview-info-title">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
+              <div class="map-preview-info-sub">पिलानी, झुंझुनू (राजस्थान)</div>
+            </div>
+            <button type="button" class="btn-open-map" id="btnOpenMapAction">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+              <span>View Full Map -></span>
+            </button>
+          </div>
         </div>
+
+        <!-- Polling Station Card -->
+        <div class="polling-station-app-card" style="margin-bottom: 1.25rem;">
+          <div class="ps-badge-row">
+            <span class="ps-station-pill">
+              <svg class="icon-svg" style="width: 13px; height: 13px;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>मतदान केंद्र संख्या: 29</span>
+            </span>
+            <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 700;">कमरा नं: 1</span>
+          </div>
+
+          <div class="ps-main-heading">29 - गौतम सेकण्डरी स्कूल, पिलानी</div>
+
+          <div class="ps-location-box">
+            <svg class="icon-svg" style="width: 16px; height: 16px; color: var(--blue-600); margin-top: 2px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>वार्ड संख्या 29, पिलानी, झुंझुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन, कमरा नं 1)</span>
+          </div>
+
+          <div class="ps-actions-grid">
+            <a href="https://maps.google.com/?q=Gautam+Secondary+School+Pilani" target="_blank" rel="noopener" class="btn-ps-action-secondary">
+              <svg class="icon-svg" style="width: 15px; height: 15px; color: #dc2626;" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+              <span>Google Maps</span>
+            </a>
+            <a href="#voters" class="btn-ps-action-primary">
+              <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>इस केंद्र के 901 मतदाता देखें</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Boundaries Card -->
+        <div class="boundary-preview-card" style="margin-bottom: 1.25rem;">
+          <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary);">प्रमुख स्थल एवं मार्ग (Key Landmarks)</div>
+          <div class="landmark-chips-wrap">
+            <span class="landmark-tag">🏫 गौतम सेकण्डरी स्कूल</span>
+            <span class="landmark-tag">⭕ सी.एल.आर. सर्किल</span>
+            <span class="landmark-tag">🛣️ लोहारू रोड़</span>
+            <span class="landmark-tag">🎓 इंद्रमणि मण्डेलिया कॉलेज, पिलानी</span>
+            <span class="landmark-tag">🚰 जलदाय विभाग पंप</span>
+            <span class="landmark-tag">🏘️ गली नं. 02</span>
+            <span class="landmark-tag">🎖️ शहीद महेंद्र सिंह गोदारा मकान</span>
+            <span class="landmark-tag">🏭 पेठा फैक्ट्री</span>
+            <span class="landmark-tag">🛣️ राजपुरा रोड़</span>
+          </div>
+
+          <button type="button" class="boundary-accordion-btn" id="boundaryToggleBtn">
+            <span>आधिकारिक सीमा विवरण पढ़ें (Read full boundary)</span>
+            <span id="boundaryToggleIcon">↓</span>
+          </button>
+
+          <div class="boundary-full-text-body" id="boundaryFullText">
+            रतन चाप वाले की दुकान के पीछे से पूर्व की तरफ बांये हाथ की आबादी को शामिल कर राकेश स्कूल की पुरानी बिल्डिंग को छोड़ते हुए दक्षिण में मुड़कर बांये हाथ की आबादी को शामिल करते हुए पूर्व में मुड़कर राकेश स्कूल की नई बिल्डिंग को छोड़ते हुए गौतम स्कूल को शामिल कर सीधे बाईपास रोड़ पर आकर उत्तर में मुड़कर सीधे उत्तर दिशा में सी.एल.आर. सर्किल पर आकर पश्चिम दिशा में लोहारू रोड़ पर चलते हुए बांये हाथ की आबादी को शामिल कर, इंद्रमणि मण्डेलिया कॉलेज, पिलानी के दक्षिण पूर्व कोने से पूर्व में एवं पश्चिम में जाने वाली दीवार के सहारे बांये हाथ की आबादी को शामिल करते हुए लोहारू रोड़ तक जलदाय विभाग पंप तक वहां से रास्ते-रास्ते बांये हाथ की आबादी को शामिल करते हुए लोहारू तक व गली नं. 02 में दोनो तरफ के मकानों को शामिल करते हुए रामनिवास सोलंकी एवं शहीद महेंद्र सिंह गोदारा के मकान को शामिल करते हुए गली नं- 02 के अन्त तक, आमने-सामने के मकानों को शामिल करते हुए, विक्रम सिंह ओजटू के मकान को छोड़ते हुए पेठा फैक्ट्री को शामिल करते हुए उमराव सिंह के मकान होते हुए राजपुरा रोड़ से पथरिया वाले कच्चे रास्ते-रास्ते इंद्रमणि मण्डेलिया कॉलेज, पिलानी के दक्षिण पूर्व कोने तक।
+          </div>
+        </div>
+
+        <!-- Election Details Card -->
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-card-title">
+              <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-3"></path><line x1="9" y1="9" x2="9" y2="9.01"></line><line x1="9" y1="13" x2="9" y2="13.01"></line><line x1="9" y1="17" x2="9" y2="17.01"></line></svg>
+              <span>Election Details (निर्वाचन विवरण)</span>
+            </div>
+          </div>
+
+          <div class="info-2col-grid">
+            <div class="info-item-box">
+              <span class="info-item-label">वार्ड संख्या</span>
+              <span class="info-item-value">29 (भाग संख्या: 1)</span>
+            </div>
+            <div class="info-item-box">
+              <span class="info-item-label">विधानसभा क्षेत्र</span>
+              <span class="info-item-value">25 - पिलानी (Pilani)</span>
+            </div>
+            <div class="info-item-box">
+              <span class="info-item-label">तहसील / जिला</span>
+              <span class="info-item-value">पिलानी, झुंझुनू</span>
+            </div>
+            <div class="info-item-box">
+              <span class="info-item-label">पुनरीक्षण वर्ष / दिनांक</span>
+              <span class="info-item-value">2026 (08-05-2026)</span>
+            </div>
+          </div>
+        </div>
+
       </section>
 
     </div>
@@ -679,7 +650,7 @@
         </div>
 
         <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.625rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.875rem;">
-          <span id="shareUrlDisplay" style="font-size: 0.75rem; color: var(--primary-700); font-weight: 600; word-break: break-all;">https://amitsheoran.github.io/ward29/</span>
+          <span id="shareUrlDisplay" style="font-size: 0.75rem; color: var(--blue-700); font-weight: 600; word-break: break-all;">https://amitsheoran.github.io/ward29/</span>
           <button type="button" id="shareCopyLinkBtn" class="btn-card-copy-epic" style="font-size: 0.6875rem; padding: 0.3rem 0.6rem; background: var(--bg-surface); border: 1px solid var(--border-color);">
             <span>Copy</span>
           </button>
@@ -709,8 +680,8 @@
       <div class="sheet-scroll-body">
         <div style="text-align: center; padding: 0.75rem 0;">
           <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">You are voting for:</div>
-          <div id="confirmCandidateName" style="font-size: 1.25rem; font-weight: 800; color: var(--primary-900); margin-top: 0.25rem;">Candidate Name</div>
-          <div id="confirmCandidateRel" style="font-size: 0.875rem; font-weight: 600; color: var(--primary-600); margin-top: 0.1rem;">W/O Husband Name</div>
+          <div id="confirmCandidateName" style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900); margin-top: 0.25rem;">Candidate Name</div>
+          <div id="confirmCandidateRel" style="font-size: 0.875rem; font-weight: 600; color: var(--blue-600); margin-top: 0.1rem;">W/O Husband Name</div>
         </div>
 
         <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 0.65rem; font-size: 0.75rem; color: #92400e; line-height: 1.4; margin-top: 0.5rem;">
@@ -849,7 +820,7 @@
   <!-- Toast Notification Stack -->
   <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
 
-  <!-- Mobile Bottom Navigation Bar -->
+  <!-- Persistent Mobile Bottom Navigation Bar (5 Destinations) -->
   <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
     <a href="#overview" class="bottom-nav-link active">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
@@ -867,7 +838,7 @@
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <span>Voters</span>
     </a>
-    <a href="#whatsapp" class="bottom-nav-link">
+    <a href="#community" class="bottom-nav-link">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
       <span>Community</span>
     </a>
@@ -878,17 +849,17 @@
     <div class="container">
       <div class="footer-inner-grid">
         <div>
-          <div style="font-weight: 800; font-size: 0.9375rem; color: var(--primary-900); margin-bottom: 0.25rem;">Ward 29 - Pilani</div>
+          <div style="font-weight: 900; font-size: 0.9375rem; color: var(--navy-900); margin-bottom: 0.25rem;">Ward 29 - Pilani</div>
           <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली एवं समुदाय रायशुमारी पोर्टल।</p>
         </div>
         <div>
           <div style="font-weight: 700; font-size: 0.6875rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.35rem;">Navigation</div>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem;">
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#stats">Statistics & Insights</a></li>
+            <li><a href="#overview">Home</a></li>
+            <li><a href="#stats">Statistics</a></li>
             <li><a href="#candidates">Candidates & Poll</a></li>
-            <li><a href="#map">Ward Map</a></li>
             <li><a href="#voters">Voter Directory</a></li>
+            <li><a href="#community">Community Hub</a></li>
           </ul>
         </div>
         <div>
@@ -900,7 +871,7 @@
       </div>
 
       <div class="footer-copy-text">
-        <p>© 2026 Ward 29 Pilani Information Portal. Built for civic transparency and ease of access by <a href="https://www.linkedin.com/in/amit-sheoran/" target="_blank" rel="noopener" style="font-weight: 700; color: var(--primary-700); text-decoration: underline;">Amit Sheoran</a></p>
+        <p>© 2026 Ward 29 Pilani Information Portal. Built for civic transparency and ease of access by <a href="https://www.linkedin.com/in/amit-sheoran/" target="_blank" rel="noopener" style="font-weight: 700; color: var(--blue-700); text-decoration: underline;">Amit Sheoran</a></p>
       </div>
     </div>
   </footer>

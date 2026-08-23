@@ -1,19 +1,60 @@
 {
-  "total": 901,
-  "male": 462,
-  "female": 439,
-  "avgAge": 44.8,
+  "totalVoters": 901,
+  "maleVoters": 463,
+  "femaleVoters": 438,
+  "malePercentage": 51.4,
+  "femalePercentage": 48.6,
+  "averageAge": 44.9,
   "medianAge": 41,
   "minAge": 18,
   "maxAge": 99,
-  "seniors60Plus": 213,
-  "young18To25": 100,
+  "seniorCitizens": 214,
+  "seniorPercentage": 23.8,
+  "youngVoters": 100,
+  "youngPercentage": 11.1,
   "uniqueHouses": 257,
-  "ageDistribution": {
-    "18-25": 100,
-    "26-35": 248,
-    "36-45": 143,
-    "46-60": 205,
-    "61+": 205
-  }
+  "ageGroups": {
+    "18-25": {
+      "count": 100,
+      "percentage": 11.1
+    },
+    "26-35": {
+      "count": 248,
+      "percentage": 27.5
+    },
+    "36-45": {
+      "count": 141,
+      "percentage": 15.6
+    },
+    "46-60": {
+      "count": 206,
+      "percentage": 22.9
+    },
+    "61+": {
+      "count": 206,
+      "percentage": 22.9
+    }
+  },
+  "topHouses": [
+    {
+      "house": "166",
+      "count": 25
+    },
+    {
+      "house": "128",
+      "count": 21
+    },
+    {
+      "house": "133",
+      "count": 19
+    },
+    {
+      "house": "73",
+      "count": 17
+    },
+    {
+      "house": "22",
+      "count": 16
+    }
+  ]
 }
