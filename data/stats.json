@@ -1,19 +1,19 @@
 {
   "total": 901,
-  "male": 463,
-  "female": 438,
-  "avgAge": 44.9,
+  "male": 462,
+  "female": 439,
+  "avgAge": 44.8,
   "medianAge": 41,
   "minAge": 18,
   "maxAge": 99,
-  "seniors60Plus": 214,
+  "seniors60Plus": 213,
   "young18To25": 100,
   "uniqueHouses": 257,
   "ageDistribution": {
     "18-25": 100,
     "26-35": 248,
-    "36-45": 141,
-    "46-60": 206,
-    "61+": 206
+    "36-45": 143,
+    "46-60": 205,
+    "61+": 205
   }
 }
