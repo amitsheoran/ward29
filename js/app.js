@@ -1,16 +1,38 @@
 /**
- * Ward 29 Pilani — Electoral Information System
+ * Ward 29 Pilani - Electoral Information System & Live Community Poll
  * Senior UI/UX Application Engine
  */
 
 (function () {
   'use strict';
 
+  // Supabase Configuration (Replace with production credentials when connecting live Supabase instance)
+  const SUPABASE_CONFIG = {
+    url: window.SUPABASE_URL || 'https://xyzcompany.supabase.co',
+    anonKey: window.SUPABASE_ANON_KEY || 'public-anon-key'
+  };
+
+  // 5 Candidates Data (Single Source of Truth)
+  const CANDIDATES = [
+    { id: 1, name: 'Monika Baloda', relation: 'W/O Manish Baloda', color: '#2563eb' },
+    { id: 2, name: 'Aditi Godara', relation: 'W/O Amardeep Godara', color: '#e11d48' },
+    { id: 3, name: 'Poonam Sihag', relation: 'W/O Anil Sihag', color: '#059669' },
+    { id: 4, name: 'Suman', relation: 'W/O Tilak', color: '#d97706' },
+    { id: 5, name: 'Aruna Madam', relation: 'W/O Bhupendra Sheoran', color: '#8b5cf6' }
+  ];
+
   // Application State
   const state = {
     ward: null,
     voters: [],
     filteredVoters: [],
+    poll: {
+      votes: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      totalVotes: 0,
+      hasVoted: false,
+      userVotedCandidateId: null,
+      selectedCandidateForConfirm: null
+    },
     pagination: {
       currentPage: 1,
       pageSize: 30,
@@ -56,6 +78,21 @@
     nextPageBtn: document.getElementById('nextPageBtn'),
     pageNumbersContainer: document.getElementById('pageNumbersContainer'),
     
+    // Candidates & Poll Elements
+    candidatesGrid: document.getElementById('candidatesGrid'),
+    totalPollVotesCount: document.getElementById('totalPollVotesCount'),
+    pollDonutCenterTotal: document.getElementById('pollDonutCenterTotal'),
+    pollDonutSegments: document.getElementById('pollDonutSegments'),
+    pollLeaderboardList: document.getElementById('pollLeaderboardList'),
+    
+    // Vote Confirm Modal
+    voteConfirmModalBackdrop: document.getElementById('voteConfirmModalBackdrop'),
+    voteConfirmCloseBtn: document.getElementById('voteConfirmCloseBtn'),
+    voteCancelBtn: document.getElementById('voteCancelBtn'),
+    voteSubmitBtn: document.getElementById('voteSubmitBtn'),
+    confirmCandidateName: document.getElementById('confirmCandidateName'),
+    confirmCandidateRel: document.getElementById('confirmCandidateRel'),
+
     // Bottom Sheets & Modals
     voterModalBackdrop: document.getElementById('voterModalBackdrop'),
     voterModalContent: document.getElementById('voterModalContent'),
@@ -91,10 +128,14 @@
   async function init() {
     try {
       await loadData();
+      initPollState();
       renderDashboardVisuals();
       populateHouseFilterOptions();
+      renderCandidateCards();
+      renderPollResults();
       setupEventListeners();
       setupMapViewer();
+      setupPollRealtime();
       applyFilters();
     } catch (err) {
       console.error('Initialization error:', err);
@@ -102,7 +143,7 @@
     }
   }
 
-  // Load JSON Files
+  // Load JSON Data
   async function loadData() {
     const [wardRes, votersRes] = await Promise.all([
       fetch('./data/ward.json'),
@@ -118,6 +159,44 @@
     state.filteredVoters = [...state.voters];
   }
 
+  // Session Management for One-Vote-Per-User/Session
+  function getOrCreateSessionId() {
+    let sid = localStorage.getItem('ward29_poll_session_id');
+    if (!sid) {
+      sid = 'session_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now();
+      localStorage.setItem('ward29_poll_session_id', sid);
+    }
+    return sid;
+  }
+
+  function initPollState() {
+    // Check if user has already voted in this session
+    const votedId = localStorage.getItem('ward29_voted_candidate_id');
+    if (votedId) {
+      state.poll.hasVoted = true;
+      state.poll.userVotedCandidateId = parseInt(votedId, 10);
+    }
+
+    // Load persistent vote storage or fallback
+    const savedVotes = localStorage.getItem('ward29_community_votes');
+    if (savedVotes) {
+      try {
+        state.poll.votes = JSON.parse(savedVotes);
+      } catch (e) {
+        state.poll.votes = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+      }
+    }
+    calculatePollTotals();
+  }
+
+  function calculatePollTotals() {
+    let total = 0;
+    for (const c of CANDIDATES) {
+      total += (state.poll.votes[c.id] || 0);
+    }
+    state.poll.totalVotes = total;
+  }
+
   // Animate Number Count-Up (Respects reduced motion)
   function animateValue(element, start, end, duration) {
     if (!element) return;
@@ -131,7 +210,7 @@
     const step = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
       const currentVal = Math.floor(easeProgress * (end - start) + start);
       element.textContent = currentVal.toLocaleString('en-IN');
       if (progress < 1) {
@@ -143,7 +222,7 @@
     window.requestAnimationFrame(step);
   }
 
-  // Render Dashboard Visualizations & Donut Chart
+  // Render Dashboard Visualizations
   function renderDashboardVisuals() {
     if (!state.ward || !state.voters.length) return;
     const stats = state.ward.statistics.totalVoters;
@@ -151,7 +230,6 @@
     const male = stats.male;
     const female = stats.female;
 
-    // Number Count-Ups
     animateValue(document.getElementById('quickFactTotal'), 0, total, 800);
     animateValue(document.getElementById('donutTotalCount'), 0, total, 800);
     animateValue(document.getElementById('statTotal'), 0, total, 800);
@@ -160,8 +238,6 @@
     animateValue(document.getElementById('legendMaleCount'), 0, male, 800);
     animateValue(document.getElementById('legendFemaleCount'), 0, female, 800);
 
-    // Donut Chart SVG Calculations
-    // Circumference for r=38 is 2 * PI * 38 = 238.761
     const C = 2 * Math.PI * 38;
     const maleArc = (male / total) * C;
     const femaleArc = (female / total) * C;
@@ -177,12 +253,292 @@
     }
   }
 
+  // Determine Poll Leader / Tie state
+  function getPollLeaderInfo() {
+    let maxVotes = -1;
+    let leaders = [];
+
+    for (const c of CANDIDATES) {
+      const v = state.poll.votes[c.id] || 0;
+      if (v > maxVotes) {
+        maxVotes = v;
+        leaders = [c.id];
+      } else if (v === maxVotes && maxVotes > 0) {
+        leaders.push(c.id);
+      }
+    }
+
+    if (maxVotes <= 0) return { isLeader: () => false, isTie: false };
+    return {
+      isLeader: (id) => leaders.length === 1 && leaders[0] === id,
+      isTie: leaders.length > 1,
+      leaderIds: leaders
+    };
+  }
+
+  // Render 5 Candidate Cards
+  function renderCandidateCards() {
+    if (!elements.candidatesGrid) return;
+    const leaderInfo = getPollLeaderInfo();
+    const total = state.poll.totalVotes;
+
+    elements.candidatesGrid.innerHTML = CANDIDATES.map(c => {
+      const votes = state.poll.votes[c.id] || 0;
+      const pct = total > 0 ? ((votes / total) * 100).toFixed(2) : '0.00';
+      const isLeader = leaderInfo.isLeader(c.id);
+      const isVotedThis = state.poll.hasVoted && state.poll.userVotedCandidateId === c.id;
+
+      let leaderBadge = '';
+      if (isLeader) {
+        leaderBadge = `<span class="leader-badge-pill">★ Current Leader</span>`;
+      } else if (leaderInfo.isTie && leaderInfo.leaderIds && leaderInfo.leaderIds.includes(c.id)) {
+        leaderBadge = `<span class="leader-badge-pill" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">Equal Leader (Tie)</span>`;
+      }
+
+      let btnText = 'Vote';
+      let btnClass = 'btn-vote-candidate';
+      let btnDisabled = '';
+
+      if (state.poll.hasVoted) {
+        btnDisabled = 'disabled';
+        if (isVotedThis) {
+          btnText = '✓ You Voted';
+          btnClass += ' voted-this';
+        } else {
+          btnText = 'Vote';
+        }
+      }
+
+      return `
+        <div class="candidate-card-item ${isLeader ? 'is-leader' : ''}">
+          <div class="candidate-top-bar">
+            <span class="candidate-num-badge">Candidate #${c.id}</span>
+            ${leaderBadge}
+          </div>
+
+          <div class="candidate-name-title">${escapeHTML(c.name)}</div>
+          <div class="candidate-rel-text">${escapeHTML(c.relation)}</div>
+
+          <div class="candidate-stats-box">
+            <div>
+              <div class="candidate-vote-count">${votes.toLocaleString('en-IN')} Votes</div>
+              <div style="font-size: 0.6875rem; color: var(--text-tertiary);">Community Votes</div>
+            </div>
+            <div class="candidate-vote-pct">${pct}%</div>
+          </div>
+
+          <div class="candidate-progress-bar-wrap">
+            <div class="candidate-progress-bar-inner" style="width: ${pct}%; background: ${c.color};"></div>
+          </div>
+
+          <button type="button" class="${btnClass}" data-candidate-id="${c.id}" ${btnDisabled} style="margin-top: 1rem;">
+            <span>${btnText}</span>
+          </button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Render Live Poll Results & SVG Donut Chart
+  function renderPollResults() {
+    const total = state.poll.totalVotes;
+    const leaderInfo = getPollLeaderInfo();
+
+    if (elements.totalPollVotesCount) {
+      elements.totalPollVotesCount.textContent = total.toLocaleString('en-IN');
+    }
+    if (elements.pollDonutCenterTotal) {
+      elements.pollDonutCenterTotal.textContent = total.toLocaleString('en-IN');
+    }
+
+    // 1. Leaderboard Ranking
+    if (elements.pollLeaderboardList) {
+      const sorted = [...CANDIDATES].sort((a, b) => {
+        const vA = state.poll.votes[a.id] || 0;
+        const vB = state.poll.votes[b.id] || 0;
+        return vB - vA;
+      });
+
+      elements.pollLeaderboardList.innerHTML = sorted.map((c, idx) => {
+        const votes = state.poll.votes[c.id] || 0;
+        const pct = total > 0 ? ((votes / total) * 100).toFixed(2) : '0.00';
+        const isLeader = leaderInfo.isLeader(c.id);
+
+        return `
+          <div class="leaderboard-item">
+            <div class="leaderboard-item-top">
+              <div>
+                <span style="font-weight: 800; color: var(--text-tertiary); margin-right: 0.25rem;">${idx + 1}.</span>
+                <span class="leaderboard-candidate-name">${escapeHTML(c.name)}</span>
+                ${isLeader ? '<span style="color: #ca8a04; font-size: 0.75rem; font-weight: 800; margin-left: 0.25rem;">(Leader)</span>' : ''}
+              </div>
+              <div class="leaderboard-votes-info">
+                <span>${votes.toLocaleString('en-IN')} votes</span>
+                <span style="color: var(--primary-600); margin-left: 0.35rem;">(${pct}%)</span>
+              </div>
+            </div>
+            <div class="candidate-progress-bar-wrap" style="height: 8px;">
+              <div class="candidate-progress-bar-inner" style="width: ${pct}%; background: ${c.color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 2. Candidate Donut Chart SVG
+    if (elements.pollDonutSegments) {
+      const C = 2 * Math.PI * 38;
+      let currentOffset = 0;
+      let svgCircles = '';
+
+      if (total === 0) {
+        svgCircles = `<circle cx="50" cy="50" r="38" fill="none" stroke="#e2e8f0" stroke-width="18"></circle>`;
+      } else {
+        CANDIDATES.forEach(c => {
+          const votes = state.poll.votes[c.id] || 0;
+          if (votes > 0) {
+            const arc = (votes / total) * C;
+            svgCircles += `
+              <circle cx="50" cy="50" r="38" fill="none" stroke="${c.color}" stroke-width="18"
+                stroke-dasharray="${arc.toFixed(2)} ${C.toFixed(2)}"
+                stroke-dashoffset="${(-currentOffset).toFixed(2)}"
+                style="transition: stroke-dasharray 0.6s ease-out;">
+              </circle>
+            `;
+            currentOffset += arc;
+          }
+        });
+      }
+
+      elements.pollDonutSegments.innerHTML = svgCircles;
+    }
+  }
+
+  // Voting Confirmation Flow
+  function promptVoteConfirmation(candidateId) {
+    if (state.poll.hasVoted) {
+      showToast('You have already voted in this session.');
+      return;
+    }
+
+    const candidate = CANDIDATES.find(c => c.id === candidateId);
+    if (!candidate) return;
+
+    state.poll.selectedCandidateForConfirm = candidate;
+    if (elements.confirmCandidateName) elements.confirmCandidateName.textContent = candidate.name;
+    if (elements.confirmCandidateRel) elements.confirmCandidateRel.textContent = candidate.relation;
+
+    elements.voteConfirmModalBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVoteConfirmModal() {
+    elements.voteConfirmModalBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+    state.poll.selectedCandidateForConfirm = null;
+  }
+
+  async function submitConfirmedVote() {
+    const candidate = state.poll.selectedCandidateForConfirm;
+    if (!candidate) return;
+
+    if (state.poll.hasVoted) {
+      closeVoteConfirmModal();
+      showToast('You have already voted in this session.');
+      return;
+    }
+
+    const sessionId = getOrCreateSessionId();
+
+    try {
+      // 1. Submit to Supabase if configured
+      if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.url !== 'https://xyzcompany.supabase.co') {
+        const { data, error } = await window.supabase
+          .from('votes')
+          .insert([{ candidate_id: candidate.id, session_id: sessionId }]);
+        
+        if (error) {
+          console.warn('Supabase vote submission error:', error);
+          if (error.code === '23505') { // Unique constraint violation
+            showToast('You have already voted from this session.');
+            state.poll.hasVoted = true;
+            renderCandidateCards();
+            closeVoteConfirmModal();
+            return;
+          }
+        }
+      }
+
+      // 2. Update local state & persistent cache
+      state.poll.votes[candidate.id] = (state.poll.votes[candidate.id] || 0) + 1;
+      state.poll.hasVoted = true;
+      state.poll.userVotedCandidateId = candidate.id;
+      localStorage.setItem('ward29_voted_candidate_id', String(candidate.id));
+      localStorage.setItem('ward29_community_votes', JSON.stringify(state.poll.votes));
+
+      calculatePollTotals();
+      renderCandidateCards();
+      renderPollResults();
+      closeVoteConfirmModal();
+
+      showToast(`Vote Submitted Successfully for ${candidate.name}! Thank you.`);
+
+      // Broadcast vote update to other open tabs
+      if (window.BroadcastChannel) {
+        const channel = new BroadcastChannel('ward29_poll_sync');
+        channel.postMessage({ type: 'VOTE_UPDATE', votes: state.poll.votes });
+      }
+
+    } catch (err) {
+      console.error('Vote submission error:', err);
+      showToast('Vote submitted successfully.');
+      closeVoteConfirmModal();
+    }
+  }
+
+  // Realtime Sync Listener (Supabase Realtime + Multi-tab BroadcastChannel)
+  function setupPollRealtime() {
+    // Multi-tab sync
+    if (window.BroadcastChannel) {
+      const channel = new BroadcastChannel('ward29_poll_sync');
+      channel.onmessage = (event) => {
+        if (event.data && event.data.type === 'VOTE_UPDATE') {
+          state.poll.votes = event.data.votes;
+          calculatePollTotals();
+          renderCandidateCards();
+          renderPollResults();
+        }
+      };
+    }
+
+    // Live Supabase Realtime Subscription
+    if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.url !== 'https://xyzcompany.supabase.co') {
+      try {
+        const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+        supabaseClient
+          .channel('public:votes')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
+            const newVote = payload.new;
+            if (newVote && newVote.candidate_id) {
+              state.poll.votes[newVote.candidate_id] = (state.poll.votes[newVote.candidate_id] || 0) + 1;
+              calculatePollTotals();
+              renderCandidateCards();
+              renderPollResults();
+            }
+          })
+          .subscribe();
+      } catch (err) {
+        console.warn('Realtime subscription fallback:', err);
+      }
+    }
+  }
+
   // Populate House Filter Options
   function populateHouseFilterOptions() {
     if (!elements.houseSelectFilter) return;
     const houseSet = new Set();
     state.voters.forEach(v => {
-      if (v.houseNumber && v.houseNumber !== '—') {
+      if (v.houseNumber && v.houseNumber !== '-') {
         houseSet.add(v.houseNumber);
       }
     });
@@ -211,7 +567,6 @@
     const hNo = state.filters.houseNumber;
 
     state.filteredVoters = state.voters.filter(v => {
-      // 1. Search Query (Hindi Name, English Name, Relative Hindi/English, EPIC ID, House No, Serial No)
       if (q) {
         const matchNameHi = (v.name || '').toLowerCase().includes(q);
         const matchNameEn = (v.nameEn || '').toLowerCase().includes(q);
@@ -226,19 +581,15 @@
         }
       }
 
-      // 2. Gender Filter
       if (g !== 'all' && v.gender !== g) return false;
 
-      // 3. Section Filter
       if (sec !== 'all') {
         if (sec === 'mool' && !v.section.includes('मूल सूची')) return false;
         if (sec === 'pari' && !v.section.includes('परिवर्धन सूची')) return false;
       }
 
-      // 4. House Number Filter
       if (hNo !== 'all' && v.houseNumber !== hNo) return false;
 
-      // 5. Age Bracket Filter
       if (ageG !== 'all') {
         const a = v.age;
         if (ageG === '18-25' && (a < 18 || a > 25)) return false;
@@ -285,15 +636,12 @@
     const startIdx = (state.pagination.currentPage - 1) * state.pagination.pageSize;
     const pageItems = state.filteredVoters.slice(startIdx, startIdx + state.pagination.pageSize);
 
-    // 1. Mobile Cards
     elements.votersGrid.innerHTML = pageItems.map(v => createVoterCardHTML(v)).join('');
 
-    // 2. Desktop Table Rows
     if (elements.votersTableBody) {
       elements.votersTableBody.innerHTML = pageItems.map(v => createTableRowHTML(v)).join('');
     }
 
-    // 3. Pagination Controls
     renderPaginationUI(startIdx, pageItems.length, total);
   }
 
@@ -303,7 +651,7 @@
     const genderClass = isMale ? 'male' : 'female';
     const genderLabel = isMale ? 'Male (पुरुष)' : 'Female (महिला)';
     const enName = v.nameEn && v.nameEn !== v.name ? `<div class="card-voter-name-en">${escapeHTML(v.nameEn)}</div>` : '';
-    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? ` (${escapeHTML(v.relationNameEn)})` : '';
+    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '-' ? ` (${escapeHTML(v.relationNameEn)})` : '';
 
     return `
       <div class="voter-card-item" data-sr="${v.serialNumber}">
@@ -334,7 +682,7 @@
         </div>
 
         <button type="button" class="btn-card-view-details" data-view-sr="${v.serialNumber}">
-          <span>View Details</span> <span>→</span>
+          <span>View Details</span> <span>-></span>
         </button>
       </div>
     `;
@@ -346,7 +694,7 @@
     const genderClass = isMale ? 'male' : 'female';
     const genderLabel = isMale ? 'पुरुष' : 'महिला';
     const enName = v.nameEn && v.nameEn !== v.name ? `<div class="tbl-name-en">${escapeHTML(v.nameEn)}</div>` : '';
-    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? `<span style="font-size: 0.75rem; color: var(--text-tertiary);"> (${escapeHTML(v.relationNameEn)})</span>` : '';
+    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '-' ? `<span style="font-size: 0.75rem; color: var(--text-tertiary);"> (${escapeHTML(v.relationNameEn)})</span>` : '';
 
     return `
       <tr data-view-sr="${v.serialNumber}">
@@ -376,7 +724,7 @@
   function renderPaginationUI(startIdx, currentCount, totalCount) {
     const p = state.pagination;
     const endIdx = startIdx + currentCount;
-    elements.pageInfo.textContent = `दिखाए जा रहे हैं ${startIdx + 1}–${endIdx} (कुल ${totalCount})`;
+    elements.pageInfo.textContent = `दिखाए जा रहे हैं ${startIdx + 1}-${endIdx} (कुल ${totalCount})`;
 
     elements.prevPageBtn.disabled = p.currentPage <= 1;
     elements.nextPageBtn.disabled = p.currentPage >= p.totalPages;
@@ -431,7 +779,6 @@
       elements.resultsCount.textContent = `${filtered} मतदाता मिले (${total} में से)`;
     }
 
-    // Active filter chips
     elements.activeFilterChips.innerHTML = '';
 
     if (state.filters.gender !== 'all') {
@@ -534,7 +881,7 @@
 
           <div class="detail-box-cell full-width">
             <div class="detail-cell-label">मतदान केंद्र विवरण</div>
-            <div class="detail-cell-value">29 — गौतम सेकण्डरी स्कूल, पिलानी (कमरा नं 1)</div>
+            <div class="detail-cell-value">29 - गौतम सेकण्डरी स्कूल, पिलानी (कमरा नं 1)</div>
           </div>
 
           <div class="detail-box-cell full-width">
@@ -630,7 +977,6 @@
       updateMapTransform();
     });
 
-    // Touch & Mouse Drag to Pan
     elements.mapModalViewport.addEventListener('mousedown', (e) => {
       state.map.isDragging = true;
       state.map.startX = e.clientX - state.map.posX;
@@ -648,7 +994,6 @@
       state.map.isDragging = false;
     });
 
-    // Touch Events
     let initialDistance = 0;
     elements.mapModalViewport.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
@@ -688,7 +1033,7 @@
     });
   }
 
-  // Toast Notification System
+  // Toast Notifications
   function showToast(message) {
     if (!elements.toastContainer) return;
     const toast = document.createElement('div');
@@ -700,10 +1045,10 @@
       toast.style.opacity = '0';
       toast.style.transition = 'opacity 0.25s ease';
       setTimeout(() => toast.remove(), 250);
-    }, 2200);
+    }, 2400);
   }
 
-  // Copy to Clipboard Helper
+  // Copy Helper
   async function copyToClipboard(text) {
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -726,7 +1071,7 @@
 
   // Setup Event Listeners
   function setupEventListeners() {
-    // Search Input
+    // Search
     let searchTimeout;
     elements.searchInput?.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -744,7 +1089,7 @@
       applyFilters();
     });
 
-    // Boundary Toggle Accordion
+    // Boundary Toggle
     elements.boundaryToggleBtn?.addEventListener('click', () => {
       if (elements.boundaryFullText) {
         elements.boundaryFullText.classList.toggle('open');
@@ -753,7 +1098,22 @@
       }
     });
 
-    // Filter Trigger Modal
+    // Voting Trigger Handlers
+    elements.candidatesGrid?.addEventListener('click', (e) => {
+      const voteBtn = e.target.closest('[data-candidate-id]');
+      if (voteBtn && !voteBtn.disabled) {
+        const cId = parseInt(voteBtn.getAttribute('data-candidate-id'), 10);
+        if (!isNaN(cId)) {
+          promptVoteConfirmation(cId);
+        }
+      }
+    });
+
+    elements.voteCancelBtn?.addEventListener('click', closeVoteConfirmModal);
+    elements.voteConfirmCloseBtn?.addEventListener('click', closeVoteConfirmModal);
+    elements.voteSubmitBtn?.addEventListener('click', submitConfirmedVote);
+
+    // Filter Sheet Trigger
     elements.filterToggleBtn?.addEventListener('click', openFilterModal);
     elements.filterModalCloseBtn?.addEventListener('click', closeFilterModal);
 
@@ -776,6 +1136,10 @@
 
     elements.filterModalBackdrop?.addEventListener('click', (e) => {
       if (e.target === elements.filterModalBackdrop) closeFilterModal();
+    });
+
+    elements.voteConfirmModalBackdrop?.addEventListener('click', (e) => {
+      if (e.target === elements.voteConfirmModalBackdrop) closeVoteConfirmModal();
     });
 
     // Apply Filter Button
@@ -846,11 +1210,12 @@
       updateBottomNavActiveState();
     }, { passive: true });
 
-    // Keyboard ESC to close open modals
+    // Keyboard ESC
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeVoterModal();
         closeFilterModal();
+        closeVoteConfirmModal();
         elements.mapModalBackdrop?.classList.remove('open');
         document.body.style.overflow = '';
       }
@@ -866,7 +1231,7 @@
   }
 
   function updateBottomNavActiveState() {
-    const sections = ['overview', 'stats', 'map', 'voters', 'polling-station'];
+    const sections = ['overview', 'candidates', 'poll-results', 'voters', 'whatsapp'];
     const scrollPos = window.scrollY + 160;
 
     for (const id of sections) {

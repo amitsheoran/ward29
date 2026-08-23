@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Monika Baloda",
+    "relation": "W/O Manish Baloda",
+    "color": "#2563eb"
+  },
+  {
+    "id": 2,
+    "name": "Aditi Godara",
+    "relation": "W/O Amardeep Godara",
+    "color": "#e11d48"
+  },
+  {
+    "id": 3,
+    "name": "Poonam Sihag",
+    "relation": "W/O Anil Sihag",
+    "color": "#059669"
+  },
+  {
+    "id": 4,
+    "name": "Suman",
+    "relation": "W/O Tilak",
+    "color": "#d97706"
+  },
+  {
+    "id": 5,
+    "name": "Aruna Madam",
+    "relation": "W/O Bhupendra Sheoran",
+    "color": "#8b5cf6"
+  }
+]

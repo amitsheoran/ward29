@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="theme-color" content="#1e3a8a">
-  <title>Ward 29 Pilani — Electoral Information Portal 2026 | नगर पालिका पिलानी</title>
-  <meta name="description" content="Official electoral information for Ward 29, Pilani, Rajasthan. Instant voter search, interactive boundary map, statistics, and polling station details.">
+  <title>Ward 29 Pilani - Electoral Information & Community Poll 2026 | नगर पालिका पिलानी</title>
+  <meta name="description" content="Ward 29 Pilani electoral information, unofficial community poll, candidate voting, interactive boundary map, statistics, and WhatsApp community.">
   
   <!-- Preconnect Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,9 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="./css/style.css">
   
+  <!-- Supabase JS SDK CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231e3a8a%22/><text y=%22.9em%22 x=%22.1em%22 font-size=%2280%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>29</text></svg>">
 </head>
@@ -26,7 +29,7 @@
       <a href="#overview" class="brand" aria-label="Ward 29 Pilani Home">
         <div class="brand-badge">29</div>
         <div class="brand-info">
-          <span class="brand-name">Ward 29 • Pilani</span>
+          <span class="brand-name">Ward 29 - Pilani</span>
           <span class="brand-sub">नगर पालिका पिलानी (Pilani)</span>
         </div>
       </a>
@@ -52,7 +55,7 @@
             <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             <span>Rajasthan State Election Commission</span>
           </div>
-          <h1 class="hero-ward-title">Ward 29 — Pilani</h1>
+          <h1 class="hero-ward-title">Ward 29 - Pilani</h1>
           <p class="hero-ward-subtitle">नगर पालिका निर्वाचन नामावली • 2026 (विधानसभा: 25-पिलानी)</p>
         </div>
 
@@ -90,11 +93,8 @@
             
             <div class="donut-chart-container" aria-label="Voter gender ratio donut chart">
               <svg class="donut-svg" viewBox="0 0 100 100">
-                <!-- Background Ring -->
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
-                <!-- Male Segment (51.4% -> ~122.7 of 238.76 circumference) -->
                 <circle id="donutMale" class="donut-segment-male" cx="50" cy="50" r="38" stroke-dasharray="122.7 238.76" stroke-dashoffset="0"></circle>
-                <!-- Female Segment (48.6% -> ~116.0 of 238.76 circumference) -->
                 <circle id="donutFemale" class="donut-segment-female" cx="50" cy="50" r="38" stroke-dasharray="116.0 238.76" stroke-dashoffset="-122.7"></circle>
               </svg>
               
@@ -192,7 +192,7 @@
       </section>
 
       <!-- ==========================================
-           3. WARD MAP (PROGRESSIVE DISCLOSURE)
+           3. WARD MAP
            ========================================== -->
       <section id="map" class="section-container">
         <div class="section-header-clean">
@@ -217,7 +217,7 @@
             </div>
             <button type="button" class="btn-open-map" id="btnOpenMapAction">
               <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
-              <span>View Full Map →</span>
+              <span>View Full Map -></span>
             </button>
           </div>
         </div>
@@ -239,7 +239,7 @@
             <span>मतदान केंद्र संख्या: 29</span>
           </div>
 
-          <div class="ps-building-name" id="psName">29 — गौतम सेकण्डरी स्कूल, पिलानी</div>
+          <div class="ps-building-name" id="psName">29 - गौतम सेकण्डरी स्कूल, पिलानी</div>
 
           <div class="ps-building-address" id="psAddress">
             <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -260,7 +260,102 @@
       </section>
 
       <!-- ==========================================
-           5. BOUNDARIES (PROGRESSIVE DISCLOSURE)
+           5. WARD 29 CANDIDATES & COMMUNITY POLL
+           ========================================== -->
+      <section id="candidates" class="section-container">
+        <div class="section-header-clean">
+          <div class="section-eyebrow">समुदाय रायशुमारी</div>
+          <h2 class="section-main-title">Ward 29 Candidates & Community Poll</h2>
+          <p class="section-caption">अपने पसंदीदा प्रत्याशी के पक्ष में अपनी राय व्यक्त करें (One vote per user/session)</p>
+        </div>
+
+        <!-- Unofficial Poll Disclaimer -->
+        <div class="poll-disclaimer-box">
+          <svg class="icon-svg" style="width: 18px; height: 18px; color: #d97706; margin-top: 2px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <div>
+            <strong>Ward 29 Community Poll:</strong> This is an unofficial community poll for informational purposes only. It is not an official election voting system and these results are not official election results.
+          </div>
+        </div>
+
+        <!-- 5 Candidates Cards Grid -->
+        <div class="candidates-grid" id="candidatesGrid">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+      </section>
+
+      <!-- ==========================================
+           6. LIVE POLL RESULTS
+           ========================================== -->
+      <section id="poll-results" class="section-container">
+        <div class="section-header-clean">
+          <div class="section-eyebrow">लाइव परिणाम</div>
+          <h2 class="section-main-title">Live Poll Results</h2>
+          <p class="section-caption">रियल-टाइम वोट सांख्यिकी एवं प्रतिशत वितरण (Live Community Votes)</p>
+        </div>
+
+        <div class="poll-results-card">
+          <div class="poll-results-header">
+            <div class="poll-live-indicator">
+              <span class="live-pulse-dot"></span>
+              <span>Live Poll Results</span>
+            </div>
+            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-secondary);">
+              Total Community Votes: <strong id="totalPollVotesCount" style="color: var(--primary-900);">0</strong>
+            </div>
+          </div>
+
+          <div class="dashboard-grid" style="margin: 0; align-items: center;">
+            
+            <!-- Poll Donut Visualization -->
+            <div class="donut-chart-container" style="width: 170px; height: 170px; margin: 0.5rem auto 1rem;">
+              <svg class="donut-svg" viewBox="0 0 100 100">
+                <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
+                <!-- Candidate SVG segments populated dynamically -->
+                <g id="pollDonutSegments"></g>
+              </svg>
+              <div class="donut-center-content">
+                <div class="donut-center-total" id="pollDonutCenterTotal" style="font-size: 1.875rem;">0</div>
+                <div class="donut-center-label" style="font-size: 0.625rem;">Total Votes</div>
+              </div>
+            </div>
+
+            <!-- Leaderboard Rankings -->
+            <div class="poll-leaderboard-list" id="pollLeaderboardList">
+              <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================
+           7. WHATSAPP WARD 29 COMMUNITY CTA
+           ========================================== -->
+      <section id="whatsapp" class="section-container" style="padding-top: 1rem; padding-bottom: 1.5rem;">
+        <div class="whatsapp-community-card">
+          <div class="whatsapp-card-inner">
+            <div style="display: flex; align-items: center; gap: 0.875rem;">
+              <div class="whatsapp-icon-large">
+                <svg style="width: 28px; height: 28px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              </div>
+              <div>
+                <div class="whatsapp-cta-title">Join the Ward 29 Community</div>
+                <div class="whatsapp-cta-desc">Stay connected with Ward 29 residents and get community updates.</div>
+              </div>
+            </div>
+
+            <a href="https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join">
+              <svg style="width: 18px; height: 18px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>Join WhatsApp Community</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           8. BOUNDARIES
            ========================================== -->
       <section id="boundaries" class="section-container">
         <div class="section-header-clean">
@@ -295,7 +390,7 @@
       </section>
 
       <!-- ==========================================
-           6. VOTER DIRECTORY (CORE SEARCH & FILTER)
+           9. VOTER DIRECTORY (SEARCH & FILTER)
            ========================================== -->
       <section id="voters" class="section-container" style="border-bottom: none;">
         <div class="section-header-clean">
@@ -376,7 +471,7 @@
       </section>
 
       <!-- ==========================================
-           7. ORIGINAL SOURCE PDF SECTION
+           10. ORIGINAL SOURCE PDF SECTION
            ========================================== -->
       <section id="source" class="section-container" style="border-top: 1px solid var(--border-color);">
         <div class="section-header-clean">
@@ -410,7 +505,35 @@
        MODALS & MOBILE BOTTOM SHEETS
        ========================================== -->
 
-  <!-- 1. Voter Details Bottom Sheet / Modal -->
+  <!-- 1. Vote Confirmation Dialog Modal -->
+  <div id="voteConfirmModalBackdrop" class="bottom-sheet-backdrop" role="dialog" aria-modal="true" aria-label="Confirm Your Vote">
+    <div class="bottom-sheet-card">
+      <div class="sheet-handle-pill"></div>
+      <div class="sheet-header-bar">
+        <h3 class="sheet-header-title">Confirm Your Vote</h3>
+        <button type="button" id="voteConfirmCloseBtn" class="btn-sheet-close" aria-label="Close Dialog">✕</button>
+      </div>
+
+      <div class="sheet-scroll-body">
+        <div style="text-align: center; padding: 1rem 0;">
+          <div style="font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">You are voting for:</div>
+          <div id="confirmCandidateName" style="font-size: 1.375rem; font-weight: 800; color: var(--primary-900); margin-top: 0.35rem;">Candidate Name</div>
+          <div id="confirmCandidateRel" style="font-size: 0.9375rem; font-weight: 600; color: var(--primary-600); margin-top: 0.15rem;">W/O Husband Name</div>
+        </div>
+
+        <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.8125rem; color: #92400e; line-height: 1.4; margin-top: 0.5rem;">
+          ⚠️ <strong>Important:</strong> Your vote cannot be changed after submission (One vote per user/session).
+        </div>
+      </div>
+
+      <div class="sheet-footer-actions">
+        <button type="button" id="voteCancelBtn" class="btn-page-nav" style="height: 42px; padding: 0 1.25rem;">Cancel</button>
+        <button type="button" id="voteSubmitBtn" class="btn-open-map" style="padding: 0.6rem 1.5rem; background: var(--success);">Confirm Vote</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Voter Details Bottom Sheet / Modal -->
   <div id="voterModalBackdrop" class="bottom-sheet-backdrop" role="dialog" aria-modal="true" aria-label="Voter Details">
     <div class="bottom-sheet-card" id="voterModalCard">
       <div class="sheet-handle-pill"></div>
@@ -420,7 +543,7 @@
     </div>
   </div>
 
-  <!-- 2. Filter Bottom Sheet / Modal -->
+  <!-- 3. Filter Bottom Sheet / Modal -->
   <div id="filterModalBackdrop" class="bottom-sheet-backdrop" role="dialog" aria-modal="true" aria-label="Filter Options">
     <div class="bottom-sheet-card">
       <div class="sheet-handle-pill"></div>
@@ -515,7 +638,7 @@
     </div>
   </div>
 
-  <!-- 3. Fullscreen Interactive Map Viewer -->
+  <!-- 4. Fullscreen Interactive Map Viewer -->
   <div id="mapModalBackdrop" class="map-modal-backdrop" role="dialog" aria-modal="true" aria-label="Interactive Ward Map">
     <div class="map-modal-header">
       <div class="map-modal-title">वार्ड 29 सीमा परिसीमन नक्शा (Pilani)</div>
@@ -540,21 +663,21 @@
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       <span>Home</span>
     </a>
-    <a href="#stats" class="bottom-nav-link">
-      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-      <span>Stats</span>
+    <a href="#candidates" class="bottom-nav-link">
+      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+      <span>Poll</span>
     </a>
-    <a href="#map" class="bottom-nav-link">
-      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-      <span>Map</span>
+    <a href="#poll-results" class="bottom-nav-link">
+      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+      <span>Results</span>
     </a>
     <a href="#voters" class="bottom-nav-link">
       <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <span>Voters</span>
     </a>
-    <a href="#polling-station" class="bottom-nav-link">
-      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-      <span>Booth</span>
+    <a href="#whatsapp" class="bottom-nav-link">
+      <svg class="icon-svg bottom-nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <span>WhatsApp</span>
     </a>
   </nav>
 
@@ -563,15 +686,16 @@
     <div class="container">
       <div class="footer-inner-grid">
         <div>
-          <div style="font-weight: 800; font-size: 1rem; color: var(--primary-900); margin-bottom: 0.35rem;">Ward 29 — Pilani</div>
-          <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली का आधुनिक, नागरिक सूचना पोर्टल।</p>
+          <div style="font-weight: 800; font-size: 1rem; color: var(--primary-900); margin-bottom: 0.35rem;">Ward 29 - Pilani</div>
+          <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली एवं समुदाय रायशुमारी पोर्टल।</p>
         </div>
         <div>
           <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Navigation</div>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
             <li><a href="#overview">Overview</a></li>
-            <li><a href="#stats">Voter Statistics</a></li>
-            <li><a href="#map">Ward Map</a></li>
+            <li><a href="#candidates">Community Poll</a></li>
+            <li><a href="#poll-results">Live Results</a></li>
+            <li><a href="#whatsapp">WhatsApp Community</a></li>
             <li><a href="#voters">Voter Directory</a></li>
           </ul>
         </div>

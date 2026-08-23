@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WARD 29 PILANI — CIVIC ELECTORAL INFORMATION SYSTEM
+   WARD 29 PILANI - CIVIC ELECTORAL INFORMATION SYSTEM
    Senior UI/UX Design System & Mobile-First Stylesheet
    ========================================================================== */
 
@@ -26,7 +26,7 @@
   --neutral-accent: #64748b;
   --neutral-light:  #f1f5f9;
 
-  /* State Colors */
+  /* State & Community Colors */
   --success:        #059669;
   --success-light:  #ecfdf5;
   --success-border: #a7f3d0;
@@ -34,6 +34,10 @@
   --warning:        #d97706;
   --warning-light:  #fffbeb;
   --warning-border: #fde68a;
+
+  --whatsapp-green: #25d366;
+  --whatsapp-dark:  #128c7e;
+  --whatsapp-light: #dcf8c6;
 
   /* Surfaces & Backgrounds */
   --bg-app:     #f8fafc;        /* Slate 50 */
@@ -60,7 +64,7 @@
   --radius-xl: 22px;
   --radius-full: 9999px;
 
-  /* Elevation Shadows (Apple/Google style soft depth) */
+  /* Elevation Shadows */
   --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
   --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
@@ -613,7 +617,357 @@ img, svg {
 }
 
 /* ==========================================================================
-   3. SECTION HEADERS & REUSABLE BLOCKS
+   3. COMMUNITY POLL & CANDIDATES SECTION
+   ========================================================================== */
+
+.poll-disclaimer-box {
+  background: var(--warning-light);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.8125rem;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.poll-disclaimer-box strong {
+  color: #78350f;
+}
+
+/* Candidate Cards Grid */
+.candidates-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .candidates-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .candidates-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.candidate-card-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.125rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.candidate-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+.candidate-card-item.is-leader {
+  border-color: #fde047;
+  background: linear-gradient(180deg, #fefce8 0%, #ffffff 35%);
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.12);
+}
+
+.candidate-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+
+.candidate-num-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary-700);
+  background: var(--primary-50);
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.leader-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #fef08a;
+  color: #854d0e;
+  border: 1px solid #facc15;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.candidate-name-title {
+  font-size: 1.1875rem;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.2;
+}
+
+.candidate-rel-text {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  margin-bottom: 0.875rem;
+}
+
+.candidate-stats-box {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.75rem;
+  margin-bottom: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.candidate-vote-count {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1;
+}
+
+.candidate-vote-pct {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--primary-600);
+}
+
+.candidate-progress-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.candidate-progress-bar-inner {
+  height: 100%;
+  background: var(--primary-600);
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-vote-candidate {
+  width: 100%;
+  margin-top: auto;
+  padding: 0.625rem;
+  background: var(--primary-700);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  transition: all 0.15s ease;
+  min-height: 42px;
+}
+
+.btn-vote-candidate:hover:not(:disabled) {
+  background: var(--primary-800);
+  transform: translateY(-1px);
+}
+
+.btn-vote-candidate:disabled {
+  background: var(--bg-subtle);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  border: 1px solid var(--border-color);
+}
+
+.btn-vote-candidate.voted-this {
+  background: var(--success);
+  color: white;
+}
+
+/* Live Results Card & Donut */
+.poll-results-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+.poll-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.poll-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #dc2626;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #dc2626;
+  border-radius: 50%;
+  animation: pulseRed 1.6s infinite;
+}
+
+@keyframes pulseRed {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.poll-leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.leaderboard-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+}
+
+.leaderboard-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.leaderboard-candidate-name {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.leaderboard-votes-info {
+  font-weight: 800;
+  color: var(--primary-900);
+}
+
+/* ==========================================================================
+   4. WHATSAPP WARD 29 COMMUNITY CTA
+   ========================================================================== */
+
+.whatsapp-community-card {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #dcfce7 100%);
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.08);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsapp-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .whatsapp-card-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.whatsapp-icon-large {
+  width: 48px;
+  height: 48px;
+  background: var(--whatsapp-green);
+  color: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-cta-title {
+  font-size: 1.1875rem;
+  font-weight: 800;
+  color: #14532d;
+  line-height: 1.2;
+}
+
+.whatsapp-cta-desc {
+  font-size: 0.8125rem;
+  color: #166534;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+}
+
+.btn-whatsapp-join {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--whatsapp-green);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  transition: all 0.15s ease;
+  min-height: 46px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .btn-whatsapp-join {
+    width: auto;
+    flex-shrink: 0;
+  }
+}
+
+.btn-whatsapp-join:hover {
+  background: #20ba5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.45);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   5. REUSABLE SECTION HEADERS & MAP
    ========================================================================== */
 
 .section-container {
@@ -648,10 +1002,7 @@ img, svg {
   margin-top: 0.2rem;
 }
 
-/* ==========================================================================
-   4. INTERACTIVE WARD MAP (PROGRESSIVE DISCLOSURE)
-   ========================================================================== */
-
+/* Map Preview Card */
 .map-card-preview {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -828,10 +1179,7 @@ img, svg {
   user-select: none;
 }
 
-/* ==========================================================================
-   5. POLLING STATION & BOUNDARIES CARDS
-   ========================================================================== */
-
+/* Polling Station Card */
 .ps-card-modern {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -883,7 +1231,7 @@ img, svg {
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Progressive Boundary Card */
+/* Boundary Card */
 .boundary-preview-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -1095,10 +1443,7 @@ img, svg {
   font-weight: 800;
 }
 
-/* ==========================================================================
-   7. MOBILE VOTER CARDS (< 1024px)
-   ========================================================================== */
-
+/* Mobile Voter Cards (< 1024px) */
 .voter-cards-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -1266,10 +1611,7 @@ img, svg {
   background: var(--primary-100);
 }
 
-/* ==========================================================================
-   8. DESKTOP VOTER TABLE (>= 1024px)
-   ========================================================================== */
-
+/* Desktop Table (>= 1024px) */
 .desktop-table-wrapper {
   display: none;
 }
@@ -1416,7 +1758,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   9. MODALS & MOBILE BOTTOM SHEETS
+   7. MODALS & BOTTOM SHEETS
    ========================================================================== */
 
 .bottom-sheet-backdrop {
@@ -1629,7 +1971,7 @@ img, svg {
 }
 
 /* ==========================================================================
-   10. MOBILE BOTTOM NAVIGATION BAR
+   8. MOBILE BOTTOM NAVIGATION BAR
    ========================================================================== */
 
 .mobile-bottom-nav {
