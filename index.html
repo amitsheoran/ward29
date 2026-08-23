@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0f172a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Ward 29 Pilani - Civic Information & Community App 2026 | नगर पालिका पिलानी</title>
-  <meta name="description" content="Ward 29 Pilani electoral information, voter directory, candidate poll, official boundary map, and community updates.">
+  <title>Ward 29 Pilani - Civic Dashboard & Community App 2026 | नगर पालिका पिलानी</title>
+  <meta name="description" content="Ward 29 Pilani official electoral dashboard, voter directory, candidate live poll, boundary map, and community portal.">
   
   <!-- Preconnect Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
     <div class="container">
 
       <!-- ==========================================
-           1. CLEAN & COMPACT APP HERO
+           1. NATIVE MOBILE APP DASHBOARD HERO
            ========================================== -->
       <section id="overview" class="app-hero-container">
         <div class="hero-app-card">
@@ -133,7 +133,7 @@
       <!-- ==========================================
            3. CHARTS DUO: VOTER COMPOSITION & AGE DISTRIBUTION
            ========================================== -->
-      <section id="stats" class="section-container" style="padding-top: 0.75rem;">
+      <section id="stats" class="section-container" style="padding-top: 0.5rem;">
         
         <div class="charts-duo-grid">
           
@@ -364,7 +364,7 @@
       </section>
 
       <!-- ==========================================
-           5. POLLING STATION
+           5. POLLING STATION (REDESIGNED NATIVE CARD)
            ========================================== -->
       <section id="polling-station" class="section-container">
         <div class="section-header-clean">
@@ -373,26 +373,29 @@
           <p class="section-caption">वार्ड 29 के मतदाताओं हेतु निर्धारित मतदान स्थल</p>
         </div>
 
-        <div class="ps-card-modern">
-          <div class="ps-top-badge">
-            <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span>मतदान केंद्र संख्या: 29</span>
+        <div class="polling-station-app-card">
+          <div class="ps-badge-row">
+            <span class="ps-station-pill">
+              <svg class="icon-svg" style="width: 13px; height: 13px;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>मतदान केंद्र संख्या: 29</span>
+            </span>
+            <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 700;">कमरा नं: 1</span>
           </div>
 
-          <div class="ps-building-name" id="psName">29 - गौतम सेकण्डरी स्कूल, पिलानी</div>
+          <div class="ps-main-heading">29 - गौतम सेकण्डरी स्कूल, पिलानी</div>
 
-          <div class="ps-building-address" id="psAddress">
-            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div class="ps-location-box">
+            <svg class="icon-svg" style="width: 16px; height: 16px; color: var(--primary-600); margin-top: 2px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             <span>वार्ड संख्या 29, पिलानी, झुंझुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन, कमरा नं 1)</span>
           </div>
 
-          <div class="ps-actions-row">
-            <a href="https://maps.google.com/?q=Gautam+Secondary+School+Pilani" target="_blank" rel="noopener" class="btn-header-pdf" style="background: white; border-color: var(--border-strong);">
-              <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+          <div class="ps-actions-grid">
+            <a href="https://maps.google.com/?q=Gautam+Secondary+School+Pilani" target="_blank" rel="noopener" class="btn-ps-action-secondary">
+              <svg class="icon-svg" style="width: 15px; height: 15px; color: #dc2626;" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
               <span>Google Maps</span>
             </a>
-            <a href="#voters" class="btn-header-pdf" style="background: var(--primary-700); color: white; border-color: var(--primary-700);">
-              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <a href="#voters" class="btn-ps-action-primary">
+              <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               <span>इस केंद्र के मतदाता देखें</span>
             </a>
           </div>
@@ -407,14 +410,6 @@
           <div class="section-eyebrow">समुदाय रायशुमारी</div>
           <h2 class="section-main-title">Ward 29 Candidates & Community Poll</h2>
           <p class="section-caption">अपने पसंदीदा प्रत्याशी के पक्ष में अपनी राय व्यक्त करें (One vote per user/session)</p>
-        </div>
-
-        <!-- Unofficial Poll Disclaimer -->
-        <div class="poll-disclaimer-box">
-          <svg class="icon-svg" style="width: 18px; height: 18px; color: #d97706; margin-top: 2px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          <div>
-            <strong>Ward 29 Community Poll:</strong> This is an unofficial community poll for informational purposes only. It is not an official election voting system and these results are not official election results.
-          </div>
         </div>
 
         <!-- 5 Candidates Cards Grid (with Candidate Photos) -->
@@ -440,7 +435,7 @@
               <span class="live-pulse-dot"></span>
               <span>Live Poll Results</span>
             </div>
-            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-secondary);">
+            <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary);">
               Total Community Votes: <strong id="totalPollVotesCount" style="color: var(--primary-900);">0</strong>
             </div>
           </div>
@@ -448,14 +443,14 @@
           <div class="charts-duo-grid" style="margin: 0; align-items: center;">
             
             <!-- Poll Donut Visualization -->
-            <div class="donut-chart-container" style="width: 170px; height: 170px; margin: 0.5rem auto 1rem;">
+            <div class="donut-chart-container" style="width: 140px; height: 140px; margin: 0.25rem auto 0.75rem;">
               <svg class="donut-svg" viewBox="0 0 100 100">
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
                 <g id="pollDonutSegments"></g>
               </svg>
               <div class="donut-center-content">
-                <div class="donut-center-total" id="pollDonutCenterTotal" style="font-size: 1.875rem;">0</div>
-                <div class="donut-center-label" style="font-size: 0.625rem;">Total Votes</div>
+                <div class="donut-center-total" id="pollDonutCenterTotal" style="font-size: 1.625rem;">0</div>
+                <div class="donut-center-label" style="font-size: 0.5625rem;">Total Votes</div>
               </div>
             </div>
 
@@ -472,14 +467,14 @@
       <!-- ==========================================
            8. WHATSAPP COMMUNITY CTA & SHARE APP CARD
            ========================================== -->
-      <section id="whatsapp" class="section-container" style="padding-top: 1rem; padding-bottom: 1.5rem;">
+      <section id="whatsapp" class="section-container" style="padding-top: 1rem; padding-bottom: 1.25rem;">
         
         <!-- WhatsApp Community Card -->
         <div class="whatsapp-community-card">
           <div class="whatsapp-card-inner">
-            <div style="display: flex; align-items: center; gap: 0.875rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
               <div class="whatsapp-icon-large">
-                <svg style="width: 28px; height: 28px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                <svg style="width: 24px; height: 24px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               </div>
               <div>
                 <div class="whatsapp-cta-title">Join the Ward 29 Community</div>
@@ -488,7 +483,7 @@
             </div>
 
             <a href="https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join">
-              <svg style="width: 18px; height: 18px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <svg style="width: 16px; height: 16px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               <span>Join WhatsApp Community</span>
             </a>
           </div>
@@ -497,11 +492,11 @@
         <!-- Share Ward 29 Card -->
         <div class="share-app-card">
           <div>
-            <div style="font-size: 1.125rem; font-weight: 800; color: var(--primary-900);">📤 Share Ward 29 App</div>
-            <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem;">Share this civic app with your family, friends, and community members.</div>
+            <div style="font-size: 1.0625rem; font-weight: 800; color: var(--primary-900);">📤 Share Ward 29 App</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Share this civic app with your family, friends, and community members.</div>
           </div>
           <button type="button" class="btn-share-app-main" id="bottomShareBtn">
-            <svg class="icon-svg" style="width: 16px; height: 16px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
             <span>Share Ward 29 App</span>
           </button>
         </div>
@@ -519,7 +514,7 @@
         </div>
 
         <div class="boundary-preview-card">
-          <div style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary);">प्रमुख स्थल एवं मार्ग (Key Landmarks)</div>
+          <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary);">प्रमुख स्थल एवं मार्ग (Key Landmarks)</div>
           <div class="landmark-chips-wrap">
             <span class="landmark-tag">🏫 गौतम सेकण्डरी स्कूल</span>
             <span class="landmark-tag">⭕ सी.एल.आर. सर्किल</span>
@@ -617,7 +612,7 @@
           <svg class="icon-svg" style="width: 40px; height: 40px; margin: 0 auto; color: var(--text-tertiary);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <div class="empty-results-title">कोई मतदाता नहीं मिला</div>
           <p class="empty-results-desc">कृपया अपनी खोज या फ़िल्टर बदलकर पुनः प्रयास करें।</p>
-          <button type="button" id="emptyResetBtn" class="btn-header-pdf" style="margin-top: 1rem; background: var(--primary-700); color: white;">
+          <button type="button" id="emptyResetBtn" class="btn-hero-pdf-action" style="margin-top: 1rem; background: var(--primary-700); color: white; border: none; padding: 0.5rem 1rem;">
             <span>सभी फ़िल्टर रीसेट करें</span>
           </button>
         </div>
@@ -644,14 +639,14 @@
           <p class="section-caption">राज्य निर्वाचन आयोग राजस्थान द्वारा जारी 39-पृष्ठीय आधिकारिक दस्तावेज़</p>
         </div>
 
-        <div class="glance-card" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.25rem;">
-          <div style="display: flex; align-items: center; gap: 0.875rem;">
-            <div style="width: 44px; height: 44px; background: #fee2e2; color: #dc2626; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-              <svg class="icon-svg" style="width: 22px; height: 22px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <div class="glance-card" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.125rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 40px; height: 40px; background: #fee2e2; color: #dc2626; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+              <svg class="icon-svg" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             </div>
             <div>
-              <div style="font-weight: 800; font-size: 0.9375rem; color: var(--text-primary);">WardNo29.pdf</div>
-              <div style="font-size: 0.75rem; color: var(--text-tertiary);">39 Pages • Official Electoral Roll • 2026</div>
+              <div style="font-weight: 800; font-size: 0.875rem; color: var(--text-primary);">WardNo29.pdf</div>
+              <div style="font-size: 0.6875rem; color: var(--text-tertiary);">39 Pages • Official Electoral Roll • 2026</div>
             </div>
           </div>
 
@@ -679,25 +674,25 @@
       </div>
 
       <div class="sheet-scroll-body">
-        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.875rem;">
           Share this Ward 29 portal with your family, friends, and community members.
         </div>
 
-        <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 1rem;">
-          <span id="shareUrlDisplay" style="font-size: 0.8125rem; color: var(--primary-700); font-weight: 600; word-break: break-all;">https://amitsheoran.github.io/ward29/</span>
-          <button type="button" id="shareCopyLinkBtn" class="btn-card-copy-epic" style="font-size: 0.75rem; padding: 0.35rem 0.65rem; background: var(--bg-surface);">
+        <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.625rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.875rem;">
+          <span id="shareUrlDisplay" style="font-size: 0.75rem; color: var(--primary-700); font-weight: 600; word-break: break-all;">https://amitsheoran.github.io/ward29/</span>
+          <button type="button" id="shareCopyLinkBtn" class="btn-card-copy-epic" style="font-size: 0.6875rem; padding: 0.3rem 0.6rem; background: var(--bg-surface); border: 1px solid var(--border-color);">
             <span>Copy</span>
           </button>
         </div>
 
         <a id="shareWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join" style="width: 100%;">
-          <svg style="width: 18px; height: 18px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <svg style="width: 16px; height: 16px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Share on WhatsApp</span>
         </a>
       </div>
 
       <div class="sheet-footer-actions">
-        <button type="button" id="shareCloseBtn" class="btn-page-nav" style="height: 42px; padding: 0 1.25rem;">Close</button>
+        <button type="button" id="shareCloseBtn" class="btn-page-nav" style="height: 38px; padding: 0 1rem;">Close</button>
       </div>
     </div>
   </div>
@@ -712,20 +707,20 @@
       </div>
 
       <div class="sheet-scroll-body">
-        <div style="text-align: center; padding: 1rem 0;">
-          <div style="font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">You are voting for:</div>
-          <div id="confirmCandidateName" style="font-size: 1.375rem; font-weight: 800; color: var(--primary-900); margin-top: 0.35rem;">Candidate Name</div>
-          <div id="confirmCandidateRel" style="font-size: 0.9375rem; font-weight: 600; color: var(--primary-600); margin-top: 0.15rem;">W/O Husband Name</div>
+        <div style="text-align: center; padding: 0.75rem 0;">
+          <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">You are voting for:</div>
+          <div id="confirmCandidateName" style="font-size: 1.25rem; font-weight: 800; color: var(--primary-900); margin-top: 0.25rem;">Candidate Name</div>
+          <div id="confirmCandidateRel" style="font-size: 0.875rem; font-weight: 600; color: var(--primary-600); margin-top: 0.1rem;">W/O Husband Name</div>
         </div>
 
-        <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.8125rem; color: #92400e; line-height: 1.4; margin-top: 0.5rem;">
+        <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 0.65rem; font-size: 0.75rem; color: #92400e; line-height: 1.4; margin-top: 0.5rem;">
           ⚠️ <strong>Important:</strong> Your vote cannot be changed after submission (One vote per user/session).
         </div>
       </div>
 
       <div class="sheet-footer-actions">
-        <button type="button" id="voteCancelBtn" class="btn-page-nav" style="height: 42px; padding: 0 1.25rem;">Cancel</button>
-        <button type="button" id="voteSubmitBtn" class="btn-open-map" style="padding: 0.6rem 1.5rem; background: var(--success);">Confirm Vote</button>
+        <button type="button" id="voteCancelBtn" class="btn-page-nav" style="height: 38px; padding: 0 1rem;">Cancel</button>
+        <button type="button" id="voteSubmitBtn" class="btn-open-map" style="padding: 0.5rem 1.25rem; background: var(--success);">Confirm Vote</button>
       </div>
     </div>
   </div>
@@ -829,8 +824,8 @@
       </div>
 
       <div class="sheet-footer-actions">
-        <button type="button" id="filterResetBtn" class="btn-page-nav" style="height: 40px; padding: 0 1rem;">Clear</button>
-        <button type="button" id="filterApplyBtn" class="btn-open-map" style="padding: 0.55rem 1.25rem;">Apply Filters</button>
+        <button type="button" id="filterResetBtn" class="btn-page-nav" style="height: 38px; padding: 0 0.875rem;">Clear</button>
+        <button type="button" id="filterApplyBtn" class="btn-open-map" style="padding: 0.5rem 1.125rem;">Apply Filters</button>
       </div>
     </div>
   </div>
@@ -883,12 +878,12 @@
     <div class="container">
       <div class="footer-inner-grid">
         <div>
-          <div style="font-weight: 800; font-size: 1rem; color: var(--primary-900); margin-bottom: 0.35rem;">Ward 29 - Pilani</div>
-          <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली एवं समुदाय रायशुमारी पोर्टल।</p>
+          <div style="font-weight: 800; font-size: 0.9375rem; color: var(--primary-900); margin-bottom: 0.25rem;">Ward 29 - Pilani</div>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली एवं समुदाय रायशुमारी पोर्टल।</p>
         </div>
         <div>
-          <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Navigation</div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
+          <div style="font-weight: 700; font-size: 0.6875rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.35rem;">Navigation</div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem;">
             <li><a href="#overview">Overview</a></li>
             <li><a href="#stats">Statistics & Insights</a></li>
             <li><a href="#candidates">Candidates & Poll</a></li>
@@ -897,8 +892,8 @@
           </ul>
         </div>
         <div>
-          <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Documents</div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
+          <div style="font-weight: 700; font-size: 0.6875rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.35rem;">Documents</div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem;">
             <li><a href="./input/WardNo29.pdf" target="_blank" rel="noopener">Official PDF</a></li>
           </ul>
         </div>
