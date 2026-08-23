@@ -53,29 +53,33 @@
         <div class="hero-ward-header">
           <div class="hero-ward-pretitle">
             <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span>Rajasthan State Election Commission</span>
+            <span>WARD 29</span>
           </div>
           <h1 class="hero-ward-title">Ward 29 - Pilani</h1>
-          <p class="hero-ward-subtitle">नगर पालिका निर्वाचन नामावली • 2026 (विधानसभा: 25-पिलानी)</p>
+          <div class="hero-ward-subtitle-block">
+            <span class="hero-ward-subtitle">नगर पालिका निर्वाचन नामावली - 2026</span>
+            <span class="hero-ward-bullet">•</span>
+            <span class="hero-ward-ac-text">विधानसभा क्षेत्र: 25 - पिलानी</span>
+          </div>
         </div>
 
         <!-- Horizontal Quick Facts Pill Bar -->
         <div class="quick-facts-bar" aria-label="वार्ड सारांश">
           <div class="quick-fact-pill">
             <span class="dot"></span>
-            <span>वार्ड: <strong>29</strong></span>
+            <span>Ward 29</span>
           </div>
           <div class="quick-fact-pill">
-            <span>भाग संख्या: <strong>1</strong></span>
+            <span>Part 1</span>
           </div>
           <div class="quick-fact-pill">
-            <span>कुल मतदाता: <strong id="quickFactTotal">901</strong></span>
+            <span>901 Voters</span>
           </div>
           <div class="quick-fact-pill">
-            <span>मतदान केंद्र: <strong>29</strong></span>
+            <span>Polling Station 29</span>
           </div>
           <div class="quick-fact-pill">
-            <span>जिला: <strong>झुन्झुनू</strong></span>
+            <span>Pilani, Jhunjhunu</span>
           </div>
         </div>
       </section>
@@ -87,14 +91,16 @@
         
         <div class="dashboard-grid">
           
-          <!-- Voter Composition Donut Visualization -->
+          <!-- Voter Composition 2-Segment Donut Visualization -->
           <div class="donut-card">
-            <div class="donut-card-title">मतदाता संरचना (Voter Composition)</div>
+            <div class="donut-card-title">मतदाता संरचना (VOTER COMPOSITION)</div>
             
             <div class="donut-chart-container" aria-label="Voter gender ratio donut chart">
               <svg class="donut-svg" viewBox="0 0 100 100">
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
+                <!-- Male Segment (51.4% -> 122.7 of 238.76 circumference) -->
                 <circle id="donutMale" class="donut-segment-male" cx="50" cy="50" r="38" stroke-dasharray="122.7 238.76" stroke-dashoffset="0"></circle>
+                <!-- Female Segment (48.6% -> 116.0 of 238.76 circumference) -->
                 <circle id="donutFemale" class="donut-segment-female" cx="50" cy="50" r="38" stroke-dasharray="116.0 238.76" stroke-dashoffset="-122.7"></circle>
               </svg>
               
@@ -104,8 +110,8 @@
               </div>
             </div>
 
-            <!-- Legend -->
-            <div class="donut-legend">
+            <!-- Refined Legend: Only Male & Female -->
+            <div class="donut-legend-2col">
               <div class="legend-item">
                 <div class="legend-header">
                   <span class="legend-dot male"></span>
@@ -122,15 +128,6 @@
                 </div>
                 <div class="legend-count" id="legendFemaleCount">438</div>
                 <div class="legend-pct">48.6%</div>
-              </div>
-
-              <div class="legend-item">
-                <div class="legend-header">
-                  <span class="legend-dot third"></span>
-                  <span>तृतीय लिंग</span>
-                </div>
-                <div class="legend-count">0</div>
-                <div class="legend-pct">0%</div>
               </div>
             </div>
           </div>
@@ -163,9 +160,9 @@
               </div>
             </div>
 
-            <!-- Election Metadata Card -->
+            <!-- Redesigned Election Metadata Panel -->
             <div class="election-info-card">
-              <div class="info-card-header">निर्वाचन विवरण (Election Metadata)</div>
+              <div class="info-card-header">निर्वाचन विवरण (ELECTION METADATA)</div>
               <div class="info-2col-grid">
                 <div class="info-item-box">
                   <span class="info-item-label">विधानसभा क्षेत्र</span>
@@ -173,15 +170,15 @@
                 </div>
                 <div class="info-item-box">
                   <span class="info-item-label">तहसील / जिला</span>
-                  <span class="info-item-value">पिलानी, झुन्झुनू</span>
+                  <span class="info-item-value">पिलानी, झुंझुनू</span>
                 </div>
                 <div class="info-item-box">
                   <span class="info-item-label">पुनरीक्षण वर्ष</span>
-                  <span class="info-item-value">2026 (विशेष संक्षिप्त)</span>
+                  <span class="info-item-value">2026</span>
                 </div>
                 <div class="info-item-box">
                   <span class="info-item-label">प्रकाशन दिनांक</span>
-                  <span class="info-item-value">08-05-2026 (अर्हता 01-01)</span>
+                  <span class="info-item-value">08-05-2026</span>
                 </div>
               </div>
             </div>
@@ -192,28 +189,28 @@
       </section>
 
       <!-- ==========================================
-           3. WARD MAP
+           3. WARD MAP SECTION (CORRECT TITLE & CAPTION)
            ========================================== -->
       <section id="map" class="section-container">
         <div class="section-header-clean">
           <div class="section-eyebrow">मानचित्र</div>
           <h2 class="section-main-title">वार्ड 29 का सीमा नक्शा (Ward Map)</h2>
-          <p class="section-caption">आधिकारिक PDF पृष्ठ 2 से निष्कर्षित आधिकारिक सीमा मानचित्र</p>
+          <p class="section-caption">Ward 29 की प्रस्तावित परिसीमा का मानचित्र।</p>
         </div>
 
         <div class="map-card-preview">
           <div class="map-thumbnail-area" id="mapTriggerBtn" title="फुलस्क्रीन नक्शा देखने हेतु क्लिक करें">
-            <img src="./assets/ward-map.png" alt="Ward 29 Boundary Map Thumbnail" class="map-thumbnail-img" loading="lazy">
+            <img src="./assets/ward-map.png" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-thumbnail-img" loading="lazy">
             <div class="map-overlay-badge">
               <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              <span>फुलस्क्रीन मैप खोलें</span>
+              <span>🔍 Zoom / ⛶ Fullscreen</span>
             </div>
           </div>
 
           <div class="map-preview-footer">
             <div>
-              <div class="map-preview-info-title">वार्ड 29 सीमा परिसीमन नक्शा</div>
-              <div class="map-preview-info-sub">पिलानी, झुन्झुनू (राजस्थान)</div>
+              <div class="map-preview-info-title">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
+              <div class="map-preview-info-sub">पिलानी, झुंझुनू (राजस्थान) • मूल PDF पृष्ठ 2 से निष्कर्षित</div>
             </div>
             <button type="button" class="btn-open-map" id="btnOpenMapAction">
               <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
@@ -243,7 +240,7 @@
 
           <div class="ps-building-address" id="psAddress">
             <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>वार्ड संख्या 29, पिलानी, झुन्झुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन, कमरा नं 1)</span>
+            <span>वार्ड संख्या 29, पिलानी, झुंझुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन, कमरा नं 1)</span>
           </div>
 
           <div class="ps-actions-row">
@@ -311,7 +308,6 @@
             <div class="donut-chart-container" style="width: 170px; height: 170px; margin: 0.5rem auto 1rem;">
               <svg class="donut-svg" viewBox="0 0 100 100">
                 <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
-                <!-- Candidate SVG segments populated dynamically -->
                 <g id="pollDonutSegments"></g>
               </svg>
               <div class="donut-center-content">
@@ -641,7 +637,7 @@
   <!-- 4. Fullscreen Interactive Map Viewer -->
   <div id="mapModalBackdrop" class="map-modal-backdrop" role="dialog" aria-modal="true" aria-label="Interactive Ward Map">
     <div class="map-modal-header">
-      <div class="map-modal-title">वार्ड 29 सीमा परिसीमन नक्शा (Pilani)</div>
+      <div class="map-modal-title">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
       <div class="map-modal-controls">
         <button type="button" class="map-action-btn" id="zoomInBtn" title="Zoom In">➕</button>
         <button type="button" class="map-action-btn" id="zoomOutBtn" title="Zoom Out">➖</button>
@@ -650,7 +646,7 @@
       </div>
     </div>
     <div class="map-modal-viewport" id="mapModalViewport">
-      <img src="./assets/ward-map.png" alt="Ward 29 Full Map" class="map-modal-img" id="mapModalImg">
+      <img src="./assets/ward-map.png" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-modal-img" id="mapModalImg">
     </div>
   </div>
 
@@ -681,7 +677,7 @@
     </a>
   </nav>
 
-  <!-- Site Footer -->
+  <!-- Site Footer (Cleaned: No public GitHub link) -->
   <footer class="site-footer-modern">
     <div class="container">
       <div class="footer-inner-grid">
@@ -700,10 +696,9 @@
           </ul>
         </div>
         <div>
-          <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Document</div>
+          <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Documents</div>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
             <li><a href="./input/WardNo29.pdf" target="_blank" rel="noopener">Official PDF</a></li>
-            <li><a href="https://github.com/amitsheoran/ward29" target="_blank" rel="noopener">GitHub Repository</a></li>
           </ul>
         </div>
       </div>

@@ -6,10 +6,10 @@
 (function () {
   'use strict';
 
-  // Supabase Configuration (Replace with production credentials when connecting live Supabase instance)
+  // Supabase Configuration (Client-side publishable configuration)
   const SUPABASE_CONFIG = {
-    url: window.SUPABASE_URL || 'https://xyzcompany.supabase.co',
-    anonKey: window.SUPABASE_ANON_KEY || 'public-anon-key'
+    url: window.SUPABASE_URL || 'https://cjkskasxnzgzkxfksexm.supabase.co',
+    anonKey: window.SUPABASE_ANON_KEY || ''
   };
 
   // 5 Candidates Data (Single Source of Truth)
@@ -222,15 +222,14 @@
     window.requestAnimationFrame(step);
   }
 
-  // Render Dashboard Visualizations
+  // Render Dashboard Visualizations (Male & Female 2-segment donut)
   function renderDashboardVisuals() {
     if (!state.ward || !state.voters.length) return;
     const stats = state.ward.statistics.totalVoters;
-    const total = stats.total;
-    const male = stats.male;
-    const female = stats.female;
+    const total = stats.total; // Exactly 901
+    const male = stats.male;   // 463
+    const female = stats.female; // 438
 
-    animateValue(document.getElementById('quickFactTotal'), 0, total, 800);
     animateValue(document.getElementById('donutTotalCount'), 0, total, 800);
     animateValue(document.getElementById('statTotal'), 0, total, 800);
     animateValue(document.getElementById('statMale'), 0, male, 800);
@@ -238,7 +237,7 @@
     animateValue(document.getElementById('legendMaleCount'), 0, male, 800);
     animateValue(document.getElementById('legendFemaleCount'), 0, female, 800);
 
-    const C = 2 * Math.PI * 38;
+    const C = 2 * Math.PI * 38; // ~238.76
     const maleArc = (male / total) * C;
     const femaleArc = (female / total) * C;
 
@@ -451,15 +450,16 @@
     const sessionId = getOrCreateSessionId();
 
     try {
-      // 1. Submit to Supabase if configured
-      if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.url !== 'https://xyzcompany.supabase.co') {
-        const { data, error } = await window.supabase
+      // 1. Submit to Supabase if publishable anon key is configured
+      if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
+        const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+        const { error } = await supabaseClient
           .from('votes')
           .insert([{ candidate_id: candidate.id, session_id: sessionId }]);
         
         if (error) {
-          console.warn('Supabase vote submission error:', error);
-          if (error.code === '23505') { // Unique constraint violation
+          console.warn('Supabase vote submission note:', error);
+          if (error.code === '23505') {
             showToast('You have already voted from this session.');
             state.poll.hasVoted = true;
             renderCandidateCards();
@@ -511,8 +511,8 @@
       };
     }
 
-    // Live Supabase Realtime Subscription
-    if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.url !== 'https://xyzcompany.supabase.co') {
+    // Live Supabase Realtime Subscription if configured
+    if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
       try {
         const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
         supabaseClient
