@@ -31,132 +31,192 @@
       <!-- ==========================================
            1. HOME SCREEN (#overview)
            ========================================== -->
-      <section id="overview" class="app-hero-container">
-        
-        <!-- Hero App Card -->
-        <div class="hero-app-card">
-          <div class="hero-glow-blob"></div>
+      <section id="overview" class="dash-home" aria-label="Ward 29 Home Dashboard">
 
-          <!-- Hero Top Bar -->
-          <div class="hero-top-row">
-            <div class="hero-identity-group">
-              <div class="hero-ward-badge">29</div>
-              <div class="hero-identity-text">
-                <span class="hero-identity-title">Ward 29 - Pilani</span>
-                <span class="hero-identity-sub">नगर पालिका निर्वाचन नामावली - 2026</span>
-              </div>
-            </div>
-
-            <div class="hero-actions-group">
-              <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="btn-hero-pdf-action" title="मूल आधिकारिक PDF देखें">
-                <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                <span>मूल PDF</span>
-              </a>
-              <button type="button" class="btn-hero-share-action" id="heroShareBtn" title="Share Ward 29 App">
-                <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                <span>Share</span>
-              </button>
+        <article class="dash-hero">
+          <div class="dash-hero-glow" aria-hidden="true"></div>
+          <div class="dash-hero-identity">
+            <div class="dash-ward-mark" aria-hidden="true">29</div>
+            <div class="dash-hero-copy">
+              <h1 class="dash-hero-title">Ward 29 - Pilani</h1>
+              <p class="dash-hero-kicker hindi" lang="hi">नगर पालिका निर्वाचन नामावली - 2026</p>
             </div>
           </div>
-
-          <!-- Hero Dominant Metric -->
-          <div class="hero-giant-stat-box">
-            <div class="hero-giant-number" id="heroGiantTotal">901</div>
-            <div class="hero-giant-label">TOTAL REGISTERED VOTERS</div>
-            <div class="hero-meta-tagline">Pilani • Rajasthan • 2026</div>
+          <div class="dash-hero-metric">
+            <p class="dash-hero-number" id="heroGiantTotal">901</p>
+            <p class="dash-hero-caption">Registered voters</p>
+            <p class="dash-hero-place">Pilani, Rajasthan</p>
           </div>
-
-        </div>
-
-      </section>
-
-      <!-- Key Insights Metric Grid -->
-      <section style="margin-bottom: 0.75rem;" aria-label="Ward Statistics Summary">
-
-        <!-- Gender Split Bar (compact inline) -->
-        <div class="gender-split-bar" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 0.875rem 1rem; box-shadow: var(--shadow-sm); margin-bottom: 0.75rem;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <div style="width: 32px; height: 32px; background: var(--blue-100); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-                <svg class="icon-svg" style="width: 16px; height: 16px; color: var(--blue-700);" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-              </div>
-              <div>
-                <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary);">VOTER COMPOSITION</div>
-              </div>
-            </div>
-            <div style="font-size: 1.5rem; font-weight: 900; color: var(--navy-900); letter-spacing: -0.03em;" id="glanceTotal">901</div>
+          <div class="dash-hero-actions">
+            <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="dash-btn dash-btn-ghost">
+              <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>PDF</span>
+            </a>
+            <button type="button" class="dash-btn dash-btn-solid" id="heroShareBtn">
+              <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              <span>Share</span>
+            </button>
           </div>
-          
-          <!-- Visual Gender Bar -->
-          <div style="display: flex; height: 8px; border-radius: var(--radius-full); overflow: hidden; gap: 2px; margin-bottom: 0.625rem;">
-            <div style="flex: 463; background: var(--male-color); border-radius: var(--radius-full) 0 0 var(--radius-full);"></div>
-            <div style="flex: 438; background: var(--female-color); border-radius: 0 var(--radius-full) var(--radius-full) 0;"></div>
-          </div>
+        </article>
 
-          <div style="display: flex; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 0.35rem;">
-              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--male-color); flex-shrink: 0;"></span>
-              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">पुरुष (Male)</span>
-              <span style="font-size: 0.875rem; font-weight: 900; color: var(--navy-900);" id="glanceMale">463</span>
-              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">51.4%</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.35rem;">
-              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--female-color); flex-shrink: 0;"></span>
-              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">महिला (Female)</span>
-              <span style="font-size: 0.875rem; font-weight: 900; color: var(--navy-900);" id="glanceFemale">438</span>
-              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">48.6%</span>
-            </div>
+        <div class="dash-qs" aria-label="Quick stats">
+          <div class="dash-qs-card">
+            <span class="dash-qs-icon" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </span>
+            <span class="dash-qs-value" id="glanceTotal">901</span>
+            <span class="dash-qs-label hindi" lang="hi">कुल मतदाता</span>
+            <span class="dash-qs-en">Total</span>
+          </div>
+          <div class="dash-qs-card is-male">
+            <span class="dash-qs-icon" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="10" cy="14" r="5"></circle><path d="M19 5l-5.5 5.5"></path><path d="M15 5h4v4"></path></svg>
+            </span>
+            <span class="dash-qs-value" id="glanceMale">463</span>
+            <span class="dash-qs-label hindi" lang="hi">पुरुष</span>
+            <span class="dash-qs-en" id="glanceMalePct">51.4%</span>
+          </div>
+          <div class="dash-qs-card is-female">
+            <span class="dash-qs-icon" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"></circle><path d="M12 13v8"></path><path d="M9 18h6"></path></svg>
+            </span>
+            <span class="dash-qs-value" id="glanceFemale">438</span>
+            <span class="dash-qs-label hindi" lang="hi">महिला</span>
+            <span class="dash-qs-en" id="glanceFemalePct">48.6%</span>
+          </div>
+          <div class="dash-qs-card">
+            <span class="dash-qs-icon" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </span>
+            <span class="dash-qs-value" id="dashAvgAge">44.9</span>
+            <span class="dash-qs-label hindi" lang="hi">औसत आयु</span>
+            <span class="dash-qs-en">Avg age</span>
           </div>
         </div>
 
-        <!-- 4 Compact Metric Cards -->
-        <div class="at-a-glance-grid">
-          
-          <div class="glance-card" style="border-left: 3px solid var(--accent-cyan);">
-            <div class="glance-card-top">
-              <div style="width: 28px; height: 28px; background: #ecfeff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-cyan);" viewBox="0 0 24 24"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path></svg>
+        <div class="dash-desktop-split">
+          <article class="dash-card dash-compose" aria-labelledby="composeTitle">
+            <header class="dash-card-head">
+              <h2 id="composeTitle" class="dash-card-title">मतदाता संरचना</h2>
+              <p class="dash-card-sub">Voter composition</p>
+            </header>
+            <div class="dash-donut-wrap">
+              <svg class="dash-donut-svg" viewBox="0 0 100 100" role="img" aria-labelledby="donutSummary">
+                <title id="donutSummary">463 male and 438 female registered voters</title>
+                <circle class="dash-donut-track" cx="50" cy="50" r="38"></circle>
+                <circle id="donutMale" class="dash-donut-male" cx="50" cy="50" r="38" stroke-dasharray="122.7 238.76" stroke-dashoffset="0"></circle>
+                <circle id="donutFemale" class="dash-donut-female" cx="50" cy="50" r="38" stroke-dasharray="116.0 238.76" stroke-dashoffset="-122.7"></circle>
+              </svg>
+              <div class="dash-donut-center">
+                <span id="donutTotalCount">901</span>
+                <small>Total</small>
               </div>
-              <span class="glance-card-val">44.9</span>
             </div>
-            <div class="glance-card-lbl-hi">औसत आयु</div>
-            <div class="glance-card-lbl-en">AVG AGE (YRS)</div>
-          </div>
-
-          <div class="glance-card" style="border-left: 3px solid var(--accent-purple);">
-            <div class="glance-card-top">
-              <div style="width: 28px; height: 28px; background: #f5f3ff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-purple);" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <div class="dash-legend">
+              <div class="dash-legend-row">
+                <span class="dash-swatch is-male"></span>
+                <span class="dash-legend-name">Male</span>
+                <span class="dash-legend-count" id="legendMaleCount">463</span>
+                <span class="dash-legend-pct" id="legendMalePct">51.4%</span>
               </div>
-              <span class="glance-card-val">41</span>
-            </div>
-            <div class="glance-card-lbl-hi">मध्यिका आयु</div>
-            <div class="glance-card-lbl-en">MEDIAN AGE (YRS)</div>
-          </div>
-
-          <div class="glance-card" style="border-left: 3px solid var(--accent-amber);">
-            <div class="glance-card-top">
-              <div style="width: 28px; height: 28px; background: #fffbeb; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-amber);" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <div class="dash-legend-row">
+                <span class="dash-swatch is-female"></span>
+                <span class="dash-legend-name">Female</span>
+                <span class="dash-legend-count" id="legendFemaleCount">438</span>
+                <span class="dash-legend-pct" id="legendFemalePct">48.6%</span>
               </div>
-              <span class="glance-card-val">214</span>
             </div>
-            <div class="glance-card-lbl-hi">वरिष्ठ नागरिक</div>
-            <div class="glance-card-lbl-en">AGE 60+ (23.8%)</div>
-          </div>
+          </article>
 
-          <div class="glance-card" style="border-left: 3px solid var(--accent-emerald);">
-            <div class="glance-card-top">
-              <div style="width: 28px; height: 28px; background: #ecfdf5; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-emerald);" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <article class="dash-card dash-insights" aria-labelledby="insightsTitle">
+            <header class="dash-card-head">
+              <h2 id="insightsTitle" class="dash-card-title">मुख्य अंतर्दृष्टि</h2>
+              <p class="dash-card-sub">Key insights</p>
+            </header>
+            <div class="dash-insight-grid">
+              <div class="dash-insight">
+                <p class="dash-insight-value" id="dashSeniorCount">214</p>
+                <p class="dash-insight-label">Age 60+</p>
+                <p class="dash-insight-meta" id="dashSeniorPct">23.8% of voters</p>
               </div>
-              <span class="glance-card-val">257</span>
+              <div class="dash-insight">
+                <p class="dash-insight-value" id="dashHouseCount">257</p>
+                <p class="dash-insight-label">Unique houses</p>
+                <p class="dash-insight-meta">Registered households</p>
+              </div>
+              <div class="dash-insight">
+                <p class="dash-insight-value" id="dashMedianAge">41</p>
+                <p class="dash-insight-label">Median age</p>
+                <p class="dash-insight-meta">Years</p>
+              </div>
+              <div class="dash-insight">
+                <p class="dash-insight-value" id="dashAvgAgeInsight">44.9</p>
+                <p class="dash-insight-label">Average age</p>
+                <p class="dash-insight-meta">Years</p>
+              </div>
             </div>
-            <div class="glance-card-lbl-hi">पंजीकृत मकान</div>
-            <div class="glance-card-lbl-en">UNIQUE HOUSES</div>
-          </div>
-
+          </article>
         </div>
+
+        <article class="dash-card dash-age" aria-labelledby="ageTitle">
+          <header class="dash-card-head">
+            <div>
+              <h2 id="ageTitle" class="dash-card-title">आयु वर्ग वितरण</h2>
+              <p class="dash-card-sub">Age distribution - tap a bar to view voters</p>
+            </div>
+          </header>
+          <div class="dash-age-chips" id="dashAgeChips" role="tablist" aria-label="Age group filter">
+            <button type="button" class="dash-chip is-on" data-age-chip="all">All</button>
+            <button type="button" class="dash-chip" data-age-chip="18-25">18-25</button>
+            <button type="button" class="dash-chip" data-age-chip="26-35">26-35</button>
+            <button type="button" class="dash-chip" data-age-chip="36-45">36-45</button>
+            <button type="button" class="dash-chip" data-age-chip="46-60">46-60</button>
+            <button type="button" class="dash-chip" data-age-chip="61+">61+</button>
+          </div>
+          <div class="age-bars-container" id="ageBarsList"></div>
+        </article>
+
+        <div class="dash-desktop-split dash-desktop-split-late">
+          <article class="dash-card dash-poll" aria-labelledby="pollPreviewTitle">
+            <header class="dash-card-head">
+              <h2 id="pollPreviewTitle" class="dash-card-title">Live community poll</h2>
+              <p class="dash-card-sub hindi" lang="hi">लाइव सामुदायिक मतदान</p>
+            </header>
+            <p class="dash-poll-kicker">Current leader</p>
+            <p class="dash-poll-leader" id="dashPollLeader">Waiting for votes</p>
+            <p class="dash-poll-score"><span id="dashPollVotes">0</span> votes · <span id="dashPollPct">0%</span></p>
+            <p class="dash-poll-total">Total votes: <strong id="dashPollTotal">0</strong></p>
+            <a href="#candidates" class="dash-link-btn">View live results</a>
+          </article>
+
+          <article class="dash-card dash-map" aria-labelledby="mapPreviewTitle">
+            <header class="dash-card-head">
+              <h2 id="mapPreviewTitle" class="dash-card-title hindi" lang="hi">वार्ड 29 का सीमा नक्शा</h2>
+              <p class="dash-card-sub">Ward map</p>
+            </header>
+            <button type="button" class="dash-map-preview js-open-map" id="mapTriggerBtn" aria-label="Open full ward map">
+              <img src="./data/Map.jpeg" alt="Ward 29 boundary map, Pilani" class="dash-map-img" width="800" height="600">
+            </button>
+            <button type="button" class="dash-link-btn js-open-map" id="btnOpenMapAction">View full map</button>
+          </article>
+        </div>
+
+        <article class="dash-card dash-community">
+          <div class="dash-wa-row">
+            <div>
+              <h2 class="dash-card-title">Ward 29 Community</h2>
+              <p class="dash-card-sub">Stay connected with Ward 29 residents.</p>
+            </div>
+            <a class="dash-wa-btn" href="https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb" target="_blank" rel="noopener noreferrer">Join WhatsApp Community</a>
+          </div>
+        </article>
+
+        <article class="dash-card dash-share">
+          <h2 class="dash-card-title">Share Ward 29 App</h2>
+          <p class="dash-card-sub">Send this civic app to family and neighbours.</p>
+          <button type="button" class="dash-link-btn" id="dashShareBtn">Share app</button>
+        </article>
+
       </section>
 
       <!-- ==========================================
@@ -167,132 +227,6 @@
           <div class="section-eyebrow">सांख्यिकी एवं विश्लेषण</div>
           <h2 class="section-main-title">वार्ड 29 जनसांख्यिकी (Demographics)</h2>
           <p class="section-caption">मतदाता संरचना, आयु वर्ग वितरण एवं डेटा विश्लेषण</p>
-        </div>
-
-        <div class="charts-duo-grid">
-          
-          <!-- Chart 1: 2-Segment Donut -->
-          <div class="app-card">
-            <div class="app-card-header">
-              <div class="app-card-title">
-                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10h-10z"></path></svg>
-                <span>मतदाता संरचना (Voter Composition)</span>
-              </div>
-            </div>
-
-            <div class="donut-chart-container" aria-label="Voter gender ratio donut chart">
-              <svg class="donut-svg" viewBox="0 0 100 100">
-                <circle class="donut-ring-bg" cx="50" cy="50" r="38"></circle>
-                <circle id="donutMale" class="donut-segment-male" cx="50" cy="50" r="38" stroke-dasharray="122.7 238.76" stroke-dashoffset="0"></circle>
-                <circle id="donutFemale" class="donut-segment-female" cx="50" cy="50" r="38" stroke-dasharray="116.0 238.76" stroke-dashoffset="-122.7"></circle>
-              </svg>
-              
-              <div class="donut-center-content">
-                <div class="donut-center-total" id="donutTotalCount">901</div>
-                <div class="donut-center-label">Total Voters</div>
-              </div>
-            </div>
-
-            <!-- Legend: Male & Female Only -->
-            <div class="donut-legend-2col">
-              <div class="legend-item">
-                <div class="legend-header">
-                  <span class="legend-dot male"></span>
-                  <span>पुरुष (Male)</span>
-                </div>
-                <div class="legend-count" id="legendMaleCount">463</div>
-                <div class="legend-pct">51.4%</div>
-              </div>
-
-              <div class="legend-item">
-                <div class="legend-header">
-                  <span class="legend-dot female"></span>
-                  <span>महिला (Female)</span>
-                </div>
-                <div class="legend-count" id="legendFemaleCount">438</div>
-                <div class="legend-pct">48.6%</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Chart 2: Interactive Age Distribution Horizontal Bars -->
-          <div class="app-card">
-            <div class="app-card-header">
-              <div class="app-card-title">
-                <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                <span>आयु वर्ग वितरण (Age Distribution)</span>
-              </div>
-              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 700;">Tap bar to filter</span>
-            </div>
-
-            <div class="age-bars-container" id="ageBarsList">
-              
-              <div class="age-bar-row" data-age-filter="18-25" title="Filter voters aged 18-25">
-                <div class="age-bar-top">
-                  <span class="age-bracket-name">18-25 वर्ष (Young Voters)</span>
-                  <div class="age-count-info">
-                    <span>100</span> <span class="age-pct-text">(11.1%)</span>
-                  </div>
-                </div>
-                <div class="age-progress-track">
-                  <div class="age-progress-fill" style="width: 40.3%; background: #38bdf8;"></div>
-                </div>
-              </div>
-
-              <div class="age-bar-row" data-age-filter="26-35" title="Filter voters aged 26-35">
-                <div class="age-bar-top">
-                  <span class="age-bracket-name">
-                    <span>26-35 वर्ष</span>
-                    <span class="largest-group-tag">★ Largest Group</span>
-                  </span>
-                  <div class="age-count-info">
-                    <span>248</span> <span class="age-pct-text">(27.5%)</span>
-                  </div>
-                </div>
-                <div class="age-progress-track">
-                  <div class="age-progress-fill" style="width: 100%; background: #2563eb;"></div>
-                </div>
-              </div>
-
-              <div class="age-bar-row" data-age-filter="36-45" title="Filter voters aged 36-45">
-                <div class="age-bar-top">
-                  <span class="age-bracket-name">36-45 वर्ष</span>
-                  <div class="age-count-info">
-                    <span>141</span> <span class="age-pct-text">(15.6%)</span>
-                  </div>
-                </div>
-                <div class="age-progress-track">
-                  <div class="age-progress-fill" style="width: 56.8%; background: #8b5cf6;"></div>
-                </div>
-              </div>
-
-              <div class="age-bar-row" data-age-filter="46-60" title="Filter voters aged 46-60">
-                <div class="age-bar-top">
-                  <span class="age-bracket-name">46-60 वर्ष (Middle Age)</span>
-                  <div class="age-count-info">
-                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
-                  </div>
-                </div>
-                <div class="age-progress-track">
-                  <div class="age-progress-fill" style="width: 83.0%; background: #f59e0b;"></div>
-                </div>
-              </div>
-
-              <div class="age-bar-row" data-age-filter="61+" title="Filter voters aged 61+">
-                <div class="age-bar-top">
-                  <span class="age-bracket-name">61+ वर्ष (Senior Citizens)</span>
-                  <div class="age-count-info">
-                    <span>206</span> <span class="age-pct-text">(22.9%)</span>
-                  </div>
-                </div>
-                <div class="age-progress-track">
-                  <div class="age-progress-fill" style="width: 83.0%; background: #ec4899;"></div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
         </div>
 
         <!-- Ward Demographic Insights -->
@@ -551,8 +485,8 @@
 
         <!-- Ward Map Preview Card -->
         <div class="map-card-preview" style="margin-bottom: 1.25rem;">
-          <div class="map-thumbnail-area" id="mapTriggerBtn" title="फुलस्क्रीन नक्शा देखने हेतु क्लिक करें">
-            <img src="./assets/ward-map.jpg" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-thumbnail-img" loading="lazy">
+          <div class="map-thumbnail-area js-open-map" id="mapTriggerCommunity" title="Open the full ward map">
+            <img src="./data/Map.jpeg" alt="Ward 29 boundary map, Pilani" class="map-thumbnail-img" loading="lazy">
             <div class="map-overlay-badge">
               <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
               <span>🔍 Zoom / ⛶ Fullscreen</span>
@@ -564,7 +498,7 @@
               <div class="map-preview-info-title">वार्ड 29 का सीमा नक्शा (Ward Map)</div>
               <div class="map-preview-info-sub">पिलानी, झुंझुनू (राजस्थान)</div>
             </div>
-            <button type="button" class="btn-open-map" id="btnOpenMapAction">
+            <button type="button" class="btn-open-map js-open-map" id="btnOpenMapCommunity">
               <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
               <span>View Full Map -></span>
             </button>
@@ -841,7 +775,7 @@
       </div>
     </div>
     <div class="map-modal-viewport" id="mapModalViewport">
-      <img src="./assets/ward-map.jpg" alt="वार्ड 29 का सीमा नक्शा (Ward Map)" class="map-modal-img" id="mapModalImg">
+      <img src="./data/Map.jpeg" alt="Ward 29 boundary map, Pilani" class="map-modal-img" id="mapModalImg">
     </div>
   </div>
 

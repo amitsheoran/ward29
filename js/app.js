@@ -226,27 +226,164 @@
   }
 
   // --- 7. DASHBOARD VISUALS RENDERING ---
+  function getCanonicalDemographics() {
+    const published = {
+      total: Number(state.stats && state.stats.totalVoters) || 901,
+      male: Number(state.stats && state.stats.maleVoters) || 463,
+      female: Number(state.stats && state.stats.femaleVoters) || 438
+    };
+
+    if (!state.voters.length) return published;
+
+    let male = 0;
+    let female = 0;
+    state.voters.forEach((v) => {
+      if (v.gender === 'पुरुष') male += 1;
+      else if (v.gender === 'महिला') female += 1;
+    });
+
+    const rosterTotal = male + female;
+    if (rosterTotal === state.voters.length && rosterTotal === published.total) {
+      return { total: rosterTotal, male, female };
+    }
+    return published;
+  }
+
   function renderDashboardVisuals() {
-    const total = 901;
-    const male = 463;
-    const female = 438;
+    const demo = getCanonicalDemographics();
+    const stats = state.stats || {};
+    const malePct = demo.total ? ((demo.male / demo.total) * 100).toFixed(1) : '0.0';
+    const femalePct = demo.total ? ((demo.female / demo.total) * 100).toFixed(1) : '0.0';
 
-    animateValue(document.getElementById('heroGiantTotal'), 0, total, 900);
-    animateValue(document.getElementById('glanceTotal'), 0, total, 800);
-    animateValue(document.getElementById('glanceMale'), 0, male, 800);
-    animateValue(document.getElementById('glanceFemale'), 0, female, 800);
-    animateValue(document.getElementById('donutTotalCount'), 0, total, 800);
-    animateValue(document.getElementById('legendMaleCount'), 0, male, 800);
-    animateValue(document.getElementById('legendFemaleCount'), 0, female, 800);
+    animateValue(document.getElementById('heroGiantTotal'), 0, demo.total, 900);
+    animateValue(document.getElementById('glanceTotal'), 0, demo.total, 800);
+    animateValue(document.getElementById('glanceMale'), 0, demo.male, 800);
+    animateValue(document.getElementById('glanceFemale'), 0, demo.female, 800);
+    animateValue(document.getElementById('donutTotalCount'), 0, demo.total, 800);
+    animateValue(document.getElementById('legendMaleCount'), 0, demo.male, 800);
+    animateValue(document.getElementById('legendFemaleCount'), 0, demo.female, 800);
 
-    // Interactive Age Bar Click Handling
-    const ageBars = document.querySelectorAll('.age-bar-row');
-    ageBars.forEach(bar => {
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    setText('glanceMalePct', malePct + '%');
+    setText('glanceFemalePct', femalePct + '%');
+    setText('legendMalePct', malePct + '%');
+    setText('legendFemalePct', femalePct + '%');
+    setText('dashAvgAge', stats.averageAge != null ? String(stats.averageAge) : '44.9');
+    setText('dashAvgAgeInsight', stats.averageAge != null ? String(stats.averageAge) : '44.9');
+    setText('dashMedianAge', stats.medianAge != null ? String(stats.medianAge) : '41');
+    setText('dashHouseCount', stats.uniqueHouses != null ? String(stats.uniqueHouses) : '257');
+    setText('dashSeniorCount', stats.seniorCitizens != null ? String(stats.seniorCitizens) : '214');
+    setText('dashSeniorPct', (stats.seniorPercentage != null ? stats.seniorPercentage : 23.8) + '% of voters');
+
+    const donutTitle = document.getElementById('donutSummary');
+    if (donutTitle) {
+      donutTitle.textContent = demo.male + ' male and ' + demo.female + ' female registered voters';
+    }
+
+    renderHomeDonut(demo);
+    renderHomeAgeBars(stats);
+    bindDashboardAgeControls();
+    renderHomePollPreview();
+  }
+
+  function renderHomeDonut(demo) {
+    const maleEl = document.getElementById('donutMale');
+    const femaleEl = document.getElementById('donutFemale');
+    if (!maleEl || !femaleEl || !demo.total) return;
+
+    const circumference = 2 * Math.PI * 38;
+    const maleLen = (demo.male / demo.total) * circumference;
+    const femaleLen = (demo.female / demo.total) * circumference;
+    maleEl.style.strokeDasharray = maleLen + ' ' + circumference;
+    maleEl.style.strokeDashoffset = '0';
+    femaleEl.style.strokeDasharray = femaleLen + ' ' + circumference;
+    femaleEl.style.strokeDashoffset = String(-maleLen);
+  }
+
+  function renderHomeAgeBars(stats) {
+    const list = document.getElementById('ageBarsList');
+    if (!list) return;
+
+    const groups = (stats && stats.ageGroups) || {
+      '18-25': { count: 100, percentage: 11.1 },
+      '26-35': { count: 248, percentage: 27.5 },
+      '36-45': { count: 141, percentage: 15.6 },
+      '46-60': { count: 206, percentage: 22.9 },
+      '61+': { count: 206, percentage: 22.9 }
+    };
+
+    const colors = {
+      '18-25': '#38bdf8',
+      '26-35': '#2563eb',
+      '36-45': '#8b5cf6',
+      '46-60': '#f59e0b',
+      '61+': '#ec4899'
+    };
+
+    const labels = {
+      '18-25': '18-25 years',
+      '26-35': '26-35 years',
+      '36-45': '36-45 years',
+      '46-60': '46-60 years',
+      '61+': '61+ years'
+    };
+
+    const maxCount = Math.max.apply(null, Object.keys(groups).map((key) => groups[key].count || 0)) || 1;
+    const keys = ['18-25', '26-35', '36-45', '46-60', '61+'];
+
+    list.innerHTML = keys.map((key) => {
+      const item = groups[key] || { count: 0, percentage: 0 };
+      const width = ((item.count / maxCount) * 100).toFixed(1);
+      const largest = item.count === maxCount ? '<span class="largest-group-tag">Largest</span>' : '';
+      return (
+        '<button type="button" class="age-bar-row" data-age-filter="' + key + '">' +
+          '<div class="age-bar-top">' +
+            '<span class="age-bracket-name">' + labels[key] + ' ' + largest + '</span>' +
+            '<div class="age-count-info"><span>' + item.count + '</span> <span class="age-pct-text">(' + item.percentage + '%)</span></div>' +
+          '</div>' +
+          '<div class="age-progress-track"><div class="age-progress-fill" style="width:' + width + '%;background:' + colors[key] + ';"></div></div>' +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function bindDashboardAgeControls() {
+    document.querySelectorAll('.age-bar-row').forEach((bar) => {
       bar.addEventListener('click', () => {
         const ageVal = bar.getAttribute('data-age-filter');
         selectAgeFilter(ageVal);
       });
     });
+
+    document.querySelectorAll('.dash-chip').forEach((chip) => {
+      if (chip.dataset.dashBound === '1') return;
+      chip.dataset.dashBound = '1';
+      chip.addEventListener('click', () => {
+        selectAgeFilter(chip.getAttribute('data-age-chip'));
+      });
+    });
+  }
+
+  function renderHomePollPreview() {
+    const leaderEl = document.getElementById('dashPollLeader');
+    if (!leaderEl) return;
+
+    const sorted = CANDIDATES.slice().sort((a, b) => (state.poll.votes[b.id] || 0) - (state.poll.votes[a.id] || 0));
+    const leader = sorted[0];
+    const votes = leader ? (state.poll.votes[leader.id] || 0) : 0;
+    const pct = state.poll.totalVotes > 0 ? ((votes / state.poll.totalVotes) * 100).toFixed(1) : '0.0';
+
+    leaderEl.textContent = votes > 0 ? leader.name : 'Waiting for votes';
+    const votesEl = document.getElementById('dashPollVotes');
+    const pctEl = document.getElementById('dashPollPct');
+    const totalEl = document.getElementById('dashPollTotal');
+    if (votesEl) votesEl.textContent = String(votes);
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (totalEl) totalEl.textContent = String(state.poll.totalVotes || 0);
   }
 
   function animateValue(element, start, end, duration) {
@@ -444,6 +581,7 @@
 
     if (totalElem) totalElem.textContent = state.poll.totalVotes;
     if (centerTotal) centerTotal.textContent = state.poll.totalVotes;
+    renderHomePollPreview();
 
     if (!leaderboard) return;
 
@@ -595,19 +733,16 @@
   }
 
   function syncAgeChipsState(activeAge) {
-    const ageChips = document.querySelectorAll('.age-filter-chip');
-    ageChips.forEach(c => {
-      const chipVal = c.getAttribute('data-age-chip');
-      if (chipVal === activeAge) c.classList.add('active');
-      else c.classList.remove('active');
+    document.querySelectorAll('.age-filter-chip, .dash-chip').forEach((chip) => {
+      const chipVal = chip.getAttribute('data-age-chip');
+      const on = chipVal === activeAge;
+      chip.classList.toggle('active', on);
+      chip.classList.toggle('is-on', on);
     });
 
-    // Sync interactive age bars on stats screen
-    const ageBars = document.querySelectorAll('.age-bar-row');
-    ageBars.forEach(b => {
-      const barVal = b.getAttribute('data-age-filter');
-      if (barVal === activeAge) b.classList.add('active');
-      else b.classList.remove('active');
+    document.querySelectorAll('.age-bar-row').forEach((bar) => {
+      const barVal = bar.getAttribute('data-age-filter');
+      bar.classList.toggle('active', barVal === activeAge);
     });
   }
 
@@ -1013,9 +1148,63 @@
       }
     }
 
-    if (mapTrigger) mapTrigger.addEventListener('click', openMapModal);
-    if (openMapAction) openMapAction.addEventListener('click', openMapModal);
+    document.querySelectorAll('.js-open-map').forEach((el) => {
+      el.addEventListener('click', openMapModal);
+    });
     if (closeBtn) closeBtn.addEventListener('click', closeMapModal);
+
+    const viewport = document.getElementById('mapModalViewport');
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let pinchStart = 0;
+    let zoomStart = 1;
+
+    if (viewport) {
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        dragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        viewport.setPointerCapture(e.pointerId);
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (!dragging || (e.pointerType !== 'mouse' && e.pointerType !== 'pen' && e.pointerType !== 'touch')) return;
+        if (e.isPrimary === false) return;
+        state.mapPan.x += e.clientX - lastX;
+        state.mapPan.y += e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        updateMapTransform();
+      });
+      viewport.addEventListener('pointerup', () => { dragging = false; });
+      viewport.addEventListener('pointercancel', () => { dragging = false; });
+      viewport.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const next = e.deltaY < 0 ? 0.12 : -0.12;
+        state.mapZoom = Math.min(4, Math.max(0.75, state.mapZoom + next));
+        updateMapTransform();
+      }, { passive: false });
+      viewport.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          dragging = false;
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          pinchStart = Math.hypot(dx, dy);
+          zoomStart = state.mapZoom;
+        }
+      }, { passive: true });
+      viewport.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && pinchStart) {
+          e.preventDefault();
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          const dist = Math.hypot(dx, dy);
+          state.mapZoom = Math.min(4, Math.max(0.75, zoomStart * (dist / pinchStart)));
+          updateMapTransform();
+        }
+      }, { passive: false });
+    }
 
     if (zoomIn) {
       zoomIn.addEventListener('click', () => {
@@ -1042,6 +1231,7 @@
   function setupShareFeatures() {
     const heroShareBtn = document.getElementById('heroShareBtn');
     const bottomShareBtn = document.getElementById('bottomShareBtn');
+    const dashShareBtn = document.getElementById('dashShareBtn');
     const shareModal = document.getElementById('shareModalBackdrop');
     const shareClose = document.getElementById('shareModalCloseBtn');
     const shareCloseAction = document.getElementById('shareCloseBtn');
@@ -1081,6 +1271,7 @@
 
     if (heroShareBtn) heroShareBtn.addEventListener('click', triggerShare);
     if (bottomShareBtn) bottomShareBtn.addEventListener('click', triggerShare);
+    if (dashShareBtn) dashShareBtn.addEventListener('click', triggerShare);
     if (shareClose) shareClose.addEventListener('click', () => shareModal.classList.remove('open'));
     if (shareCloseAction) shareCloseAction.addEventListener('click', () => shareModal.classList.remove('open'));
     if (shareModal) {
