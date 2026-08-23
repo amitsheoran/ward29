@@ -1,12 +1,12 @@
 /**
- * Ward 29 Pilani - Electoral Information System
- * Production-Quality Vanilla JavaScript Application
+ * Ward 29 Pilani — Electoral Information System
+ * Senior UI/UX Application Engine
  */
 
 (function () {
   'use strict';
 
-  // State Management
+  // Application State
   const state = {
     ward: null,
     voters: [],
@@ -33,7 +33,7 @@
     }
   };
 
-  // DOM Element Selectors
+  // DOM Elements
   const elements = {
     // Search & Filter
     searchInput: document.getElementById('voterSearchInput'),
@@ -42,9 +42,8 @@
     filterBadgeCount: document.getElementById('filterBadgeCount'),
     resultsCount: document.getElementById('resultsCount'),
     activeFilterChips: document.getElementById('activeFilterChips'),
-    dashFilterChips: document.querySelectorAll('.dash-filter-chip'),
     
-    // Voter Render Containers
+    // Voter List Containers
     votersGrid: document.getElementById('votersGrid'),
     votersTableBody: document.getElementById('votersTableBody'),
     emptyState: document.getElementById('emptyState'),
@@ -57,10 +56,9 @@
     nextPageBtn: document.getElementById('nextPageBtn'),
     pageNumbersContainer: document.getElementById('pageNumbersContainer'),
     
-    // Modals & Bottom Sheets
+    // Bottom Sheets & Modals
     voterModalBackdrop: document.getElementById('voterModalBackdrop'),
     voterModalContent: document.getElementById('voterModalContent'),
-    voterModalCloseBtn: document.getElementById('voterModalCloseBtn'),
     
     filterModalBackdrop: document.getElementById('filterModalBackdrop'),
     filterModalCloseBtn: document.getElementById('filterModalCloseBtn'),
@@ -68,27 +66,32 @@
     filterResetBtn: document.getElementById('filterResetBtn'),
     houseSelectFilter: document.getElementById('houseSelectFilter'),
     
-    // Map Viewer
-    mapCard: document.getElementById('mapCard'),
-    mapViewport: document.getElementById('mapViewport'),
-    mapImage: document.getElementById('mapImage'),
+    // Map Viewer Modal
+    mapTriggerBtn: document.getElementById('mapTriggerBtn'),
+    btnOpenMapAction: document.getElementById('btnOpenMapAction'),
+    mapModalBackdrop: document.getElementById('mapModalBackdrop'),
+    mapModalCloseBtn: document.getElementById('mapModalCloseBtn'),
+    mapModalViewport: document.getElementById('mapModalViewport'),
+    mapModalImg: document.getElementById('mapModalImg'),
     zoomInBtn: document.getElementById('zoomInBtn'),
     zoomOutBtn: document.getElementById('zoomOutBtn'),
     zoomResetBtn: document.getElementById('zoomResetBtn'),
-    fullscreenBtn: document.getElementById('fullscreenBtn'),
     
-    // Toast & Navigation
+    // Boundaries Accordion
+    boundaryToggleBtn: document.getElementById('boundaryToggleBtn'),
+    boundaryToggleIcon: document.getElementById('boundaryToggleIcon'),
+    boundaryFullText: document.getElementById('boundaryFullText'),
+    
+    // Navigation & Toast
     toastContainer: document.getElementById('toastContainer'),
-    backToTopBtn: document.getElementById('backToTopBtn'),
-    navPills: document.querySelectorAll('.nav-pill')
+    bottomNavLinks: document.querySelectorAll('.bottom-nav-link')
   };
 
-  // Initialize Application
+  // App Initialization
   async function init() {
     try {
       await loadData();
-      populateWardMetadata();
-      populateStatistics();
+      renderDashboardVisuals();
       populateHouseFilterOptions();
       setupEventListeners();
       setupMapViewer();
@@ -99,7 +102,7 @@
     }
   }
 
-  // Load JSON Data
+  // Load JSON Files
   async function loadData() {
     const [wardRes, votersRes] = await Promise.all([
       fetch('./data/ward.json'),
@@ -107,7 +110,7 @@
     ]);
 
     if (!wardRes.ok || !votersRes.ok) {
-      throw new Error('Failed to load JSON files');
+      throw new Error('Failed to load JSON data');
     }
 
     state.ward = await wardRes.json();
@@ -115,79 +118,66 @@
     state.filteredVoters = [...state.voters];
   }
 
-  // Populate Ward Metadata
-  function populateWardMetadata() {
-    if (!state.ward) return;
-    const w = state.ward;
+  // Animate Number Count-Up (Respects reduced motion)
+  function animateValue(element, start, end, duration) {
+    if (!element) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      element.textContent = end.toLocaleString('en-IN');
+      return;
+    }
 
-    // Polling Station Card
-    const psName = document.getElementById('psName');
-    const psAddress = document.getElementById('psAddress');
-    if (psName) psName.textContent = w.pollingStation.name;
-    if (psAddress) psAddress.textContent = `${w.pollingStation.address} (${w.pollingStation.building})`;
-
-    // Boundaries
-    const wardBoundaryText = document.getElementById('wardBoundaryText');
-    const partBoundaryText = document.getElementById('partBoundaryText');
-    if (wardBoundaryText) wardBoundaryText.textContent = w.boundaries.wardBoundary;
-    if (partBoundaryText) partBoundaryText.textContent = w.boundaries.partBoundary;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const currentVal = Math.floor(easeProgress * (end - start) + start);
+      element.textContent = currentVal.toLocaleString('en-IN');
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        element.textContent = end.toLocaleString('en-IN');
+      }
+    };
+    window.requestAnimationFrame(step);
   }
 
-  // Populate Statistics Section
-  function populateStatistics() {
+  // Render Dashboard Visualizations & Donut Chart
+  function renderDashboardVisuals() {
     if (!state.ward || !state.voters.length) return;
     const stats = state.ward.statistics.totalVoters;
+    const total = stats.total;
+    const male = stats.male;
+    const female = stats.female;
 
-    const totalVotersVal = document.getElementById('statTotalVoters');
-    const maleVotersVal = document.getElementById('statMaleVoters');
-    const femaleVotersVal = document.getElementById('statFemaleVoters');
-    const tgVotersVal = document.getElementById('statTGVoters');
+    // Number Count-Ups
+    animateValue(document.getElementById('quickFactTotal'), 0, total, 800);
+    animateValue(document.getElementById('donutTotalCount'), 0, total, 800);
+    animateValue(document.getElementById('statTotal'), 0, total, 800);
+    animateValue(document.getElementById('statMale'), 0, male, 800);
+    animateValue(document.getElementById('statFemale'), 0, female, 800);
+    animateValue(document.getElementById('legendMaleCount'), 0, male, 800);
+    animateValue(document.getElementById('legendFemaleCount'), 0, female, 800);
 
-    if (totalVotersVal) totalVotersVal.textContent = stats.total.toLocaleString('en-IN');
-    if (maleVotersVal) maleVotersVal.textContent = stats.male.toLocaleString('en-IN');
-    if (femaleVotersVal) femaleVotersVal.textContent = stats.female.toLocaleString('en-IN');
-    if (tgVotersVal) tgVotersVal.textContent = stats.thirdGender.toLocaleString('en-IN');
+    // Donut Chart SVG Calculations
+    // Circumference for r=38 is 2 * PI * 38 = 238.761
+    const C = 2 * Math.PI * 38;
+    const maleArc = (male / total) * C;
+    const femaleArc = (female / total) * C;
 
-    // Visual Gender Bar
-    const malePct = ((stats.male / stats.total) * 100).toFixed(1);
-    const femalePct = ((stats.female / stats.total) * 100).toFixed(1);
+    const donutMale = document.getElementById('donutMale');
+    const donutFemale = document.getElementById('donutFemale');
 
-    const maleBar = document.getElementById('genderBarMale');
-    const malePctLabel = document.getElementById('genderMalePct');
-    const femalePctLabel = document.getElementById('genderFemalePct');
-
-    if (maleBar) maleBar.style.width = `${malePct}%`;
-    if (malePctLabel) malePctLabel.textContent = `पुरुष: ${stats.male} (${malePct}%)`;
-    if (femalePctLabel) femalePctLabel.textContent = `महिला: ${stats.female} (${femalePct}%)`;
-
-    // Age Cohort Calculation
-    const cohorts = {
-      '18-25': 0,
-      '26-35': 0,
-      '36-50': 0,
-      '51-65': 0,
-      '65+': 0
-    };
-
-    state.voters.forEach(v => {
-      const a = v.age;
-      if (a <= 25) cohorts['18-25']++;
-      else if (a <= 35) cohorts['26-35']++;
-      else if (a <= 50) cohorts['36-50']++;
-      else if (a <= 65) cohorts['51-65']++;
-      else cohorts['65+']++;
-    });
-
-    const maxCohort = Math.max(...Object.values(cohorts));
-    for (const [cohortKey, count] of Object.entries(cohorts)) {
-      const barEl = document.getElementById(`cohortBar_${cohortKey}`);
-      const countEl = document.getElementById(`cohortCount_${cohortKey}`);
-      if (barEl) barEl.style.width = `${(count / maxCohort) * 100}%`;
-      if (countEl) countEl.textContent = count;
+    if (donutMale && donutFemale) {
+      donutMale.style.strokeDasharray = `${maleArc.toFixed(2)} ${C.toFixed(2)}`;
+      donutMale.style.strokeDashoffset = '0';
+      donutFemale.style.strokeDasharray = `${femaleArc.toFixed(2)} ${C.toFixed(2)}`;
+      donutFemale.style.strokeDashoffset = `-${maleArc.toFixed(2)}`;
     }
   }
 
-  // Populate House Filter Dropdown
+  // Populate House Filter Options
   function populateHouseFilterOptions() {
     if (!elements.houseSelectFilter) return;
     const houseSet = new Set();
@@ -212,7 +202,7 @@
     });
   }
 
-  // Filter & Search Engine (Bilingual Search)
+  // Filter & Bilingual Search Engine
   function applyFilters() {
     const q = state.filters.search.trim().toLowerCase();
     const g = state.filters.gender;
@@ -221,7 +211,7 @@
     const hNo = state.filters.houseNumber;
 
     state.filteredVoters = state.voters.filter(v => {
-      // 1. Search Query (Searches Hindi name, English name, Relation name, English relation, Voter ID, House No, Serial No)
+      // 1. Search Query (Hindi Name, English Name, Relative Hindi/English, EPIC ID, House No, Serial No)
       if (q) {
         const matchNameHi = (v.name || '').toLowerCase().includes(q);
         const matchNameEn = (v.nameEn || '').toLowerCase().includes(q);
@@ -237,9 +227,7 @@
       }
 
       // 2. Gender Filter
-      if (g !== 'all' && v.gender !== g) {
-        return false;
-      }
+      if (g !== 'all' && v.gender !== g) return false;
 
       // 3. Section Filter
       if (sec !== 'all') {
@@ -248,11 +236,9 @@
       }
 
       // 4. House Number Filter
-      if (hNo !== 'all' && v.houseNumber !== hNo) {
-        return false;
-      }
+      if (hNo !== 'all' && v.houseNumber !== hNo) return false;
 
-      // 5. Age Group Filter
+      // 5. Age Bracket Filter
       if (ageG !== 'all') {
         const a = v.age;
         if (ageG === '18-25' && (a < 18 || a > 25)) return false;
@@ -269,32 +255,8 @@
     updatePaginationMath();
     renderVoters();
     updateResultsSummary();
-    syncDashboardFilterChips();
   }
 
-  // Synchronize Dashboard Filter Chips Active State
-  function syncDashboardFilterChips() {
-    elements.dashFilterChips.forEach(chip => {
-      const type = chip.getAttribute('data-filter-type');
-      let isActive = false;
-
-      if (type === 'all' && state.filters.gender === 'all' && state.filters.ageGroup === 'all' && state.filters.section === 'all' && state.filters.houseNumber === 'all' && !state.filters.search) {
-        isActive = true;
-      } else if (type === 'male' && state.filters.gender === 'पुरुष') {
-        isActive = true;
-      } else if (type === 'female' && state.filters.gender === 'महिला') {
-        isActive = true;
-      } else if (type === 'youth' && state.filters.ageGroup === '18-25') {
-        isActive = true;
-      } else if (type === 'pari' && state.filters.section === 'pari') {
-        isActive = true;
-      }
-
-      chip.classList.toggle('active', isActive);
-    });
-  }
-
-  // Update Pagination Calculations
   function updatePaginationMath() {
     const total = state.filteredVoters.length;
     state.pagination.totalPages = Math.max(1, Math.ceil(total / state.pagination.pageSize));
@@ -303,7 +265,7 @@
     }
   }
 
-  // Render Voter List (Both Mobile Cards and Desktop Table with Bilingual Names)
+  // Render Voter List (Cards on Mobile, Data Table on Desktop)
   function renderVoters() {
     const total = state.filteredVoters.length;
     
@@ -323,106 +285,102 @@
     const startIdx = (state.pagination.currentPage - 1) * state.pagination.pageSize;
     const pageItems = state.filteredVoters.slice(startIdx, startIdx + state.pagination.pageSize);
 
-    // 1. Render Mobile Cards
+    // 1. Mobile Cards
     elements.votersGrid.innerHTML = pageItems.map(v => createVoterCardHTML(v)).join('');
 
-    // 2. Render Desktop Table Rows
+    // 2. Desktop Table Rows
     if (elements.votersTableBody) {
       elements.votersTableBody.innerHTML = pageItems.map(v => createTableRowHTML(v)).join('');
     }
 
-    // 3. Update Pagination UI
+    // 3. Pagination Controls
     renderPaginationUI(startIdx, pageItems.length, total);
   }
 
-  // HTML Template for Mobile Voter Card (Bilingual Names)
+  // Mobile Voter Card HTML
   function createVoterCardHTML(v) {
     const isMale = v.gender === 'पुरुष';
-    const genderClass = isMale ? 'badge-gender-male' : 'badge-gender-female';
-    const enName = v.nameEn && v.nameEn !== v.name ? `<span class="en-name-sub">(${escapeHTML(v.nameEn)})</span>` : '';
-    const enRelName = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? `<span style="font-size: 0.75rem; color: var(--text-subtle); font-family: var(--font-sans);">(${escapeHTML(v.relationNameEn)})</span>` : '';
+    const genderClass = isMale ? 'male' : 'female';
+    const genderLabel = isMale ? 'Male (पुरुष)' : 'Female (महिला)';
+    const enName = v.nameEn && v.nameEn !== v.name ? `<div class="card-voter-name-en">${escapeHTML(v.nameEn)}</div>` : '';
+    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? ` (${escapeHTML(v.relationNameEn)})` : '';
 
     return `
-      <div class="voter-card" data-sr="${v.serialNumber}">
-        <div class="card-top-row">
-          <span class="card-sr-badge">#${v.serialNumber}</span>
-          <button type="button" class="card-voter-id-btn" data-copy="${escapeHTML(v.voterId)}" title="Copy Voter ID">
-            <span>${escapeHTML(v.voterId)}</span>
-            <span class="copy-icon">📋</span>
+      <div class="voter-card-item" data-sr="${v.serialNumber}">
+        <div class="card-row-top">
+          <span class="card-sr-pill">#${v.serialNumber}</span>
+          <span class="gender-badge-pill ${genderClass}">${genderLabel}</span>
+        </div>
+
+        <div class="card-voter-name-heading hindi">${escapeHTML(v.name)}</div>
+        ${enName}
+
+        <div class="card-epic-row">
+          <span class="card-epic-val">${escapeHTML(v.voterId)}</span>
+          <button type="button" class="btn-card-copy-epic" data-copy="${escapeHTML(v.voterId)}" title="Copy Voter ID">
+            <span>📋</span> <span>Copy</span>
           </button>
         </div>
 
-        <div class="card-name hindi">
-          <span>${escapeHTML(v.name)}</span>
-          ${enName}
+        <div class="card-rel-row">
+          <span>${escapeHTML(v.relationType)}:</span>
+          <strong>${escapeHTML(v.relationName)}</strong>${enRel}
         </div>
 
-        <div class="card-relation hindi">
-          <span class="card-relation-label">${escapeHTML(v.relationType)}:</span>
-          <span class="card-relation-val">${escapeHTML(v.relationName)}</span>
-          ${enRelName}
+        <div class="card-meta-chips-row">
+          <span class="meta-chip-item">आयु: ${v.age} वर्ष</span>
+          <span class="meta-chip-item">मकान: ${escapeHTML(v.houseNumber)}</span>
+          <span class="meta-chip-item photo-ok">✓ फोटो उपलब्ध</span>
         </div>
 
-        <div class="card-badges-row">
-          <span class="badge ${genderClass}">${escapeHTML(v.gender)}</span>
-          <span class="badge badge-house">आयु: ${v.age} वर्ष</span>
-          <span class="badge badge-house">मकान: ${escapeHTML(v.houseNumber)}</span>
-          <span class="badge badge-photo">✓ फोटो उपलब्ध</span>
-        </div>
-
-        <button type="button" class="card-detail-btn" data-view-sr="${v.serialNumber}">
-          <span>पूर्ण विवरण देखें</span>
-          <span>→</span>
+        <button type="button" class="btn-card-view-details" data-view-sr="${v.serialNumber}">
+          <span>View Details</span> <span>→</span>
         </button>
       </div>
     `;
   }
 
-  // HTML Template for Desktop Table Row (Bilingual Names)
+  // Desktop Table Row HTML
   function createTableRowHTML(v) {
     const isMale = v.gender === 'पुरुष';
-    const genderClass = isMale ? 'badge-gender-male' : 'badge-gender-female';
-    const enName = v.nameEn && v.nameEn !== v.name ? `<div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-sans);">${escapeHTML(v.nameEn)}</div>` : '';
-    const enRelName = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? `<span style="font-size: 0.75rem; color: var(--text-subtle);">(${escapeHTML(v.relationNameEn)})</span>` : '';
+    const genderClass = isMale ? 'male' : 'female';
+    const genderLabel = isMale ? 'पुरुष' : 'महिला';
+    const enName = v.nameEn && v.nameEn !== v.name ? `<div class="tbl-name-en">${escapeHTML(v.nameEn)}</div>` : '';
+    const enRel = v.relationNameEn && v.relationNameEn !== v.relationName && v.relationNameEn !== '—' ? `<span style="font-size: 0.75rem; color: var(--text-tertiary);"> (${escapeHTML(v.relationNameEn)})</span>` : '';
 
     return `
       <tr data-view-sr="${v.serialNumber}">
-        <td style="font-weight: 700; color: var(--text-muted);">#${v.serialNumber}</td>
+        <td style="font-weight: 700; color: var(--text-tertiary);">#${v.serialNumber}</td>
         <td>
-          <button type="button" class="card-voter-id-btn" data-copy="${escapeHTML(v.voterId)}" title="Copy Voter ID">
-            <span>${escapeHTML(v.voterId)}</span>
-            <span class="copy-icon">📋</span>
+          <button type="button" class="btn-card-copy-epic" data-copy="${escapeHTML(v.voterId)}" title="Copy Voter ID" style="font-weight: 800; font-size: 0.8125rem;">
+            <span>${escapeHTML(v.voterId)}</span> <span>📋</span>
           </button>
         </td>
         <td>
-          <div class="hindi-name">${escapeHTML(v.name)}</div>
+          <div class="tbl-name-hi">${escapeHTML(v.name)}</div>
           ${enName}
         </td>
-        <td class="hindi-rel">
-          <span style="font-size: 0.75rem; color: var(--text-subtle);">${escapeHTML(v.relationType)}:</span>
-          ${escapeHTML(v.relationName)}
-          ${enRelName}
+        <td>
+          <span style="font-size: 0.75rem; color: var(--text-tertiary);">${escapeHTML(v.relationType)}:</span>
+          <span class="hindi" style="font-weight: 600;">${escapeHTML(v.relationName)}</span>${enRel}
         </td>
-        <td style="font-weight: 600;">${escapeHTML(v.houseNumber)}</td>
+        <td style="font-weight: 700;">${escapeHTML(v.houseNumber)}</td>
         <td>${v.age}</td>
-        <td><span class="badge ${genderClass}">${escapeHTML(v.gender)}</span></td>
-        <td><span class="badge badge-photo">उपलब्ध</span></td>
+        <td><span class="gender-badge-pill ${genderClass}">${genderLabel}</span></td>
+        <td><span style="font-size: 0.75rem; color: var(--success); font-weight: 700;">✓ उपलब्ध</span></td>
       </tr>
     `;
   }
 
-  // Render Pagination Controls
+  // Pagination UI Renderer
   function renderPaginationUI(startIdx, currentCount, totalCount) {
     const p = state.pagination;
-    
-    // Page Info text
     const endIdx = startIdx + currentCount;
-    elements.pageInfo.textContent = `दिखाए जा रहे हैं ${startIdx + 1}–${endIdx} (कुल ${totalCount} में से)`;
+    elements.pageInfo.textContent = `दिखाए जा रहे हैं ${startIdx + 1}–${endIdx} (कुल ${totalCount})`;
 
     elements.prevPageBtn.disabled = p.currentPage <= 1;
     elements.nextPageBtn.disabled = p.currentPage >= p.totalPages;
 
-    // Generate page numbers
     let pages = [];
     const maxVisible = 5;
     let startPage = Math.max(1, p.currentPage - Math.floor(maxVisible / 2));
@@ -436,7 +394,7 @@
     for (let i = startPage; i <= endPage; i++) {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `page-btn ${i === p.currentPage ? 'active' : ''}`;
+      btn.className = `btn-page-nav ${i === p.currentPage ? 'active' : ''}`;
       btn.textContent = i;
       btn.addEventListener('click', () => {
         state.pagination.currentPage = i;
@@ -447,7 +405,7 @@
     }
   }
 
-  // Update Result Count & Active Filter Chips
+  // Results Status Bar & Active Chips
   function updateResultsSummary() {
     const total = state.voters.length;
     const filtered = state.filteredVoters.length;
@@ -473,7 +431,7 @@
       elements.resultsCount.textContent = `${filtered} मतदाता मिले (${total} में से)`;
     }
 
-    // Render active filter chips
+    // Active filter chips
     elements.activeFilterChips.innerHTML = '';
 
     if (state.filters.gender !== 'all') {
@@ -512,79 +470,83 @@
 
   function createChip(text, onRemove) {
     const chip = document.createElement('span');
-    chip.className = 'filter-chip';
-    chip.innerHTML = `<span>${escapeHTML(text)}</span> <span class="filter-chip-remove">×</span>`;
-    chip.querySelector('.filter-chip-remove').addEventListener('click', onRemove);
+    chip.className = 'chip-pill-active';
+    chip.innerHTML = `<span>${escapeHTML(text)}</span> <span class="chip-remove-btn">×</span>`;
+    chip.querySelector('.chip-remove-btn').addEventListener('click', onRemove);
     return chip;
   }
 
-  // Open Detailed Voter Modal / Bottom Sheet
+  // Detailed Voter Bottom Sheet / Modal
   function openVoterModal(serialNumber) {
     const voter = state.voters.find(v => v.serialNumber === serialNumber);
     if (!voter) return;
 
     const isMale = voter.gender === 'पुरुष';
-    const genderClass = isMale ? 'badge-gender-male' : 'badge-gender-female';
+    const genderClass = isMale ? 'male' : 'female';
+    const genderLabel = isMale ? 'Male (पुरुष)' : 'Female (महिला)';
 
     elements.voterModalContent.innerHTML = `
-      <div class="modal-header">
+      <div class="sheet-header-bar">
         <div>
-          <span class="card-sr-badge" style="margin-bottom: 0.25rem;">क्रमांक #${voter.serialNumber}</span>
-          <h3 class="modal-title hindi">${escapeHTML(voter.name)} <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-muted); font-family: var(--font-sans);">(${escapeHTML(voter.nameEn || '')})</span></h3>
+          <span class="card-sr-pill">#${voter.serialNumber}</span>
+          <h3 class="sheet-header-title hindi" style="margin-top: 0.15rem;">
+            ${escapeHTML(voter.name)}
+            <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-tertiary); font-family: var(--font-sans);">(${escapeHTML(voter.nameEn || '')})</span>
+          </h3>
         </div>
-        <button type="button" class="modal-close-btn" id="modalCloseAction">✕</button>
+        <button type="button" class="btn-sheet-close" id="modalCloseAction">✕</button>
       </div>
 
-      <div class="modal-body">
+      <div class="sheet-scroll-body">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-          <button type="button" class="card-voter-id-btn" data-copy="${escapeHTML(voter.voterId)}" style="font-size: 0.9375rem; padding: 0.35rem 0.75rem;">
+          <button type="button" class="btn-card-copy-epic" data-copy="${escapeHTML(voter.voterId)}" style="font-size: 0.9375rem; padding: 0.35rem 0.75rem; background: var(--bg-subtle);">
             <span>${escapeHTML(voter.voterId)}</span>
-            <span class="copy-icon">📋</span>
+            <span>📋 Copy</span>
           </button>
-          <span class="badge ${genderClass}">${escapeHTML(voter.gender)}</span>
+          <span class="gender-badge-pill ${genderClass}">${genderLabel}</span>
         </div>
 
-        <div class="voter-detail-grid">
-          <div class="voter-detail-item">
-            <div class="voter-detail-label">मतदाता का नाम (Hindi / English)</div>
-            <div class="voter-detail-val">${escapeHTML(voter.name)} <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">(${escapeHTML(voter.nameEn || '')})</span></div>
+        <div class="detail-meta-grid">
+          <div class="detail-box-cell">
+            <div class="detail-cell-label">मतदाता का नाम</div>
+            <div class="detail-cell-value">${escapeHTML(voter.name)}</div>
           </div>
 
-          <div class="voter-detail-item">
-            <div class="voter-detail-label">${escapeHTML(voter.relationType)} का नाम</div>
-            <div class="voter-detail-val">${escapeHTML(voter.relationName)} <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">(${escapeHTML(voter.relationNameEn || '')})</span></div>
+          <div class="detail-box-cell">
+            <div class="detail-cell-label">${escapeHTML(voter.relationType)} का नाम</div>
+            <div class="detail-cell-value">${escapeHTML(voter.relationName)}</div>
           </div>
 
-          <div class="voter-detail-item">
-            <div class="voter-detail-label">मकान संख्या (House No)</div>
-            <div class="voter-detail-val">${escapeHTML(voter.houseNumber)}</div>
+          <div class="detail-box-cell">
+            <div class="detail-cell-label">मकान संख्या</div>
+            <div class="detail-cell-value">${escapeHTML(voter.houseNumber)}</div>
           </div>
 
-          <div class="voter-detail-item">
-            <div class="voter-detail-label">आयु / लिंग (Age / Gender)</div>
-            <div class="voter-detail-val">${voter.age} वर्ष / ${escapeHTML(voter.gender)}</div>
+          <div class="detail-box-cell">
+            <div class="detail-cell-label">आयु / लिंग</div>
+            <div class="detail-cell-value">${voter.age} वर्ष / ${escapeHTML(voter.gender)}</div>
           </div>
 
-          <div class="voter-detail-item full-width">
-            <div class="voter-detail-label">नामावली सूची भाग (Roll Section)</div>
-            <div class="voter-detail-val">${escapeHTML(voter.section)}</div>
+          <div class="detail-box-cell full-width">
+            <div class="detail-cell-label">नामावली सूची भाग</div>
+            <div class="detail-cell-value">${escapeHTML(voter.section)}</div>
           </div>
 
-          <div class="voter-detail-item full-width">
-            <div class="voter-detail-label">मतदान केंद्र विवरण (Polling Booth)</div>
-            <div class="voter-detail-val">29 - गौतम सेकण्डरी स्कूल, पिलानी (कमरा नं 1)</div>
+          <div class="detail-box-cell full-width">
+            <div class="detail-cell-label">मतदान केंद्र विवरण</div>
+            <div class="detail-cell-value">29 — गौतम सेकण्डरी स्कूल, पिलानी (कमरा नं 1)</div>
           </div>
 
-          <div class="voter-detail-item full-width">
-            <div class="voter-detail-label">मूल PDF पृष्ठ संदर्भ</div>
-            <div class="voter-detail-val">आधिकारिक PDF पृष्ठ संख्या: ${voter.pageNumber}</div>
+          <div class="detail-box-cell full-width">
+            <div class="detail-cell-label">मूल PDF पृष्ठ संदर्भ</div>
+            <div class="detail-cell-value">आधिकारिक PDF पृष्ठ संख्या: ${voter.pageNumber}</div>
           </div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="empty-btn" data-copy="${escapeHTML(voter.voterId)}" style="margin-top: 0;">
-          <span>Voter ID कॉपी करें</span>
+      <div class="sheet-footer-actions">
+        <button type="button" class="btn-open-map" data-copy="${escapeHTML(voter.voterId)}" style="width: 100%; justify-content: center;">
+          <span>Voter ID कॉपी करें (Copy)</span>
         </button>
       </div>
     `;
@@ -601,7 +563,7 @@
     document.body.style.overflow = '';
   }
 
-  // Filter Modal Controls
+  // Filter Bottom Sheet Controls
   function openFilterModal() {
     elements.filterModalBackdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -625,11 +587,112 @@
     if (elements.houseSelectFilter) elements.houseSelectFilter.value = state.filters.houseNumber;
   }
 
+  // Interactive Map Viewer
+  function setupMapViewer() {
+    if (!elements.mapModalImg || !elements.mapModalViewport) return;
+
+    function updateMapTransform() {
+      elements.mapModalImg.style.transform = `translate(${state.map.posX}px, ${state.map.posY}px) scale(${state.map.scale})`;
+    }
+
+    function openMapModal() {
+      elements.mapModalBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      state.map.scale = 1;
+      state.map.posX = 0;
+      state.map.posY = 0;
+      updateMapTransform();
+    }
+
+    function closeMapModal() {
+      elements.mapModalBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    elements.mapTriggerBtn?.addEventListener('click', openMapModal);
+    elements.btnOpenMapAction?.addEventListener('click', openMapModal);
+    elements.mapModalCloseBtn?.addEventListener('click', closeMapModal);
+
+    elements.zoomInBtn?.addEventListener('click', () => {
+      state.map.scale = Math.min(state.map.scale + 0.3, 4);
+      updateMapTransform();
+    });
+
+    elements.zoomOutBtn?.addEventListener('click', () => {
+      state.map.scale = Math.max(state.map.scale - 0.3, 0.8);
+      updateMapTransform();
+    });
+
+    elements.zoomResetBtn?.addEventListener('click', () => {
+      state.map.scale = 1;
+      state.map.posX = 0;
+      state.map.posY = 0;
+      updateMapTransform();
+    });
+
+    // Touch & Mouse Drag to Pan
+    elements.mapModalViewport.addEventListener('mousedown', (e) => {
+      state.map.isDragging = true;
+      state.map.startX = e.clientX - state.map.posX;
+      state.map.startY = e.clientY - state.map.posY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!state.map.isDragging) return;
+      state.map.posX = e.clientX - state.map.startX;
+      state.map.posY = e.clientY - state.map.startY;
+      updateMapTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      state.map.isDragging = false;
+    });
+
+    // Touch Events
+    let initialDistance = 0;
+    elements.mapModalViewport.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        state.map.isDragging = true;
+        state.map.startX = e.touches[0].clientX - state.map.posX;
+        state.map.startY = e.touches[0].clientY - state.map.posY;
+      } else if (e.touches.length === 2) {
+        initialDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+      }
+    }, { passive: true });
+
+    elements.mapModalViewport.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1 && state.map.isDragging) {
+        state.map.posX = e.touches[0].clientX - state.map.startX;
+        state.map.posY = e.touches[0].clientY - state.map.startY;
+        updateMapTransform();
+      } else if (e.touches.length === 2) {
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        if (initialDistance > 0) {
+          const factor = dist / initialDistance;
+          state.map.scale = Math.min(Math.max(state.map.scale * factor, 0.8), 4);
+          initialDistance = dist;
+          updateMapTransform();
+        }
+      }
+    }, { passive: true });
+
+    elements.mapModalViewport.addEventListener('touchend', () => {
+      state.map.isDragging = false;
+      initialDistance = 0;
+    });
+  }
+
   // Toast Notification System
   function showToast(message) {
     if (!elements.toastContainer) return;
     const toast = document.createElement('div');
-    toast.className = 'toast';
+    toast.className = 'toast-message';
     toast.innerHTML = `<span>✓</span> <span>${escapeHTML(message)}</span>`;
     elements.toastContainer.appendChild(toast);
 
@@ -657,110 +720,13 @@
       }
       showToast(`Voter ID कॉपी किया गया: ${text}`);
     } catch (err) {
-      console.warn('Copy failed:', err);
       showToast(`ID: ${text}`);
     }
   }
 
-  // Interactive Map Viewer Controller
-  function setupMapViewer() {
-    if (!elements.mapImage || !elements.mapViewport) return;
-
-    function updateMapTransform() {
-      elements.mapImage.style.transform = `translate(${state.map.posX}px, ${state.map.posY}px) scale(${state.map.scale})`;
-    }
-
-    elements.zoomInBtn?.addEventListener('click', () => {
-      state.map.scale = Math.min(state.map.scale + 0.3, 4);
-      updateMapTransform();
-    });
-
-    elements.zoomOutBtn?.addEventListener('click', () => {
-      state.map.scale = Math.max(state.map.scale - 0.3, 0.8);
-      updateMapTransform();
-    });
-
-    elements.zoomResetBtn?.addEventListener('click', () => {
-      state.map.scale = 1;
-      state.map.posX = 0;
-      state.map.posY = 0;
-      updateMapTransform();
-    });
-
-    elements.fullscreenBtn?.addEventListener('click', () => {
-      elements.mapCard.classList.toggle('fullscreen');
-      const isFull = elements.mapCard.classList.contains('fullscreen');
-      elements.fullscreenBtn.innerHTML = isFull ? '<span>✕</span> <span>बंद करें</span>' : '<span>⛶</span> <span>फुलस्क्रीन</span>';
-      if (!isFull) {
-        state.map.scale = 1;
-        state.map.posX = 0;
-        state.map.posY = 0;
-        updateMapTransform();
-      }
-    });
-
-    // Drag to Pan
-    elements.mapViewport.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.map-ctrl-btn')) return;
-      state.map.isDragging = true;
-      state.map.startX = e.clientX - state.map.posX;
-      state.map.startY = e.clientY - state.map.posY;
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!state.map.isDragging) return;
-      state.map.posX = e.clientX - state.map.startX;
-      state.map.posY = e.clientY - state.map.startY;
-      updateMapTransform();
-    });
-
-    window.addEventListener('mouseup', () => {
-      state.map.isDragging = false;
-    });
-
-    // Touch Events
-    let initialDistance = 0;
-    elements.mapViewport.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        state.map.isDragging = true;
-        state.map.startX = e.touches[0].clientX - state.map.posX;
-        state.map.startY = e.touches[0].clientY - state.map.posY;
-      } else if (e.touches.length === 2) {
-        initialDistance = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
-      }
-    }, { passive: true });
-
-    elements.mapViewport.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 1 && state.map.isDragging) {
-        state.map.posX = e.touches[0].clientX - state.map.startX;
-        state.map.posY = e.touches[0].clientY - state.map.startY;
-        updateMapTransform();
-      } else if (e.touches.length === 2) {
-        const dist = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
-        if (initialDistance > 0) {
-          const factor = dist / initialDistance;
-          state.map.scale = Math.min(Math.max(state.map.scale * factor, 0.8), 4);
-          initialDistance = dist;
-          updateMapTransform();
-        }
-      }
-    }, { passive: true });
-
-    elements.mapViewport.addEventListener('touchend', () => {
-      state.map.isDragging = false;
-      initialDistance = 0;
-    });
-  }
-
   // Setup Event Listeners
   function setupEventListeners() {
-    // Instant Search
+    // Search Input
     let searchTimeout;
     elements.searchInput?.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -768,7 +734,7 @@
       if (elements.searchClearBtn) {
         elements.searchClearBtn.classList.toggle('visible', state.filters.search.length > 0);
       }
-      searchTimeout = setTimeout(applyFilters, 160);
+      searchTimeout = setTimeout(applyFilters, 150);
     });
 
     elements.searchClearBtn?.addEventListener('click', () => {
@@ -778,40 +744,18 @@
       applyFilters();
     });
 
-    // Dashboard Quick Filter Chips
-    elements.dashFilterChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        const filterType = chip.getAttribute('data-filter-type');
-        
-        // Reset specific filters first
-        state.filters.gender = 'all';
-        state.filters.ageGroup = 'all';
-        state.filters.section = 'all';
-        state.filters.houseNumber = 'all';
-        state.filters.search = '';
-        if (elements.searchInput) elements.searchInput.value = '';
-        if (elements.searchClearBtn) elements.searchClearBtn.classList.remove('visible');
-
-        if (filterType === 'male') {
-          state.filters.gender = 'पुरुष';
-        } else if (filterType === 'female') {
-          state.filters.gender = 'महिला';
-        } else if (filterType === 'youth') {
-          state.filters.ageGroup = '18-25';
-        } else if (filterType === 'pari') {
-          state.filters.section = 'pari';
-        }
-
-        syncFilterRadios();
-        applyFilters();
-        scrollToVoterSection();
-      });
+    // Boundary Toggle Accordion
+    elements.boundaryToggleBtn?.addEventListener('click', () => {
+      if (elements.boundaryFullText) {
+        elements.boundaryFullText.classList.toggle('open');
+        const isOpen = elements.boundaryFullText.classList.contains('open');
+        if (elements.boundaryToggleIcon) elements.boundaryToggleIcon.textContent = isOpen ? '↑' : '↓';
+      }
     });
 
     // Filter Trigger Modal
     elements.filterToggleBtn?.addEventListener('click', openFilterModal);
     elements.filterModalCloseBtn?.addEventListener('click', closeFilterModal);
-    elements.voterModalCloseBtn?.addEventListener('click', closeVoterModal);
 
     elements.emptyResetBtn?.addEventListener('click', () => {
       state.filters.gender = 'all';
@@ -880,7 +824,7 @@
       }
     });
 
-    // Pagination Next / Prev
+    // Pagination Controls
     elements.prevPageBtn?.addEventListener('click', () => {
       if (state.pagination.currentPage > 1) {
         state.pagination.currentPage--;
@@ -897,23 +841,18 @@
       }
     });
 
-    // Back to top button
+    // Bottom Navigation Scroll Spy
     window.addEventListener('scroll', () => {
-      if (elements.backToTopBtn) {
-        elements.backToTopBtn.classList.toggle('visible', window.scrollY > 400);
-      }
-      updateActiveNavPill();
+      updateBottomNavActiveState();
     }, { passive: true });
 
-    elements.backToTopBtn?.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Keyboard ESC
+    // Keyboard ESC to close open modals
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeVoterModal();
         closeFilterModal();
+        elements.mapModalBackdrop?.classList.remove('open');
+        document.body.style.overflow = '';
       }
     });
   }
@@ -921,14 +860,14 @@
   function scrollToVoterSection() {
     const sec = document.getElementById('voters');
     if (sec) {
-      const top = sec.getBoundingClientRect().top + window.scrollY - 120;
+      const top = sec.getBoundingClientRect().top + window.scrollY - 110;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   }
 
-  function updateActiveNavPill() {
-    const sections = ['overview', 'stats', 'map', 'boundaries', 'polling-station', 'voters', 'source'];
-    const scrollPos = window.scrollY + 140;
+  function updateBottomNavActiveState() {
+    const sections = ['overview', 'stats', 'map', 'voters', 'polling-station'];
+    const scrollPos = window.scrollY + 160;
 
     for (const id of sections) {
       const el = document.getElementById(id);
@@ -936,8 +875,8 @@
         const top = el.offsetTop;
         const height = el.offsetHeight;
         if (scrollPos >= top && scrollPos < top + height) {
-          elements.navPills.forEach(pill => {
-            pill.classList.toggle('active', pill.getAttribute('href') === `#${id}`);
+          elements.bottomNavLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
           });
           break;
         }
@@ -945,7 +884,6 @@
     }
   }
 
-  // Security Helper: Escape HTML
   function escapeHTML(str) {
     if (str === null || str === undefined) return '';
     return String(str)
