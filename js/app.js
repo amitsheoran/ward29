@@ -14,11 +14,11 @@
 
   // 5 Candidates Data (Single Source of Truth)
   const CANDIDATES = [
-    { id: 1, name: 'Monika Baloda', relation: 'W/O Manish Baloda', color: '#2563eb' },
-    { id: 2, name: 'Aditi Godara', relation: 'W/O Amardeep Godara', color: '#ec4899' },
-    { id: 3, name: 'Poonam Sihag', relation: 'W/O Anil Sihag', color: '#059669' },
-    { id: 4, name: 'Suman', relation: 'W/O Tilak', color: '#d97706' },
-    { id: 5, name: 'Aruna Madam', relation: 'W/O Bhupendra Sheoran', color: '#8b5cf6' }
+    { id: 1, name: 'Monika Baloda', relation: 'W/O Manish Baloda', color: '#2563eb', image: null, initials: 'MB' },
+    { id: 2, name: 'Aditi Godara', relation: 'W/O Amardeep Godara', color: '#ec4899', image: './assets/candidates/Aditi.jpg', initials: 'AG' },
+    { id: 3, name: 'Poonam Sihag', relation: 'W/O Anil Sihag', color: '#059669', image: null, initials: 'PS' },
+    { id: 4, name: 'Suman', relation: 'W/O Tilak', color: '#d97706', image: null, initials: 'S' },
+    { id: 5, name: 'Aruna Madam', relation: 'W/O Bhupendra Sheoran', color: '#8b5cf6', image: null, initials: 'AM' }
   ];
 
   // Application State
@@ -87,6 +87,16 @@
     pollDonutSegments: document.getElementById('pollDonutSegments'),
     pollLeaderboardList: document.getElementById('pollLeaderboardList'),
     
+    // Share Functionality Elements
+    heroShareBtn: document.getElementById('heroShareBtn'),
+    bottomShareBtn: document.getElementById('bottomShareBtn'),
+    shareModalBackdrop: document.getElementById('shareModalBackdrop'),
+    shareModalCloseBtn: document.getElementById('shareModalCloseBtn'),
+    shareCloseBtn: document.getElementById('shareCloseBtn'),
+    shareUrlDisplay: document.getElementById('shareUrlDisplay'),
+    shareCopyLinkBtn: document.getElementById('shareCopyLinkBtn'),
+    shareWhatsAppBtn: document.getElementById('shareWhatsAppBtn'),
+
     // Vote Confirm Modal
     voteConfirmModalBackdrop: document.getElementById('voteConfirmModalBackdrop'),
     voteConfirmCloseBtn: document.getElementById('voteConfirmCloseBtn'),
@@ -172,14 +182,12 @@
   }
 
   function initPollState() {
-    // Check if user has already voted in this session
     const votedId = localStorage.getItem('ward29_voted_candidate_id');
     if (votedId) {
       state.poll.hasVoted = true;
       state.poll.userVotedCandidateId = parseInt(votedId, 10);
     }
 
-    // Load persistent vote storage or fallback
     const savedVotes = localStorage.getItem('ward29_community_votes');
     if (savedVotes) {
       try {
@@ -199,7 +207,7 @@
     state.poll.totalVotes = total;
   }
 
-  // Animate Number Count-Up (Respects reduced motion)
+  // Animate Number Count-Up
   function animateValue(element, start, end, duration) {
     if (!element) return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -278,7 +286,7 @@
     };
   }
 
-  // Render 5 Candidate Cards
+  // Render 5 Candidate Cards (with Photo for Aditi Godara & Initials Placeholders)
   function renderCandidateCards() {
     if (!elements.candidatesGrid) return;
     const leaderInfo = getPollLeaderInfo();
@@ -311,6 +319,14 @@
         }
       }
 
+      // Candidate Photo or Placeholder Avatar
+      let mediaHTML = '';
+      if (c.image) {
+        mediaHTML = `<img src="${c.image}" alt="${escapeHTML(c.name)}" class="candidate-photo-img" loading="lazy">`;
+      } else {
+        mediaHTML = `<div class="candidate-avatar-placeholder" style="background: ${c.color};">${c.initials}</div>`;
+      }
+
       return `
         <div class="candidate-card-item ${isLeader ? 'is-leader' : ''}">
           <div class="candidate-top-bar">
@@ -318,8 +334,13 @@
             ${leaderBadge}
           </div>
 
-          <div class="candidate-name-title">${escapeHTML(c.name)}</div>
-          <div class="candidate-rel-text">${escapeHTML(c.relation)}</div>
+          <div class="candidate-media-wrap">
+            ${mediaHTML}
+            <div>
+              <div class="candidate-name-title">${escapeHTML(c.name)}</div>
+              <div class="candidate-rel-text">${escapeHTML(c.relation)}</div>
+            </div>
+          </div>
 
           <div class="candidate-stats-box">
             <div>
@@ -453,7 +474,6 @@
     const sessionId = getOrCreateSessionId();
 
     try {
-      // 1. Submit to Supabase if publishable anon key is configured
       if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
         const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
         const { error } = await supabaseClient
@@ -472,7 +492,6 @@
         }
       }
 
-      // 2. Update local state & persistent cache
       state.poll.votes[candidate.id] = (state.poll.votes[candidate.id] || 0) + 1;
       state.poll.hasVoted = true;
       state.poll.userVotedCandidateId = candidate.id;
@@ -486,7 +505,6 @@
 
       showToast(`Vote Submitted Successfully for ${candidate.name}! Thank you.`);
 
-      // Broadcast vote update to other open tabs
       if (window.BroadcastChannel) {
         const channel = new BroadcastChannel('ward29_poll_sync');
         channel.postMessage({ type: 'VOTE_UPDATE', votes: state.poll.votes });
@@ -499,9 +517,8 @@
     }
   }
 
-  // Realtime Sync Listener (Supabase Realtime + Multi-tab BroadcastChannel)
+  // Realtime Sync Listener
   function setupPollRealtime() {
-    // Multi-tab sync
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel('ward29_poll_sync');
       channel.onmessage = (event) => {
@@ -514,7 +531,6 @@
       };
     }
 
-    // Live Supabase Realtime Subscription if configured
     if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
       try {
         const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
@@ -534,6 +550,46 @@
         console.warn('Realtime subscription fallback:', err);
       }
     }
+  }
+
+  // Share Ward 29 App Engine (Native Web Share API + Dynamic Fallback)
+  async function shareWard29App() {
+    const currentUrl = window.location.href;
+    const shareTitle = 'Ward 29 - Pilani | Civic Information & Community App 2026';
+    const shareText = `Ward 29 - Pilani\n\nView Ward 29 voter information, statistics, candidates, live community poll and other details:\n${currentUrl}`;
+
+    // 1. Try Native Web Share API
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: currentUrl
+        });
+        return;
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.warn('Web Share API error:', err);
+        }
+      }
+    }
+
+    // 2. Open Fallback Share Modal
+    if (elements.shareUrlDisplay) {
+      elements.shareUrlDisplay.textContent = currentUrl;
+    }
+    if (elements.shareWhatsAppBtn) {
+      const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+      elements.shareWhatsAppBtn.setAttribute('href', waUrl);
+    }
+
+    elements.shareModalBackdrop?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeShareModal() {
+    elements.shareModalBackdrop?.classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   // Populate House Filter Options
@@ -561,7 +617,7 @@
     });
   }
 
-  // Filter & Bilingual Search Engine
+  // Filter & Search Engine
   function applyFilters() {
     const q = state.filters.search.trim().toLowerCase();
     const g = state.filters.gender;
@@ -613,13 +669,11 @@
   }
 
   function syncAgeVisuals() {
-    // 1. Sync quick age filter chips
     document.querySelectorAll('[data-age-chip]').forEach(chip => {
       const chipVal = chip.getAttribute('data-age-chip');
       chip.classList.toggle('active', chipVal === state.filters.ageGroup);
     });
 
-    // 2. Sync age chart bar active states
     document.querySelectorAll('[data-age-filter]').forEach(bar => {
       const barVal = bar.getAttribute('data-age-filter');
       bar.classList.toggle('active', barVal === state.filters.ageGroup);
@@ -634,7 +688,7 @@
     }
   }
 
-  // Render Voter List (Cards on Mobile, Data Table on Desktop)
+  // Render Voter List
   function renderVoters() {
     const total = state.filteredVoters.length;
     
@@ -1067,7 +1121,7 @@
   }
 
   // Copy Helper
-  async function copyToClipboard(text) {
+  async function copyToClipboard(text, successMsg) {
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
@@ -1081,9 +1135,9 @@
         document.execCommand('copy');
         textarea.remove();
       }
-      showToast(`Voter ID कॉपी किया गया: ${text}`);
+      showToast(successMsg || `कॉपी किया गया: ${text}`);
     } catch (err) {
-      showToast(`ID: ${text}`);
+      showToast(`${text}`);
     }
   }
 
@@ -1128,6 +1182,23 @@
         applyFilters();
         scrollToVoterSection();
         showToast(`Filtered: ${state.filters.ageGroup === 'all' ? 'All Voters' : 'Age ' + state.filters.ageGroup + ' years'}`);
+      }
+    });
+
+    // Share Trigger Handlers
+    elements.heroShareBtn?.addEventListener('click', shareWard29App);
+    elements.bottomShareBtn?.addEventListener('click', shareWard29App);
+    elements.shareModalCloseBtn?.addEventListener('click', closeShareModal);
+    elements.shareCloseBtn?.addEventListener('click', closeShareModal);
+
+    elements.shareCopyLinkBtn?.addEventListener('click', () => {
+      copyToClipboard(window.location.href, 'Link copied successfully');
+      if (elements.shareCopyLinkBtn) {
+        const orig = elements.shareCopyLinkBtn.innerHTML;
+        elements.shareCopyLinkBtn.innerHTML = '<span>✓ Copied</span>';
+        setTimeout(() => {
+          if (elements.shareCopyLinkBtn) elements.shareCopyLinkBtn.innerHTML = orig;
+        }, 2000);
       }
     });
 
@@ -1184,6 +1255,10 @@
       if (e.target === elements.voteConfirmModalBackdrop) closeVoteConfirmModal();
     });
 
+    elements.shareModalBackdrop?.addEventListener('click', (e) => {
+      if (e.target === elements.shareModalBackdrop) closeShareModal();
+    });
+
     // Apply Filter Button
     elements.filterApplyBtn?.addEventListener('click', () => {
       const g = document.querySelector('input[name="filterGender"]:checked')?.value || 'all';
@@ -1218,7 +1293,7 @@
       if (copyBtn) {
         e.stopPropagation();
         const id = copyBtn.getAttribute('data-copy');
-        if (id) copyToClipboard(id);
+        if (id) copyToClipboard(id, `Voter ID कॉपी किया गया: ${id}`);
         return;
       }
 
@@ -1258,6 +1333,7 @@
         closeVoterModal();
         closeFilterModal();
         closeVoteConfirmModal();
+        closeShareModal();
         elements.mapModalBackdrop?.classList.remove('open');
         document.body.style.overflow = '';
       }
