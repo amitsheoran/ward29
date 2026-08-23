@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#1e3a8a">
+  <title>Ward 29 Pilani — Electoral Information 2026 | नगर पालिका पिलानी</title>
+  <meta name="description" content="Ward 29 Pilani electoral information including voter list, ward boundaries, polling station details and voter statistics (नगर पालिका निर्वाचन नामावली 2026).">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+  
+  <!-- Favicon / Apple Touch Icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231e3a8a%22/><text y=%22.9em%22 x=%22.1em%22 font-size=%2280%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>29</text></svg>">
+</head>
+<body>
+
+  <!-- Top Disclaimer Banner -->
+  <div class="top-disclaimer">
+    <div class="container disclaimer-inner">
+      <span class="icon">ℹ️</span>
+      <span><strong>अस्वीकरण / Disclaimer:</strong> यह वेबसाइट आधिकारिक निर्वाचक नामावली PDF (WardNo29.pdf) पर आधारित एक सार्वजनिक नागरिक सूचना पोर्टल है। आधिकारिक सत्यापन के लिए निर्वाचन आयोग के मूल दस्तावेज का संदर्भ लें।</span>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#overview" class="brand" aria-label="Ward 29 Pilani Home">
+        <div class="brand-emblem">29</div>
+        <div class="brand-text">
+          <span class="brand-title">Ward 29 — Pilani</span>
+          <span class="brand-subtitle">नगर पालिका निर्वाचन नामावली, 2026</span>
+        </div>
+      </a>
+      
+      <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="header-pdf-btn" title="मूल आधिकारिक PDF देखें">
+        <span>📄</span>
+        <span>मूल PDF</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sticky Section Navigation Pills (Horizontal Scroll on Mobile) -->
+  <nav class="section-nav-wrapper" aria-label="मुख्य नेविगेशन">
+    <div class="container section-nav">
+      <a href="#overview" class="nav-pill active">📊 अवलोकन</a>
+      <a href="#stats" class="nav-pill">📈 सांख्यिकी</a>
+      <a href="#map" class="nav-pill">🗺️ वार्ड मानचित्र</a>
+      <a href="#boundaries" class="nav-pill">📍 सीमा विवरण</a>
+      <a href="#polling-station" class="nav-pill">🏫 मतदान केंद्र</a>
+      <a href="#voters" class="nav-pill">👥 मतदाता सूची</a>
+      <a href="#source" class="nav-pill">📁 मूल दस्तावेज</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- ==========================================
+           SECTION 1: OVERVIEW & DASHBOARD
+           ========================================== -->
+      <section id="overview" class="section-block" style="padding-top: 1.5rem;">
+        
+        <!-- Hero Card -->
+        <div class="hero-card">
+          <div class="hero-meta-badge">
+            <span>🏛️</span>
+            <span>राजस्थान राज्य निर्वाचन आयोग नामावली</span>
+          </div>
+          <h1 class="hero-title">वार्ड संख्या 29 — पिलानी</h1>
+          <p class="hero-subtitle">विधानसभा क्षेत्र: 25 - पिलानी | नगर पालिका चुनाव 2026</p>
+          
+          <div class="hero-grid">
+            <div class="hero-stat-item">
+              <div class="hero-stat-label">कुल मतदाता</div>
+              <div class="hero-stat-value" id="heroTotalVoters">901</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-label">पुरुष मतदाता</div>
+              <div class="hero-stat-value" id="heroMaleVoters">463</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-label">महिला मतदाता</div>
+              <div class="hero-stat-value" id="heroFemaleVoters">438</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-label">मतदान केंद्र क्र.</div>
+              <div class="hero-stat-value">29</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview Metadata Grid -->
+        <div class="overview-grid">
+          <div class="meta-card">
+            <div class="meta-icon">🏢</div>
+            <div class="meta-content">
+              <div class="meta-label">नगर पालिका / निकाय</div>
+              <div class="meta-value">नगर पालिका पिलानी (Pilani)</div>
+            </div>
+          </div>
+
+          <div class="meta-card">
+            <div class="meta-icon">🗳️</div>
+            <div class="meta-content">
+              <div class="meta-label">विधानसभा निर्वाचन क्षेत्र</div>
+              <div class="meta-value">25 - पिलानी (Pilani)</div>
+            </div>
+          </div>
+
+          <div class="meta-card">
+            <div class="meta-icon">🔢</div>
+            <div class="meta-content">
+              <div class="meta-label">वार्ड एवं भाग संख्या</div>
+              <div class="meta-value">वार्ड नं 29 | भाग संख्या 1</div>
+            </div>
+          </div>
+
+          <div class="meta-card">
+            <div class="meta-icon">📍</div>
+            <div class="meta-content">
+              <div class="meta-label">तहसील एवं जिला</div>
+              <div class="meta-value">पिलानी, जिला झुन्झुनू (राज.)</div>
+            </div>
+          </div>
+
+          <div class="meta-card">
+            <div class="meta-icon">📅</div>
+            <div class="meta-content">
+              <div class="meta-label">पुनरीक्षण वर्ष एवं प्रकार</div>
+              <div class="meta-value">2026 (मुख्य एवं विशेष संक्षिप्त)</div>
+            </div>
+          </div>
+
+          <div class="meta-card">
+            <div class="meta-icon">📜</div>
+            <div class="meta-content">
+              <div class="meta-label">अन्तिम प्रकाशन दिनांक</div>
+              <div class="meta-value">08-05-2026 (अर्हता 01-01-2026)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 2: VOTER STATISTICS
+           ========================================== -->
+      <section id="stats" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">सांख्यिकी विश्लेषण</span>
+          <h2 class="section-title">मतदाता सांख्यिकी (Voter Statistics)</h2>
+          <p class="section-desc">आधिकारिक 39-पृष्ठीय निर्वाचन नामावली का विस्तृत विवरण</p>
+        </div>
+
+        <!-- 4 Primary Stat Cards -->
+        <div class="stats-cards-grid">
+          <div class="stat-box primary">
+            <div class="stat-number" id="statTotalVoters">901</div>
+            <div class="stat-label-hi">कुल मतदाता</div>
+            <div class="stat-label-en">Total Voters</div>
+          </div>
+
+          <div class="stat-box blue">
+            <div class="stat-number" id="statMaleVoters">463</div>
+            <div class="stat-label-hi">पुरुष मतदाता</div>
+            <div class="stat-label-en">Male Voters (51.4%)</div>
+          </div>
+
+          <div class="stat-box rose">
+            <div class="stat-number" id="statFemaleVoters">438</div>
+            <div class="stat-label-hi">महिला मतदाता</div>
+            <div class="stat-label-en">Female Voters (48.6%)</div>
+          </div>
+
+          <div class="stat-box emerald">
+            <div class="stat-number" id="statTGVoters">0</div>
+            <div class="stat-label-hi">तृतीय लिंग</div>
+            <div class="stat-label-en">Third Gender</div>
+          </div>
+        </div>
+
+        <!-- Visual Proportion & Cohorts Breakdown -->
+        <div class="stats-viz-panel">
+          <div class="viz-heading">
+            <span class="hindi">📊 लिंग अनुपात वितरण (Gender Ratio)</span>
+            <span style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 500;">946 महिला प्रति 1000 पुरुष</span>
+          </div>
+
+          <div class="gender-bar-wrapper">
+            <div class="gender-bar-labels">
+              <span id="genderMalePct" style="color: #1d4ed8;">पुरुष: 463 (51.4%)</span>
+              <span id="genderFemalePct" style="color: #be123c;">महिला: 438 (48.6%)</span>
+            </div>
+            <div class="gender-bar-outer" role="progressbar" aria-label="Gender Distribution">
+              <div class="gender-bar-male" id="genderBarMale" style="width: 51.4%;"></div>
+              <div class="gender-bar-female"></div>
+            </div>
+          </div>
+
+          <div class="viz-heading" style="margin-top: 1.5rem;">
+            <span class="hindi">👥 आयु वर्ग अनुसार वितरण (Age Distribution)</span>
+          </div>
+
+          <div class="age-cohort-grid">
+            <div class="cohort-item">
+              <span class="cohort-label">18–25 वर्ष</span>
+              <div class="cohort-bar-outer">
+                <div class="cohort-bar-inner" id="cohortBar_18-25" style="width: 35%;"></div>
+              </div>
+              <span class="cohort-count" id="cohortCount_18-25">—</span>
+            </div>
+
+            <div class="cohort-item">
+              <span class="cohort-label">26–35 वर्ष</span>
+              <div class="cohort-bar-outer">
+                <div class="cohort-bar-inner" id="cohortBar_26-35" style="width: 55%;"></div>
+              </div>
+              <span class="cohort-count" id="cohortCount_26-35">—</span>
+            </div>
+
+            <div class="cohort-item">
+              <span class="cohort-label">36–50 वर्ष</span>
+              <div class="cohort-bar-outer">
+                <div class="cohort-bar-inner" id="cohortBar_36-50" style="width: 65%;"></div>
+              </div>
+              <span class="cohort-count" id="cohortCount_36-50">—</span>
+            </div>
+
+            <div class="cohort-item">
+              <span class="cohort-label">51–65 वर्ष</span>
+              <div class="cohort-bar-outer">
+                <div class="cohort-bar-inner" id="cohortBar_51-65" style="width: 40%;"></div>
+              </div>
+              <span class="cohort-count" id="cohortCount_51-65">—</span>
+            </div>
+
+            <div class="cohort-item">
+              <span class="cohort-label">65+ वर्ष</span>
+              <div class="cohort-bar-outer">
+                <div class="cohort-bar-inner" id="cohortBar_65+" style="width: 25%;"></div>
+              </div>
+              <span class="cohort-count" id="cohortCount_65+">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 3: WARD MAP
+           ========================================== -->
+      <section id="map" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">नक्शा</span>
+          <h2 class="section-title">वार्ड 29 का मानचित्र (Ward Map)</h2>
+          <p class="section-desc">आधिकारिक PDF पृष्ठ 2 से निष्कर्षित आधिकारिक सीमा मानचित्र</p>
+        </div>
+
+        <div class="map-viewer-card" id="mapCard">
+          <div class="map-controls-toolbar">
+            <div class="map-title-badge">
+              <span>🗺️</span>
+              <span class="hindi">वार्ड के भाग का नक्शा (Pilani Ward 29)</span>
+            </div>
+            
+            <div class="map-buttons-group">
+              <button type="button" class="map-ctrl-btn" id="zoomInBtn" title="Zoom In">
+                <span>➕</span> <span>ज़ूम इन</span>
+              </button>
+              <button type="button" class="map-ctrl-btn" id="zoomOutBtn" title="Zoom Out">
+                <span>➖</span> <span>ज़ूम आउट</span>
+              </button>
+              <button type="button" class="map-ctrl-btn" id="zoomResetBtn" title="Reset Zoom">
+                <span>↺</span> <span>रीसेट</span>
+              </button>
+              <button type="button" class="map-ctrl-btn" id="fullscreenBtn" title="Fullscreen View">
+                <span>⛶</span> <span>फुलस्क्रीन</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="map-viewport" id="mapViewport" title="खींचकर घुमाएं या पिंच करके ज़ूम करें">
+            <img src="./assets/ward-map.png" alt="Ward 29 Pilani Official Boundary Map" class="map-image" id="mapImage" loading="lazy">
+          </div>
+
+          <div class="map-footer-note">
+            <span>💡 मोबाइल पर दो अंगुलियों से पिंच करके ज़ूम करें, अथवा कंप्यूटर पर ड्रैग करें।</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 4: BOUNDARIES
+           ========================================== -->
+      <section id="boundaries" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">भौगोलिक सीमाएं</span>
+          <h2 class="section-title">वार्ड एवं भाग सीमा विवरण (Boundaries)</h2>
+          <p class="section-desc">वार्ड 29 का आधिकारिक परिसीमन एवं प्रमुख स्थल</p>
+        </div>
+
+        <!-- Prominent Landmarks -->
+        <div class="boundary-card">
+          <div class="boundary-title">
+            <span>🏛️</span>
+            <span>वार्ड 29 के प्रमुख स्थल एवं मार्ग (Key Landmarks)</span>
+          </div>
+          <div class="landmarks-list">
+            <span class="landmark-chip">🏫 गौतम सेकण्डरी स्कूल</span>
+            <span class="landmark-chip">⭕ सी.एल.आर. सर्किल (C.L.R. Circle)</span>
+            <span class="landmark-chip">🛣️ लोहारू रोड़ (Loharu Road)</span>
+            <span class="landmark-chip">🎓 इन्द्राणी मण्डेलिया कॉलेज</span>
+            <span class="landmark-chip">🚰 जलदाय विभाग पम्पिया</span>
+            <span class="landmark-chip">🏘️ गली नं. 02</span>
+            <span class="landmark-chip">🎖️ शहीद मुकुन्द सिंह गोदारा मकान</span>
+            <span class="landmark-chip">🏭 पेठा फैक्ट्री</span>
+            <span class="landmark-chip">🛣️ राजपुरा रोड़</span>
+          </div>
+        </div>
+
+        <!-- Ward Boundary Text -->
+        <div class="boundary-card">
+          <div class="boundary-header">
+            <div class="boundary-title">
+              <span>📜</span>
+              <span>वार्ड का परिसीमन अनुसार आधिकारिक विवरण</span>
+            </div>
+          </div>
+          <div class="boundary-body" id="wardBoundaryText">
+            रतन चाप वाले की दुकान के पीछे से पूर्व की तरफ बांये हाथ की आबादी को शामिल कर राकेश स्कूल की पुरानी बिल्डिंग को छोड़ते हुए दक्षिण में मुड़कर बांये हाथ की आबादी को शामिल करते हुए पूर्व में मुड़कर राकेश स्कूल की नई बिल्डिंग को छोड़ते हुए गौतम स्कूल को शामिल कर सीधे बाईपास रोड़ पर आकर उत्तर में मुड़कर सीधे उत्तर दिशा में सी.एल.आर. सर्किल पर आकर पश्चिम दिशा में लोहारू रोड़ पर चलते हुए बांये हाथ की आबादी को शामिल कर, इन्द्राणी मण्डेलिया कॉलेज के दक्षिण पूर्व कोने से पूर्व में एवं पश्चिम में जाने वाली दीवार के सहारे बांये हाथ की आबादी को शामिल करते हुए लोहारू रोड़ तक जलदाय विभाग के पम्पिया तक वहां से रास्ते-रास्ते बांये हाथ की आबादी को शामिल करते हुए लोहारू तक व गली नं. 02 में दोनो तरफ के मकानों को शामिल करते हुए रामनिवास सोलंकी एवं शहीद मुकुन्द सिंह गोदारा के मकान को शामिल करते हुए गली नं- 02 के अन्त तक, आमने-सामने के मकानों को शामिल करते हुए, विक्रम सिंह ओजटू के मकान को छोड़ते हुए पेठा फैक्ट्री को शामिल करते हुए उमराव सिंह के मकान होते हुए राजपुरा रोड़ से पथरिया वाले कच्चे रास्ते-रास्ते मण्डेलिया कॉलेज के दक्षिण पूर्व कोने तक।
+          </div>
+        </div>
+
+        <!-- Part Boundary Text -->
+        <div class="boundary-card">
+          <div class="boundary-header">
+            <div class="boundary-title">
+              <span>📍</span>
+              <span>वार्ड के भाग 1 का विवरण (Part 1 Description)</span>
+            </div>
+          </div>
+          <div class="boundary-body" id="partBoundaryText">
+            रतन चाप वाले की दुकान के पीछे से पूर्व की तरफ बांये हाथ की आबादी को शामिल कर राकेश स्कूल की पुरानी बिल्डिंग को छोड़ते हुए दक्षिण में मुड़कर बांये हाथ की आबादी को शामिल करते हुए पूर्व में मुड़कर राकेश स्कूल की नई बिल्डिंग को छोड़ते हुए गौतम स्कूल को शामिल कर सीधे बाईपास रोड़ पर आकर उत्तर में मुड़कर सीधे उत्तर दिशा में सी.एल.आर. सर्किल पर आकर पश्चिम दिशा में लोहारू रोड़ पर चलते हुए बांये हाथ की आबादी को शामिल कर, इन्द्राणी मण्डेलिया कॉलेज के दक्षिण पूर्व कोने से पूर्व में एवं पश्चिम में जाने वाली दीवार के सहारे बांये हाथ की आबादी को शामिल करते हुए लोहारू रोड़ तक जलदाय विभाग के पम्पिया तक वहां से रास्ते-रास्ते बांये हाथ की आबादी को शामिल करते हुए लोहारू तक व गली नं. 02 में दोनो तरफ के मकानों को शामिल करते हुए रामनिवास सोलंकी एवं शहीद मुकुन्द सिंह गोदारा के मकान को शामिल करते हुए गली नं- 02 के अन्त तक, आमने-सामने के मकानों को शामिल करते हुए, विक्रम सिंह ओजटू के मकान को छोड़ते हुए पेठा फैक्ट्री को शामिल करते हुए उमराव सिंह के मकान होते हुए राजपुरा रोड़ से पथरिया वाले कच्चे रास्ते-रास्ते मण्डेलिया कॉलेज के दक्षिण पूर्व कोने तक।
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 5: POLLING STATION
+           ========================================== -->
+      <section id="polling-station" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">मतदान केंद्र</span>
+          <h2 class="section-title">मतदान केंद्र विवरण (Polling Station)</h2>
+          <p class="section-desc">वार्ड 29 के मतदाताओं हेतु निर्धारित मतदान स्थल</p>
+        </div>
+
+        <div class="ps-card">
+          <div class="ps-badge">
+            <span>🏫</span>
+            <span>मतदान केंद्र संख्या: 29</span>
+          </div>
+          <h3 class="ps-name" id="psName">29 - गौतम सेकण्डरी स्कूल, पिलानी</h3>
+          <div class="ps-address" id="psAddress">
+            <span>📍</span>
+            <span>वार्ड संख्या 29, पिलानी, झुन्झुनू, राजस्थान (गौतम सेकण्डरी स्कूल भवन)</span>
+          </div>
+
+          <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="https://maps.google.com/?q=Gautam+Secondary+School+Pilani" target="_blank" rel="noopener" class="header-pdf-btn" style="background: white;">
+              <span>🧭</span> <span>Google Maps पर देखें</span>
+            </a>
+            <a href="#voters" class="header-pdf-btn" style="background: var(--primary); color: white; border-color: var(--primary);">
+              <span>👥</span> <span>इस केंद्र के मतदाता देखें</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 6: VOTER DIRECTORY (CORE SECTION)
+           ========================================== -->
+      <section id="voters" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">मतदाता खोज</span>
+          <h2 class="section-title">मतदाता सूची खोज एवं फ़िल्टर (Voter Directory)</h2>
+          <p class="section-desc">नाम, वोटर आईडी (EPIC), पिता/पति का नाम या मकान संख्या से तुरंत खोजें</p>
+        </div>
+
+        <!-- Sticky Search & Filter Bar -->
+        <div class="voter-search-sticky-container">
+          <div class="search-box-row">
+            <div class="search-input-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="voterSearchInput" class="search-input" placeholder="मतदाता का नाम, EPIC ID, पिता/पति का नाम, मकान संख्या..." aria-label="Search voters" autocomplete="off">
+              <button type="button" id="searchClearBtn" class="search-clear-btn" title="Clear search">✕</button>
+            </div>
+            
+            <button type="button" id="filterToggleBtn" class="filter-toggle-btn" aria-label="Open filter menu">
+              <span>⚙️</span>
+              <span>फ़िल्टर</span>
+              <span id="filterBadgeCount" class="filter-badge-count" style="display: none;">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Summary Bar & Active Filters -->
+        <div class="results-meta-bar">
+          <div id="resultsCount" class="results-count-badge">901 मतदाता</div>
+          <div id="activeFilterChips" class="active-filter-chips"></div>
+        </div>
+
+        <!-- Mobile Voter Cards View -->
+        <div id="votersGrid" class="voters-grid" aria-live="polite">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Desktop Voter Table View (>= 1024px) -->
+        <div class="desktop-table-container">
+          <table class="voters-table">
+            <thead>
+              <tr>
+                <th>क्र.सं.</th>
+                <th>वोटर आईडी (EPIC)</th>
+                <th>मतदाता का नाम</th>
+                <th>पिता / पति का नाम</th>
+                <th>मकान सं.</th>
+                <th>आयु</th>
+                <th>लिंग</th>
+                <th>फोटो</th>
+              </tr>
+            </thead>
+            <tbody id="votersTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <div class="empty-icon">🔍</div>
+          <h3 class="empty-title">कोई मतदाता नहीं मिला</h3>
+          <p class="empty-desc">कृपया अपनी खोज या फ़िल्टर बदलकर पुनः प्रयास करें।</p>
+          <button type="button" id="emptyResetBtn" class="empty-btn">
+            <span>सभी फ़िल्टर रीसेट करें</span>
+          </button>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationWrapper" class="pagination-wrapper">
+          <div id="pageInfo" class="page-info">दिखाए जा रहे हैं 1–30 (कुल 901 में से)</div>
+          <div class="page-buttons">
+            <button type="button" id="prevPageBtn" class="page-btn" aria-label="Previous Page">← पिछला</button>
+            <div id="pageNumbersContainer" style="display: flex; gap: 0.25rem;"></div>
+            <button type="button" id="nextPageBtn" class="page-btn" aria-label="Next Page">अगला →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 7: ORIGINAL SOURCE PDF
+           ========================================== -->
+      <section id="source" class="section-block">
+        <div class="section-header">
+          <span class="section-tag">स्रोत दस्तावेज</span>
+          <h2 class="section-title">मूल निर्वाचन दस्तावेज (Original Source PDF)</h2>
+          <p class="section-desc">राज्य निर्वाचन आयोग राजस्थान द्वारा जारी 39-पृष्ठीय आधिकारिक दस्तावेज़</p>
+        </div>
+
+        <div class="meta-card" style="padding: 1.5rem; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta-icon" style="background: #fef2f2; color: #dc2626; width: 48px; height: 48px; font-size: 1.5rem;">📄</div>
+            <div>
+              <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text-main);">WardNo29.pdf</h3>
+              <p style="font-size: 0.8125rem; color: var(--text-muted);">कुल पृष्ठ: 39 | आकार: 1.6 MB | वर्ष: 2026</p>
+            </div>
+          </div>
+
+          <a href="./input/WardNo29.pdf" target="_blank" rel="noopener" class="empty-btn" style="margin-top: 0; background: var(--primary);">
+            <span>📥</span>
+            <span>मूल PDF खोलें / डाउनलोड करें</span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       MODALS & MOBILE BOTTOM SHEETS
+       ========================================== -->
+
+  <!-- 1. Detailed Voter View Modal / Bottom Sheet -->
+  <div id="voterModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Voter Details">
+    <div class="modal-card" id="voterModalCard">
+      <div class="modal-handle"></div>
+      <div id="voterModalContent">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Filter Bottom Sheet / Modal -->
+  <div id="filterModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Filter Options">
+    <div class="modal-card">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h3 class="modal-title">मतदाता सूची फ़िल्टर करें</h3>
+        <button type="button" id="filterModalCloseBtn" class="modal-close-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Gender Filter -->
+        <div class="filter-form-group">
+          <label class="filter-form-label">लिंग (Gender)</label>
+          <div class="filter-options-group">
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterGender" value="all" checked>
+              <span class="filter-radio-label">सभी (All)</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterGender" value="पुरुष">
+              <span class="filter-radio-label">👨 पुरुष (Male)</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterGender" value="महिला">
+              <span class="filter-radio-label">👩 महिला (Female)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Age Filter -->
+        <div class="filter-form-group">
+          <label class="filter-form-label">आयु वर्ग (Age Range)</label>
+          <div class="filter-options-group">
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="all" checked>
+              <span class="filter-radio-label">सभी आयु</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="18-25">
+              <span class="filter-radio-label">18–25 वर्ष</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="26-35">
+              <span class="filter-radio-label">26–35 वर्ष</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="36-50">
+              <span class="filter-radio-label">36–50 वर्ष</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="51-65">
+              <span class="filter-radio-label">51–65 वर्ष</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterAge" value="65+">
+              <span class="filter-radio-label">65+ वर्ष</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section Filter -->
+        <div class="filter-form-group">
+          <label class="filter-form-label">नामावली सूची भाग</label>
+          <div class="filter-options-group">
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterSection" value="all" checked>
+              <span class="filter-radio-label">सभी (मूल + परिवर्धन)</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterSection" value="mool">
+              <span class="filter-radio-label">मूल सूची (1–863)</span>
+            </label>
+            <label class="filter-radio-chip">
+              <input type="radio" name="filterSection" value="pari">
+              <span class="filter-radio-label">परिवर्धन सूची (864–901)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- House Number Filter -->
+        <div class="filter-form-group">
+          <label class="filter-form-label" for="houseSelectFilter">मकान संख्या अनुसार फ़िल्टर</label>
+          <select id="houseSelectFilter" class="filter-select">
+            <option value="all">सभी मकान (All Houses)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="filterResetBtn" class="page-btn" style="height: 42px;">रीसेट करें</button>
+        <button type="button" id="filterApplyBtn" class="empty-btn" style="margin-top: 0;">फ़िल्टर लागू करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Back to Top Button -->
+  <button type="button" id="backToTopBtn" class="back-to-top-btn" title="Back to top" aria-label="Back to top">
+    <span>↑</span>
+  </button>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-title">वार्ड 29 — पिलानी (Pilani)</div>
+          <p>नगर पालिका चुनाव 2026 निर्वाचक नामावली का आधुनिक, मोबाइल-फ्रेंडली नागरिक सूचना पोर्टल।</p>
+        </div>
+        <div>
+          <div class="footer-links-title">त्वरित लिंक</div>
+          <ul class="footer-links-list">
+            <li><a href="#overview">अवलोकन</a></li>
+            <li><a href="#stats">सांख्यिकी</a></li>
+            <li><a href="#map">वार्ड मानचित्र</a></li>
+            <li><a href="#voters">मतदाता खोज</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-links-title">दस्तावेज</div>
+          <ul class="footer-links-list">
+            <li><a href="./input/WardNo29.pdf" target="_blank" rel="noopener">मूल PDF डाउनलोड करें</a></li>
+            <li><a href="https://github.com/amitsheoran/ward29" target="_blank" rel="noopener">GitHub Repository</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Ward 29 Pilani Information Portal. Built for civic transparency and ease of access.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Script -->
+  <script src="./js/app.js"></script>
+</body>
+</html>
