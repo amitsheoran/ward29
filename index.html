@@ -70,62 +70,90 @@
 
       </section>
 
-      <!-- Key Insights 6-Card Metric Grid -->
-      <section style="margin-bottom: 0.5rem;" aria-label="Ward Statistics Summary">
+      <!-- Key Insights Metric Grid -->
+      <section style="margin-bottom: 0.75rem;" aria-label="Ward Statistics Summary">
+
+        <!-- Gender Split Bar (compact inline) -->
+        <div class="gender-split-bar" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 0.875rem 1rem; box-shadow: var(--shadow-sm); margin-bottom: 0.75rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 32px; height: 32px; background: var(--blue-100); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon-svg" style="width: 16px; height: 16px; color: var(--blue-700);" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div>
+                <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary);">VOTER COMPOSITION</div>
+              </div>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 900; color: var(--navy-900); letter-spacing: -0.03em;" id="glanceTotal">901</div>
+          </div>
+          
+          <!-- Visual Gender Bar -->
+          <div style="display: flex; height: 8px; border-radius: var(--radius-full); overflow: hidden; gap: 2px; margin-bottom: 0.625rem;">
+            <div style="flex: 463; background: var(--male-color); border-radius: var(--radius-full) 0 0 var(--radius-full);"></div>
+            <div style="flex: 438; background: var(--female-color); border-radius: 0 var(--radius-full) var(--radius-full) 0;"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--male-color); flex-shrink: 0;"></span>
+              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">पुरुष (Male)</span>
+              <span style="font-size: 0.875rem; font-weight: 900; color: var(--navy-900);" id="glanceMale">463</span>
+              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">51.4%</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--female-color); flex-shrink: 0;"></span>
+              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">महिला (Female)</span>
+              <span style="font-size: 0.875rem; font-weight: 900; color: var(--navy-900);" id="glanceFemale">438</span>
+              <span style="font-size: 0.6875rem; color: var(--text-tertiary); font-weight: 600;">48.6%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Compact Metric Cards -->
         <div class="at-a-glance-grid">
           
-          <div class="glance-card" style="border-left: 3px solid var(--blue-600);">
-            <div class="glance-card-top">
-              <span class="glance-card-icon">👥</span>
-              <span class="glance-card-val" id="glanceTotal">901</span>
-            </div>
-            <div class="glance-card-lbl-hi">कुल मतदाता</div>
-            <div class="glance-card-lbl-en">Total Voters</div>
-          </div>
-
-          <div class="glance-card" style="border-left: 3px solid var(--male-color);">
-            <div class="glance-card-top">
-              <span class="glance-card-icon">♂</span>
-              <span class="glance-card-val" id="glanceMale">463</span>
-            </div>
-            <div class="glance-card-lbl-hi">पुरुष मतदाता</div>
-            <div class="glance-card-lbl-en">Male (51.4%)</div>
-          </div>
-
-          <div class="glance-card" style="border-left: 3px solid var(--female-color);">
-            <div class="glance-card-top">
-              <span class="glance-card-icon">♀</span>
-              <span class="glance-card-val" id="glanceFemale">438</span>
-            </div>
-            <div class="glance-card-lbl-hi">महिला मतदाता</div>
-            <div class="glance-card-lbl-en">Female (48.6%)</div>
-          </div>
-
           <div class="glance-card" style="border-left: 3px solid var(--accent-cyan);">
             <div class="glance-card-top">
-              <span class="glance-card-icon">🎂</span>
+              <div style="width: 28px; height: 28px; background: #ecfeff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-cyan);" viewBox="0 0 24 24"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path></svg>
+              </div>
               <span class="glance-card-val">44.9</span>
             </div>
             <div class="glance-card-lbl-hi">औसत आयु</div>
-            <div class="glance-card-lbl-en">Average Age</div>
+            <div class="glance-card-lbl-en">AVG AGE (YRS)</div>
           </div>
 
           <div class="glance-card" style="border-left: 3px solid var(--accent-purple);">
             <div class="glance-card-top">
-              <span class="glance-card-icon">📊</span>
+              <div style="width: 28px; height: 28px; background: #f5f3ff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-purple);" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
               <span class="glance-card-val">41</span>
             </div>
             <div class="glance-card-lbl-hi">मध्यिका आयु</div>
-            <div class="glance-card-lbl-en">Median Age</div>
+            <div class="glance-card-lbl-en">MEDIAN AGE (YRS)</div>
           </div>
 
           <div class="glance-card" style="border-left: 3px solid var(--accent-amber);">
             <div class="glance-card-top">
-              <span class="glance-card-icon">👴</span>
+              <div style="width: 28px; height: 28px; background: #fffbeb; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-amber);" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
               <span class="glance-card-val">214</span>
             </div>
             <div class="glance-card-lbl-hi">वरिष्ठ नागरिक</div>
-            <div class="glance-card-lbl-en">Age 60+ (23.8%)</div>
+            <div class="glance-card-lbl-en">AGE 60+ (23.8%)</div>
+          </div>
+
+          <div class="glance-card" style="border-left: 3px solid var(--accent-emerald);">
+            <div class="glance-card-top">
+              <div style="width: 28px; height: 28px; background: #ecfdf5; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon-svg" style="width: 14px; height: 14px; color: var(--accent-emerald);" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              </div>
+              <span class="glance-card-val">257</span>
+            </div>
+            <div class="glance-card-lbl-hi">पंजीकृत मकान</div>
+            <div class="glance-card-lbl-en">UNIQUE HOUSES</div>
           </div>
 
         </div>
