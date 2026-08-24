@@ -67,14 +67,23 @@ D:\Apps\ward29\
 
 ---
 
-## 🌐 Deploying to GitHub Pages
+## 🌐 Live deployments
 
-The repository is hosted at:
+GitHub repository:
 ```text
 https://github.com/amitsheoran/ward29
 ```
 
-Live website:
+GitHub Pages:
 ```text
 https://amitsheoran.github.io/ward29/
 ```
+
+Vercel (production, `main` branch):
+```text
+https://ward29.vercel.app/
+```
+
+Vercel project: `ward29/ward29` (`prj_losSUXoEPryUgAhhohu5cDAAqpRG`)
+
+This is a static site. Vercel should use **Framework Preset: Other**, **Root Directory: `.`**, and **Production Branch: `main`**. Connect the GitHub repo `amitsheoran/ward29` in the Vercel project so every push to `main` deploys automatically.
