@@ -2711,3 +2711,182 @@ img, svg {
     transition: none;
   }
 }
+
+/* --- Official Ward 29 logo (exact asset, no crop/stretch) --- */
+.brand-logo,
+.brand-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.brand-logo-hero,
+.brand-logo-hero {
+  width: 44px;
+  max-width: 44px;
+  max-height: 44px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.brand-logo-sm,
+.brand-logo-section,
+.brand-logo-sm,
+.brand-logo-section {
+  width: 36px;
+  max-width: 36px;
+  max-height: 36px;
+}
+
+.brand-logo-sheet,
+.brand-logo-splash,
+.brand-logo-sheet,
+.brand-logo-splash {
+  width: 72px;
+  max-width: 72px;
+  max-height: 72px;
+}
+
+.brand-inline,
+.brand-row,
+.brand-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.share-sheet-brand,
+.share-sheet-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.app-splash,
+.app-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: #0f172a;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.app-splash.is-done,
+.app-splash.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.app-splash-title,
+.app-splash-title {
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.poll-disclaimer {
+  margin-top: 0.65rem;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+
+.poll-leader-banner,
+.poll-leader-banner {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+}
+
+.poll-leader-kicker,
+.poll-leader-kicker {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.poll-leader-name,
+.poll-leader-name {
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.poll-leader-meta,
+.poll-leader-meta {
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.vote-privacy-note,
+.vote-privacy-note {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.vote-result-view,
+.vote-result-view {
+  text-align: center;
+  padding: 0.75rem 0 0.25rem;
+}
+
+.vote-result-mark {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 0.65rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--success-light);
+  color: var(--success);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.vote-result-title {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.vote-result-copy {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.btn-vote-candidate.is-busy {
+  opacity: 0.7;
+}
+
+@media (min-width: 640px) {
+  .brand-logo-hero {
+    width: 52px;
+    max-width: 52px;
+    max-height: 52px;
+  }
+}

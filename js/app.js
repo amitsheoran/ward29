@@ -113,16 +113,21 @@
       totalVotes: 0,
       hasVoted: false,
       userVotedCandidateId: null,
-      pendingCandidateId: null
+      pendingCandidateId: null,
+      isSubmitting: false
     },
     mapZoom: 1,
     mapPan: { x: 0, y: 0 }
   };
 
   // --- 4. INITIALIZATION ---
+  const VOTE_TOKEN_KEY = 'ward29_vote_token';
+  const VOTE_CANDIDATE_KEY = 'ward29_voted_candidate_id';
+
   document.addEventListener('DOMContentLoaded', async () => {
     initPollState();
     await loadInitialData();
+    await syncServerVoteStatus();
     setupBottomNavigation();
     setupCandidateVoting();
     setupVoterSearchAndFilters();
@@ -131,6 +136,7 @@
     renderDashboardVisuals();
     renderCandidatesList();
     renderVoters();
+    hideAppSplash();
   });
 
   // --- 5. DATA FETCHING ---
@@ -154,18 +160,62 @@
     }
   }
 
-  // --- 6. SESSION & POLL MANAGEMENT ---
-  function getOrCreateSessionId() {
-    let sid = localStorage.getItem('ward29_poll_session_id');
-    if (!sid) {
-      sid = 'session_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now();
-      localStorage.setItem('ward29_poll_session_id', sid);
+  // --- 6. ANONYMOUS POLL TOKEN (no personal data, no fingerprinting) ---
+  function hideAppSplash() {
+    const splash = document.getElementById('appSplash');
+    if (!splash) return;
+    splash.classList.add('is-done');
+    window.setTimeout(() => splash.remove(), 400);
+  }
+
+  function getOrCreateVoteToken() {
+    let token = localStorage.getItem(VOTE_TOKEN_KEY);
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!token || !uuidRe.test(token)) {
+      token = (crypto.randomUUID && crypto.randomUUID()) ||
+        ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (ch) => {
+          const n = (Math.random() * 16) | 0;
+          const v = ch === 'x' ? n : (n & 0x3) | 0x8;
+          return v.toString(16);
+        }));
+      localStorage.setItem(VOTE_TOKEN_KEY, token);
     }
-    return sid;
+    return token;
+  }
+
+  async function sha256Hex(value) {
+    const bytes = new TextEncoder().encode(value);
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function getDeviceHash() {
+    return sha256Hex(getOrCreateVoteToken());
+  }
+
+  function markLocalVoted(candidateId) {
+    state.poll.hasVoted = true;
+    state.poll.userVotedCandidateId = candidateId;
+    localStorage.setItem(VOTE_CANDIDATE_KEY, String(candidateId));
+  }
+
+  async function syncServerVoteStatus() {
+    if (!supabaseClient) return;
+    try {
+      const hash = await getDeviceHash();
+      const { data, error } = await supabaseClient.rpc('get_vote_status', { p_device_hash: hash });
+      if (error || !data) return;
+      if (data.voted && data.candidate_id) {
+        markLocalVoted(Number(data.candidate_id));
+      }
+    } catch (err) {
+      /* status sync is UX-only */
+    }
   }
 
   function initPollState() {
-    const votedId = localStorage.getItem('ward29_voted_candidate_id');
+    getOrCreateVoteToken();
+    const votedId = localStorage.getItem(VOTE_CANDIDATE_KEY);
     if (votedId) {
       state.poll.hasVoted = true;
       state.poll.userVotedCandidateId = parseInt(votedId, 10);
@@ -378,21 +428,52 @@
     });
   }
 
+  function getPollLeadership() {
+    const ranked = CANDIDATES.map((c) => {
+      const votes = state.poll.votes[c.id] || 0;
+      const pct = state.poll.totalVotes > 0 ? (votes / state.poll.totalVotes) * 100 : 0;
+      return { candidate: c, votes, pct };
+    }).sort((a, b) => b.votes - a.votes);
+
+    const top = ranked[0];
+    if (!top || top.votes === 0) {
+      return { ranked, leaders: [], isTie: false, hasVotes: false };
+    }
+    const leaders = ranked.filter((row) => row.votes === top.votes);
+    return { ranked, leaders, isTie: leaders.length > 1, hasVotes: true };
+  }
+
+  function formatPollPct(value) {
+    return value.toFixed(2);
+  }
+
   function renderHomePollPreview() {
     const leaderEl = document.getElementById('dashPollLeader');
     if (!leaderEl) return;
 
-    const sorted = CANDIDATES.slice().sort((a, b) => (state.poll.votes[b.id] || 0) - (state.poll.votes[a.id] || 0));
-    const leader = sorted[0];
-    const votes = leader ? (state.poll.votes[leader.id] || 0) : 0;
-    const pct = state.poll.totalVotes > 0 ? ((votes / state.poll.totalVotes) * 100).toFixed(1) : '0.0';
-
-    leaderEl.textContent = votes > 0 ? leader.name : 'Waiting for votes';
+    const lead = getPollLeadership();
+    const kicker = document.getElementById('dashPollKicker');
     const votesEl = document.getElementById('dashPollVotes');
     const pctEl = document.getElementById('dashPollPct');
     const totalEl = document.getElementById('dashPollTotal');
-    if (votesEl) votesEl.textContent = String(votes);
-    if (pctEl) pctEl.textContent = pct + '%';
+
+    if (!lead.hasVotes) {
+      if (kicker) kicker.textContent = 'Current leader';
+      leaderEl.textContent = 'Waiting for votes';
+      if (votesEl) votesEl.textContent = '0';
+      if (pctEl) pctEl.textContent = '0.00%';
+    } else if (lead.isTie) {
+      if (kicker) kicker.textContent = 'Current leaders';
+      leaderEl.textContent = 'Tie between ' + lead.leaders.length + ' candidates';
+      if (votesEl) votesEl.textContent = String(lead.leaders[0].votes);
+      if (pctEl) pctEl.textContent = formatPollPct(lead.leaders[0].pct) + '%';
+    } else {
+      const sole = lead.leaders[0];
+      if (kicker) kicker.textContent = 'Current leader';
+      leaderEl.textContent = sole.candidate.name;
+      if (votesEl) votesEl.textContent = String(sole.votes);
+      if (pctEl) pctEl.textContent = formatPollPct(sole.pct) + '%';
+    }
     if (totalEl) totalEl.textContent = String(state.poll.totalVotes || 0);
   }
 
@@ -431,22 +512,57 @@
     if (cancelBtn) cancelBtn.addEventListener('click', () => closeConfirmModal());
     if (confirmModal) {
       confirmModal.addEventListener('click', (e) => {
-        if (e.target === confirmModal) closeConfirmModal();
+        if (e.target === confirmModal && !state.poll.isSubmitting) closeConfirmModal();
       });
     }
 
     if (submitBtn) {
       submitBtn.addEventListener('click', async () => {
-        if (!state.poll.pendingCandidateId) return;
+        if (!state.poll.pendingCandidateId || state.poll.isSubmitting) return;
         await submitUserVote(state.poll.pendingCandidateId);
+      });
+    }
+    const resultsBtn = document.getElementById('voteViewResultsBtn');
+    if (resultsBtn) {
+      resultsBtn.addEventListener('click', () => {
         closeConfirmModal();
+        const section = document.getElementById('candidates');
+        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
   }
 
+  function setVoteSheetMode(mode) {
+    const title = document.getElementById('voteSheetTitle');
+    const confirmView = document.getElementById('voteSheetConfirmView');
+    const successView = document.getElementById('voteSheetSuccessView');
+    const alreadyView = document.getElementById('voteSheetAlreadyView');
+    const confirmActions = document.getElementById('voteSheetConfirmActions');
+    const resultActions = document.getElementById('voteSheetResultActions');
+    const show = (el, on) => { if (el) el.hidden = !on; };
+    show(confirmView, mode === 'confirm');
+    show(successView, mode === 'success');
+    show(alreadyView, mode === 'already');
+    show(confirmActions, mode === 'confirm');
+    show(resultActions, mode === 'success' || mode === 'already');
+    if (title) {
+      title.textContent = mode === 'success' ? 'Vote recorded' : mode === 'already' ? 'Already voted' : 'Confirm your vote';
+    }
+  }
+
+  function setSubmitButtonBusy(busy) {
+    const submitBtn = document.getElementById('voteSubmitBtn');
+    if (!submitBtn) return;
+    submitBtn.disabled = busy;
+    submitBtn.textContent = busy ? 'Submitting...' : 'Confirm Vote';
+  }
+
   function openVoteConfirmation(candidateId) {
+    if (state.poll.isSubmitting) return;
     if (state.poll.hasVoted) {
-      showToast('आप पहले ही अपना मत दर्ज कर चुके हैं। (One vote per user)');
+      setVoteSheetMode('already');
+      const modal = document.getElementById('voteConfirmModalBackdrop');
+      if (modal) modal.classList.add('open');
       return;
     }
 
@@ -454,44 +570,80 @@
     if (!candidate) return;
 
     state.poll.pendingCandidateId = candidateId;
-    document.getElementById('confirmCandidateName').textContent = `${candidate.name} (${candidate.nameHi})`;
-    document.getElementById('confirmCandidateRel').textContent = `${candidate.relation} • ${candidate.relationHi}`;
+    const nameEl = document.getElementById('confirmCandidateName');
+    const relEl = document.getElementById('confirmCandidateRel');
+    if (nameEl) nameEl.textContent = candidate.name + ' (' + candidate.nameHi + ')';
+    if (relEl) relEl.textContent = candidate.relation + ' • ' + candidate.relationHi;
+    setVoteSheetMode('confirm');
+    setSubmitButtonBusy(false);
 
     const modal = document.getElementById('voteConfirmModalBackdrop');
     if (modal) modal.classList.add('open');
   }
 
   function closeConfirmModal() {
+    if (state.poll.isSubmitting) return;
     state.poll.pendingCandidateId = null;
     const modal = document.getElementById('voteConfirmModalBackdrop');
     if (modal) modal.classList.remove('open');
+    setVoteSheetMode('confirm');
+    setSubmitButtonBusy(false);
   }
 
   async function submitUserVote(candidateId) {
-    state.poll.hasVoted = true;
-    state.poll.userVotedCandidateId = candidateId;
-    state.poll.votes[candidateId] = (state.poll.votes[candidateId] || 0) + 1;
-    calculatePollTotals();
+    if (state.poll.isSubmitting) return;
+    if (!CANDIDATES.some((c) => c.id === candidateId)) return;
 
-    localStorage.setItem('ward29_voted_candidate_id', candidateId.toString());
-    localStorage.setItem('ward29_community_votes', JSON.stringify(state.poll.votes));
-
-    const sessionId = getOrCreateSessionId();
-
-    if (supabaseClient) {
-      try {
-        await supabaseClient.rpc('record_candidate_vote', {
-          p_candidate_id: candidateId,
-          p_session_id: sessionId
-        });
-      } catch (err) {
-        console.warn('Supabase vote recording notice:', err);
-      }
+    if (!supabaseClient) {
+      showToast('Voting is temporarily unavailable. Please try again.');
+      return;
     }
 
+    state.poll.isSubmitting = true;
+    setSubmitButtonBusy(true);
     renderCandidatesList();
-    renderPollResults();
-    showToast('✓ आपका मत सफलतापूर्वक दर्ज कर लिया गया है!');
+
+    try {
+      const hash = await getDeviceHash();
+      const { data, error } = await supabaseClient.rpc('submit_vote', {
+        p_candidate_id: candidateId,
+        p_device_hash: hash
+      });
+
+      const result = data || {};
+      if (error && !result.status) {
+        showToast('Your vote could not be recorded. Please try again.');
+        return;
+      }
+
+      if (result.status === 'recorded') {
+        markLocalVoted(candidateId);
+        await fetchSupabaseVotes();
+        renderCandidatesList();
+        renderPollResults();
+        setVoteSheetMode('success');
+        return;
+      }
+
+      if (result.status === 'already_voted') {
+        const existingId = Number(result.candidate_id) || state.poll.userVotedCandidateId;
+        if (existingId) markLocalVoted(existingId);
+        else state.poll.hasVoted = true;
+        await fetchSupabaseVotes();
+        renderCandidatesList();
+        renderPollResults();
+        setVoteSheetMode('already');
+        return;
+      }
+
+      showToast('Your vote could not be recorded. Please try again.');
+    } catch (err) {
+      showToast('Your vote could not be recorded. Please try again.');
+    } finally {
+      state.poll.isSubmitting = false;
+      setSubmitButtonBusy(false);
+      renderCandidatesList();
+    }
   }
 
   function renderCandidatesList() {

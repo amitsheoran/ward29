@@ -1,0 +1,17 @@
+{
+  "name": "Ward 29 Pilani",
+  "short_name": "Ward 29",
+  "description": "Ward 29 Pilani civic information and community poll",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "./assets/wardlogo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

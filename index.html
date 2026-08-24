@@ -20,10 +20,16 @@
   <!-- Supabase JS SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230f172a%22/><text y=%22.9em%22 x=%22.1em%22 font-size=%2280%22 fill=%22%233b82f6%22 font-family=%22sans-serif%22 font-weight=%22bold%22>29</text></svg>">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/wardlogo.png" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/wardlogo.png">
 </head>
 <body>
+
+  <div id="appSplash" class="app-splash" aria-hidden="true">
+    <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-splash" width="96" height="96">
+    <p class="app-splash-title">Ward 29 - Pilani</p>
+  </div>
 
   <main>
     <div class="container">
@@ -36,7 +42,7 @@
         <article class="dash-hero">
           <div class="dash-hero-glow" aria-hidden="true"></div>
           <div class="dash-hero-identity">
-            <div class="dash-ward-mark" aria-hidden="true">29</div>
+            <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-hero" width="56" height="56">
             <div class="dash-hero-copy">
               <h1 class="dash-hero-title">Ward 29 - Pilani</h1>
               <p class="dash-hero-kicker hindi" lang="hi">नगर पालिका निर्वाचन नामावली - 2026</p>
@@ -182,10 +188,11 @@
               <h2 id="pollPreviewTitle" class="dash-card-title">Live community poll</h2>
               <p class="dash-card-sub hindi" lang="hi">लाइव सामुदायिक मतदान</p>
             </header>
-            <p class="dash-poll-kicker">Current leader</p>
+            <p class="dash-poll-kicker" id="dashPollKicker">Current leader</p>
             <p class="dash-poll-leader" id="dashPollLeader">Waiting for votes</p>
             <p class="dash-poll-score"><span id="dashPollVotes">0</span> votes · <span id="dashPollPct">0%</span></p>
             <p class="dash-poll-total">Total votes: <strong id="dashPollTotal">0</strong></p>
+            <p class="poll-disclaimer">Community poll only. This does not represent official election results.</p>
             <a href="#candidates" class="dash-link-btn">View live results</a>
           </article>
 
@@ -203,17 +210,25 @@
 
         <article class="dash-card dash-community">
           <div class="dash-wa-row">
-            <div>
-              <h2 class="dash-card-title">Ward 29 WhatsApp Group</h2>
-              <p class="dash-card-sub">Stay connected with Ward 29 residents.</p>
+            <div class="brand-inline">
+              <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-sm">
+              <div>
+                <h2 class="dash-card-title">Ward 29 WhatsApp Group</h2>
+                <p class="dash-card-sub">Stay connected with Ward 29 residents.</p>
+              </div>
             </div>
             <a class="dash-wa-btn" href="https://chat.whatsapp.com/KaQwhUeJbae7wA6onU4CmS" target="_blank" rel="noopener noreferrer">Join WhatsApp Group</a>
           </div>
         </article>
 
         <article class="dash-card dash-share">
-          <h2 class="dash-card-title">Share Ward 29 App</h2>
-          <p class="dash-card-sub">Send this civic app to family and neighbours.</p>
+          <div class="brand-inline">
+            <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-sm">
+            <div>
+              <h2 class="dash-card-title">Share Ward 29 App</h2>
+              <p class="dash-card-sub">Send this civic app to family and neighbours.</p>
+            </div>
+          </div>
           <button type="button" class="dash-link-btn" id="dashShareBtn">Share app</button>
         </article>
 
@@ -304,9 +319,10 @@
            ========================================== -->
       <section id="candidates" class="section-container">
         <div class="section-header-clean">
+          <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-section">
           <div class="section-eyebrow">समुदाय रायशुमारी</div>
           <h2 class="section-main-title">Ward 29 Candidates & Community Poll</h2>
-          <p class="section-caption">अपने पसंदीदा प्रत्याशी के पक्ष में अपनी राय व्यक्त करें (One vote per user/session)</p>
+          <p class="section-caption">One anonymous vote per browser/device. No personal information is required.</p>
         </div>
 
         <!-- Candidates Cards Grid (with Prominent Photo Frames) -->
@@ -319,12 +335,14 @@
           <div class="poll-results-header">
             <div class="poll-live-indicator">
               <span class="live-pulse-dot"></span>
-              <span>Live Poll Results</span>
+              <span>LIVE COMMUNITY POLL</span>
             </div>
             <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary);">
               Total Community Votes: <strong id="totalPollVotesCount" style="color: var(--navy-900);">0</strong>
             </div>
           </div>
+          <div class="poll-leader-banner" id="pollLeaderBanner"></div>
+          <p class="poll-disclaimer">Community poll only. This does not represent official election results.</p>
 
           <div class="charts-duo-grid" style="margin: 0; align-items: center;">
             
@@ -446,6 +464,7 @@
            ========================================== -->
       <section id="community" class="section-container" style="border-bottom: none;">
         <div class="section-header-clean">
+          <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-section">
           <div class="section-eyebrow">नागरिक केंद्र एवं संपर्क</div>
           <h2 class="section-main-title">Ward 29 Community Hub</h2>
           <p class="section-caption">व्हाट्सएप ग्रुप, आधिकारिक सीमा नक्शा, मतदान केंद्र एवं साझाकरण</p>
@@ -473,9 +492,12 @@
 
         <!-- Share Ward 29 Card -->
         <div class="share-app-card">
-          <div>
-            <div style="font-size: 1.0625rem; font-weight: 800; color: var(--navy-900);">📤 Share Ward 29 App</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Share this civic app with your family, friends, and community members.</div>
+          <div class="brand-inline">
+            <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-sm">
+            <div>
+              <div style="font-size: 1.0625rem; font-weight: 800; color: var(--navy-900);">Share Ward 29 App</div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Share this civic app with your family, friends, and community members.</div>
+            </div>
           </div>
           <button type="button" class="btn-share-app-main" id="bottomShareBtn">
             <svg class="icon-svg" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
@@ -607,6 +629,9 @@
       </div>
 
       <div class="sheet-scroll-body">
+        <div class="share-sheet-brand">
+          <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-sheet">
+        </div>
         <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.875rem;">
           Share this Ward 29 portal with your family, friends, and community members.
         </div>
@@ -635,25 +660,39 @@
     <div class="bottom-sheet-card">
       <div class="sheet-handle-pill"></div>
       <div class="sheet-header-bar">
-        <h3 class="sheet-header-title">Confirm Your Vote</h3>
+        <h3 class="sheet-header-title" id="voteSheetTitle">Confirm Your Vote</h3>
         <button type="button" id="voteConfirmCloseBtn" class="btn-sheet-close" aria-label="Close Dialog">✕</button>
       </div>
 
-      <div class="sheet-scroll-body">
+      <div class="sheet-scroll-body" id="voteSheetConfirmView">
         <div style="text-align: center; padding: 0.75rem 0;">
-          <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">You are voting for:</div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">Vote for</div>
           <div id="confirmCandidateName" style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900); margin-top: 0.25rem;">Candidate Name</div>
           <div id="confirmCandidateRel" style="font-size: 0.875rem; font-weight: 600; color: var(--blue-600); margin-top: 0.1rem;">W/O Husband Name</div>
         </div>
-
-        <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 0.65rem; font-size: 0.75rem; color: #92400e; line-height: 1.4; margin-top: 0.5rem;">
-          ⚠️ <strong>Important:</strong> Your vote cannot be changed after submission (One vote per user/session).
-        </div>
+        <p class="vote-privacy-note">One anonymous vote per browser/device. No personal information is required.</p>
       </div>
 
-      <div class="sheet-footer-actions">
+      <div class="sheet-scroll-body vote-result-view" id="voteSheetSuccessView" hidden>
+        <div class="vote-result-mark" aria-hidden="true">✓</div>
+        <h4 class="vote-result-title">Vote Recorded</h4>
+        <p class="vote-result-copy">Your vote has been recorded successfully.</p>
+        <p class="vote-result-copy">You can vote for only one candidate.</p>
+      </div>
+
+      <div class="sheet-scroll-body vote-result-view" id="voteSheetAlreadyView" hidden>
+        <div class="vote-result-mark" aria-hidden="true">✓</div>
+        <h4 class="vote-result-title">You have already voted</h4>
+        <p class="vote-result-copy">You have already voted from this browser/device.</p>
+        <p class="vote-result-copy">Only one candidate can be selected per device/browser.</p>
+      </div>
+
+      <div class="sheet-footer-actions" id="voteSheetConfirmActions">
         <button type="button" id="voteCancelBtn" class="btn-page-nav" style="height: 38px; padding: 0 1rem;">Cancel</button>
         <button type="button" id="voteSubmitBtn" class="btn-open-map" style="padding: 0.5rem 1.25rem; background: var(--success);">Confirm Vote</button>
+      </div>
+      <div class="sheet-footer-actions" id="voteSheetResultActions" hidden>
+        <button type="button" id="voteViewResultsBtn" class="btn-open-map" style="padding: 0.5rem 1.25rem;">View Live Results</button>
       </div>
     </div>
   </div>
@@ -811,7 +850,10 @@
     <div class="container">
       <div class="footer-inner-grid">
         <div>
-          <div style="font-weight: 900; font-size: 0.9375rem; color: var(--navy-900); margin-bottom: 0.25rem;">Ward 29 - Pilani</div>
+          <div class="brand-inline" style="margin-bottom: 0.35rem;">
+            <img src="./assets/wardlogo.png" alt="Ward 29 logo" class="brand-logo brand-logo-sm">
+            <div style="font-weight: 900; font-size: 0.9375rem; color: var(--navy-900);">Ward 29 - Pilani</div>
+          </div>
           <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">नगर पालिका चुनाव 2026 निर्वाचक नामावली एवं समुदाय रायशुमारी पोर्टल।</p>
         </div>
         <div>
