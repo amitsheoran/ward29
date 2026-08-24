@@ -51,12 +51,23 @@ CREATE TABLE IF NOT EXISTS public.votes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     candidate_id INT NOT NULL REFERENCES public.candidates(id),
     device_hash TEXT NOT NULL,
+    device_scope_hash TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     CONSTRAINT votes_device_hash_unique UNIQUE (device_hash),
-    CONSTRAINT votes_device_hash_sha256 CHECK (device_hash ~ '^[a-f0-9]{64}$')
+    CONSTRAINT votes_device_hash_sha256 CHECK (device_hash ~ '^[a-f0-9]{64}$'),
+    CONSTRAINT votes_device_scope_hash_sha256 CHECK (
+        device_scope_hash IS NULL OR device_scope_hash ~ '^[a-f0-9]{64}$'
+    )
 );
 
+ALTER TABLE public.votes
+    ADD COLUMN IF NOT EXISTS device_scope_hash TEXT;
+
 CREATE INDEX IF NOT EXISTS votes_candidate_id_idx ON public.votes (candidate_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS votes_device_scope_hash_unique
+    ON public.votes (device_scope_hash)
+    WHERE device_scope_hash IS NOT NULL;
 
 -- 4. Public aggregate counts (no hashes). Source of live results.
 CREATE TABLE IF NOT EXISTS public.candidate_votes (
@@ -96,7 +107,14 @@ GRANT SELECT ON TABLE public.candidates TO anon, authenticated;
 GRANT SELECT ON TABLE public.candidate_votes TO anon, authenticated;
 
 -- 6. Atomic vote: INSERT + UNIQUE(device_hash) in one transaction
-CREATE OR REPLACE FUNCTION public.submit_vote(p_candidate_id INT, p_device_hash TEXT)
+DROP FUNCTION IF EXISTS public.submit_vote(INT, TEXT);
+DROP FUNCTION IF EXISTS public.get_vote_status(TEXT);
+
+CREATE OR REPLACE FUNCTION public.submit_vote(
+    p_candidate_id INT,
+    p_device_hash TEXT,
+    p_device_scope_hash TEXT DEFAULT NULL
+)
 RETURNS JSONB
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -110,6 +128,10 @@ BEGIN
         RETURN jsonb_build_object('ok', false, 'status', 'invalid');
     END IF;
 
+    IF p_device_scope_hash IS NOT NULL AND p_device_scope_hash !~ '^[a-f0-9]{64}$' THEN
+        RETURN jsonb_build_object('ok', false, 'status', 'invalid');
+    END IF;
+
     IF p_candidate_id IS NULL OR NOT EXISTS (
         SELECT 1 FROM public.candidates
         WHERE id = p_candidate_id AND is_active = TRUE
@@ -117,15 +139,31 @@ BEGIN
         RETURN jsonb_build_object('ok', false, 'status', 'invalid_candidate');
     END IF;
 
-    INSERT INTO public.votes (candidate_id, device_hash)
-    VALUES (p_candidate_id, p_device_hash)
+    SELECT candidate_id INTO v_existing_candidate
+    FROM public.votes
+    WHERE device_hash = p_device_hash
+       OR (p_device_scope_hash IS NOT NULL AND device_scope_hash = p_device_scope_hash)
+    LIMIT 1;
+
+    IF v_existing_candidate IS NOT NULL THEN
+        RETURN jsonb_build_object(
+            'ok', false,
+            'status', 'already_voted',
+            'candidate_id', v_existing_candidate
+        );
+    END IF;
+
+    INSERT INTO public.votes (candidate_id, device_hash, device_scope_hash)
+    VALUES (p_candidate_id, p_device_hash, p_device_scope_hash)
     ON CONFLICT (device_hash) DO NOTHING
     RETURNING id INTO v_inserted;
 
     IF v_inserted IS NULL THEN
         SELECT candidate_id INTO v_existing_candidate
         FROM public.votes
-        WHERE device_hash = p_device_hash;
+        WHERE device_hash = p_device_hash
+           OR (p_device_scope_hash IS NOT NULL AND device_scope_hash = p_device_scope_hash)
+        LIMIT 1;
 
         RETURN jsonb_build_object(
             'ok', false,
@@ -148,7 +186,9 @@ EXCEPTION
     WHEN unique_violation THEN
         SELECT candidate_id INTO v_existing_candidate
         FROM public.votes
-        WHERE device_hash = p_device_hash;
+        WHERE device_hash = p_device_hash
+           OR (p_device_scope_hash IS NOT NULL AND device_scope_hash = p_device_scope_hash)
+        LIMIT 1;
 
         RETURN jsonb_build_object(
             'ok', false,
@@ -158,7 +198,10 @@ EXCEPTION
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.get_vote_status(p_device_hash TEXT)
+CREATE OR REPLACE FUNCTION public.get_vote_status(
+    p_device_hash TEXT,
+    p_device_scope_hash TEXT DEFAULT NULL
+)
 RETURNS JSONB
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -173,7 +216,10 @@ BEGIN
 
     SELECT candidate_id INTO v_candidate_id
     FROM public.votes
-    WHERE device_hash = p_device_hash;
+    WHERE device_hash = p_device_hash
+       OR (p_device_scope_hash IS NOT NULL AND device_scope_hash = p_device_scope_hash)
+    ORDER BY created_at ASC
+    LIMIT 1;
 
     IF v_candidate_id IS NULL THEN
         RETURN jsonb_build_object('voted', false);
@@ -186,10 +232,10 @@ BEGIN
 END;
 $$;
 
-REVOKE ALL ON FUNCTION public.submit_vote(INT, TEXT) FROM PUBLIC;
-REVOKE ALL ON FUNCTION public.get_vote_status(TEXT) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.submit_vote(INT, TEXT) TO anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.get_vote_status(TEXT) TO anon, authenticated;
+REVOKE ALL ON FUNCTION public.submit_vote(INT, TEXT, TEXT) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.get_vote_status(TEXT, TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.submit_vote(INT, TEXT, TEXT) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.get_vote_status(TEXT, TEXT) TO anon, authenticated;
 
 -- 7. Realtime for live aggregate counts only
 DO $$

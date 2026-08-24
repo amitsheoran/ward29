@@ -10,16 +10,16 @@ This portal transforms official civic information and voter data into an accessi
 
 > **Disclaimer**: This is an unofficial community poll for informational purposes only. It is not an official election voting system and these results are not official election results.
 
-### Candidates:
-1. **Monika Baloda** - W/O Manish Baloda
-2. **Aditi Godara** - W/O Amardeep Godara
-3. **Poonam Sihag** - W/O Anil Sihag
+### Candidates (display order):
+1. **Aditi Godara** - W/O Amardeep Godara
+2. **Poonam Sihag** - W/O Anil Sihag
+3. **Deepa** - D/o/L Tarachand Saini
 4. **Suman** - W/O Tilak
-5. **Aruna Madam** - W/O Bhupendra Sheoran
-6. **Deepa** - D/o/L Tarachand Saini
+5. **Monika Baloda** - W/O Manish Baloda
+6. **Aruna Madam** - W/O Bhupendra Sheoran
 
 ### Community Poll Features:
-- **One Vote per User/Session**: Server-side and client-side protection against duplicate votes.
+- **One Vote per User**: Server-enforced via anonymous token + device scope hash in Supabase.
 - **Vote Confirmation Dialog**: Prevents accidental taps.
 - **Live Real-time Results**: Instant percentage calculation (to 2 decimal places), ranked leaderboard, dynamic current leader tracking (with tie handling), and live SVG donut chart.
 - **Supabase Integration**: Ready for Supabase PostgreSQL database with Row Level Security (RLS) policies (`schema.sql`).

@@ -19,17 +19,8 @@
   // --- 1. CANDIDATE CONFIGURATION & ASSETS ---
   const CANDIDATES = [
     {
-      id: 1,
-      name: "Monika Baloda",
-      nameHi: "मोनिका बलोदा",
-      relation: "W/O Manish Baloda",
-      relationHi: "पत्नी मनीष बलोदा",
-      initials: "MB",
-      color: "#2563eb",
-      photo: null
-    },
-    {
       id: 2,
+      order: 1,
       name: "Aditi Godara",
       nameHi: "अदिति गोदारा",
       relation: "W/O Amardeep Godara",
@@ -40,6 +31,7 @@
     },
     {
       id: 3,
+      order: 2,
       name: "Poonam Sihag",
       nameHi: "पूनम सिहाग",
       relation: "W/O Anil Sihag",
@@ -49,7 +41,19 @@
       photo: "./assets/candidates/poonam.jpeg"
     },
     {
+      id: 6,
+      order: 3,
+      name: "Deepa",
+      nameHi: "दीपा",
+      relation: "D/o/L Tarachand Saini",
+      relationHi: "पुत्री स्व. ताराचंद सैनी",
+      initials: "DS",
+      color: "#0d9488",
+      photo: "./assets/candidates/Dipa.jpg"
+    },
+    {
       id: 4,
+      order: 4,
       name: "Suman",
       nameHi: "सुमन",
       relation: "W/O Tilak",
@@ -59,7 +63,19 @@
       photo: null
     },
     {
+      id: 1,
+      order: 5,
+      name: "Monika Baloda",
+      nameHi: "मोनिका बलोदा",
+      relation: "W/O Manish Baloda",
+      relationHi: "पत्नी मनीष बलोदा",
+      initials: "MB",
+      color: "#2563eb",
+      photo: null
+    },
+    {
       id: 5,
+      order: 6,
       name: "Aruna Madam",
       nameHi: "अरुणा मैडम",
       relation: "W/O Bhupendra Sheoran",
@@ -67,18 +83,12 @@
       initials: "AM",
       color: "#8b5cf6",
       photo: null
-    },
-    {
-      id: 6,
-      name: "Deepa",
-      nameHi: "दीपा",
-      relation: "D/o/L Tarachand Saini",
-      relationHi: "पुत्री स्व. ताराचंद सैनी",
-      initials: "DS",
-      color: "#0d9488",
-      photo: "./assets/candidates/Dipa.jpg"
     }
   ];
+
+  function getCandidatesInOrder() {
+    return CANDIDATES.slice().sort((a, b) => a.order - b.order);
+  }
 
   // --- 2. SUPABASE CREDENTIALS (PUBLISHABLE / ANONYMOUS ONLY) ---
   const SUPABASE_URL = 'https://oagkvpuyfxfdohowhuxg.supabase.co';
@@ -122,6 +132,7 @@
 
   // --- 4. INITIALIZATION ---
   const VOTE_TOKEN_KEY = 'ward29_vote_token';
+  const VOTE_TOKEN_COOKIE = 'ward29_vote_token';
   const VOTE_CANDIDATE_KEY = 'ward29_voted_candidate_id';
 
   document.addEventListener('DOMContentLoaded', async () => {
@@ -168,9 +179,19 @@
     window.setTimeout(() => splash.remove(), 400);
   }
 
+  function readVoteTokenCookie() {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + VOTE_TOKEN_COOKIE + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function writeVoteTokenCookie(token) {
+    const maxAge = 60 * 60 * 24 * 400;
+    document.cookie = VOTE_TOKEN_COOKIE + '=' + encodeURIComponent(token) + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+  }
+
   function getOrCreateVoteToken() {
-    let token = localStorage.getItem(VOTE_TOKEN_KEY);
     const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    let token = localStorage.getItem(VOTE_TOKEN_KEY) || readVoteTokenCookie();
     if (!token || !uuidRe.test(token)) {
       token = (crypto.randomUUID && crypto.randomUUID()) ||
         ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (ch) => {
@@ -178,8 +199,9 @@
           const v = ch === 'x' ? n : (n & 0x3) | 0x8;
           return v.toString(16);
         }));
-      localStorage.setItem(VOTE_TOKEN_KEY, token);
     }
+    localStorage.setItem(VOTE_TOKEN_KEY, token);
+    writeVoteTokenCookie(token);
     return token;
   }
 
@@ -193,6 +215,19 @@
     return sha256Hex(getOrCreateVoteToken());
   }
 
+  async function getDeviceScopeHash() {
+    const material = [
+      navigator.platform || '',
+      String(screen.width),
+      String(screen.height),
+      String(window.devicePixelRatio || 1),
+      Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+      navigator.maxTouchPoints > 0 ? 'touch' : 'no-touch',
+      (navigator.language || '').split('-')[0]
+    ].join('|');
+    return sha256Hex('ward29-scope:' + material);
+  }
+
   function markLocalVoted(candidateId) {
     state.poll.hasVoted = true;
     state.poll.userVotedCandidateId = candidateId;
@@ -203,7 +238,11 @@
     if (!supabaseClient) return;
     try {
       const hash = await getDeviceHash();
-      const { data, error } = await supabaseClient.rpc('get_vote_status', { p_device_hash: hash });
+      const scopeHash = await getDeviceScopeHash();
+      const { data, error } = await supabaseClient.rpc('get_vote_status', {
+        p_device_hash: hash,
+        p_device_scope_hash: scopeHash
+      });
       if (error || !data) return;
       if (data.voted && data.candidate_id) {
         markLocalVoted(Number(data.candidate_id));
@@ -594,6 +633,11 @@
     if (state.poll.isSubmitting) return;
     if (!CANDIDATES.some((c) => c.id === candidateId)) return;
 
+    if (!navigator.onLine) {
+      showToast('You appear to be offline. Please connect and try again.');
+      return;
+    }
+
     if (!supabaseClient) {
       showToast('Voting is temporarily unavailable. Please try again.');
       return;
@@ -605,9 +649,11 @@
 
     try {
       const hash = await getDeviceHash();
+      const scopeHash = await getDeviceScopeHash();
       const { data, error } = await supabaseClient.rpc('submit_vote', {
         p_candidate_id: candidateId,
-        p_device_hash: hash
+        p_device_hash: hash,
+        p_device_scope_hash: scopeHash
       });
 
       const result = data || {};
@@ -650,24 +696,18 @@
     const grid = document.getElementById('candidatesGrid');
     if (!grid) return;
 
-    // Find current leader
-    let maxVotes = -1;
-    let leaderId = null;
-    for (const c of CANDIDATES) {
-      const v = state.poll.votes[c.id] || 0;
-      if (v > maxVotes && v > 0) {
-        maxVotes = v;
-        leaderId = c.id;
-      }
-    }
+    const lead = getPollLeadership();
+    const uniqueLeaderId = lead.hasVotes && !lead.isTie ? lead.leaders[0].candidate.id : null;
+    const ordered = getCandidatesInOrder();
+    const busy = state.poll.isSubmitting;
+    const pendingId = state.poll.pendingCandidateId;
 
-    grid.innerHTML = CANDIDATES.map(c => {
+    grid.innerHTML = ordered.map(c => {
       const votes = state.poll.votes[c.id] || 0;
-      const pct = state.poll.totalVotes > 0 ? ((votes / state.poll.totalVotes) * 100).toFixed(2) : '0.00';
-      const isLeader = leaderId === c.id;
+      const pct = state.poll.totalVotes > 0 ? formatPollPct((votes / state.poll.totalVotes) * 100) : '0.00';
+      const isLeader = uniqueLeaderId === c.id;
       const isUserVoted = state.poll.userVotedCandidateId === c.id;
 
-      // Photo Frame vs Initials Frame
       let mediaMarkup = '';
       if (c.photo) {
         mediaMarkup = `
@@ -683,13 +723,22 @@
         `;
       }
 
+      let voteBtn = '';
+      if (busy && pendingId === c.id) {
+        voteBtn = '<button type="button" class="btn-vote-candidate is-busy" disabled>Submitting...</button>';
+      } else if (state.poll.hasVoted) {
+        voteBtn = '<button type="button" class="btn-vote-candidate' + (isUserVoted ? ' voted-this' : '') + '" disabled>' +
+          (isUserVoted ? '✓ Voted' : 'Already Voted') + '</button>';
+      } else {
+        voteBtn = '<button type="button" class="btn-vote-candidate" onclick="window.openCandidateVote(' + c.id + ')">Vote</button>';
+      }
+
       return `
         <div class="candidate-card-item ${isLeader ? 'is-leader' : ''}">
           <div class="candidate-top-bar">
-            <span class="candidate-num-badge">Candidate #${c.id}</span>
-            ${isLeader ? `<span class="leader-badge-pill">★ Current Leader</span>` : ''}
+            <span class="candidate-num-badge">Candidate #${c.order}</span>
+            ${isLeader ? '<span class="leader-badge-pill">Current Leader</span>' : ''}
           </div>
-
           <div class="candidate-media-wrap">
             ${mediaMarkup}
             <div>
@@ -699,7 +748,6 @@
               <div style="font-size: 0.6875rem; color: var(--text-tertiary); font-family: var(--font-hindi);">${c.relationHi}</div>
             </div>
           </div>
-
           <div class="candidate-stats-box">
             <div>
               <span class="candidate-vote-count">${votes}</span>
@@ -707,23 +755,10 @@
             </div>
             <div class="candidate-vote-pct">${pct}%</div>
           </div>
-
           <div class="candidate-progress-bar-wrap">
             <div class="candidate-progress-bar-inner" style="width: ${pct}%; background: ${c.color};"></div>
           </div>
-
-          <div style="margin-top: 0.875rem;">
-            ${
-              state.poll.hasVoted
-                ? `<button type="button" class="btn-vote-candidate ${isUserVoted ? 'voted-this' : ''}" disabled>
-                    ${isUserVoted ? '✓ You Voted for ' + c.name : 'Vote Submitted'}
-                   </button>`
-                : `<button type="button" class="btn-vote-candidate" onclick="window.openCandidateVote(${c.id})">
-                    <svg class="icon-svg" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-                    <span>Vote for ${c.name}</span>
-                   </button>`
-            }
-          </div>
+          <div style="margin-top: 0.875rem;">${voteBtn}</div>
         </div>
       `;
     }).join('');
@@ -740,46 +775,54 @@
     const centerTotal = document.getElementById('pollDonutCenterTotal');
     const leaderboard = document.getElementById('pollLeaderboardList');
     const donutSegments = document.getElementById('pollDonutSegments');
+    const banner = document.getElementById('pollLeaderBanner');
 
     if (totalElem) totalElem.textContent = state.poll.totalVotes;
     if (centerTotal) centerTotal.textContent = state.poll.totalVotes;
     renderHomePollPreview();
 
+    const lead = getPollLeadership();
+    if (banner) {
+      if (!lead.hasVotes) {
+        banner.innerHTML = '';
+      } else if (lead.isTie) {
+        banner.innerHTML = '<p class="poll-leader-kicker">Current leaders</p><p class="poll-leader-name">Tie between ' + lead.leaders.length + ' candidates</p><p class="poll-leader-meta">' + lead.leaders[0].votes + ' votes · ' + formatPollPct(lead.leaders[0].pct) + '% each</p>';
+      } else {
+        const sole = lead.leaders[0];
+        banner.innerHTML = '<p class="poll-leader-kicker">Current leader</p><p class="poll-leader-name">' + sole.candidate.name + '</p><p class="poll-leader-meta">' + sole.votes + ' votes · ' + formatPollPct(sole.pct) + '%</p>';
+      }
+    }
+
     if (!leaderboard) return;
 
-    const sorted = [...CANDIDATES].sort((a, b) => (state.poll.votes[b.id] || 0) - (state.poll.votes[a.id] || 0));
-
-    leaderboard.innerHTML = sorted.map((c, idx) => {
-      const votes = state.poll.votes[c.id] || 0;
-      const pct = state.poll.totalVotes > 0 ? ((votes / state.poll.totalVotes) * 100).toFixed(2) : '0.00';
+    leaderboard.innerHTML = lead.ranked.map((row, idx) => {
+      const pct = formatPollPct(row.pct);
       return `
         <div class="leaderboard-item">
           <div class="leaderboard-item-top">
             <div class="leaderboard-candidate-name">
               <span style="color: var(--text-tertiary); font-weight: 800; margin-right: 0.35rem;">#${idx + 1}</span>
-              <span>${c.name}</span>
+              <span>${row.candidate.name}</span>
             </div>
             <div class="leaderboard-votes-info">
-              <span>${votes}</span> <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 600;">(${pct}%)</span>
+              <span>${row.votes}</span> <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 600;">(${pct}%)</span>
             </div>
           </div>
           <div class="candidate-progress-bar-wrap" style="height: 5px; margin-top: 0.2rem;">
-            <div class="candidate-progress-bar-inner" style="width: ${pct}%; background: ${c.color};"></div>
+            <div class="candidate-progress-bar-inner" style="width: ${pct}%; background: ${row.candidate.color};"></div>
           </div>
         </div>
       `;
     }).join('');
 
-    // Dynamic Donut SVG Segments
     if (donutSegments) {
       let cumulativeOffset = 0;
       const circumference = 238.76;
-      donutSegments.innerHTML = sorted.map(c => {
-        const votes = state.poll.votes[c.id] || 0;
-        if (votes === 0 || state.poll.totalVotes === 0) return '';
-        const dashLength = (votes / state.poll.totalVotes) * circumference;
+      donutSegments.innerHTML = lead.ranked.map((row) => {
+        if (row.votes === 0 || state.poll.totalVotes === 0) return '';
+        const dashLength = (row.votes / state.poll.totalVotes) * circumference;
         const segmentSvg = `
-          <circle cx="50" cy="50" r="38" fill="none" stroke="${c.color}" stroke-width="18"
+          <circle cx="50" cy="50" r="38" fill="none" stroke="${row.candidate.color}" stroke-width="18"
             stroke-dasharray="${dashLength} ${circumference}"
             stroke-dashoffset="-${cumulativeOffset}"
             stroke-linecap="round" />

@@ -2847,6 +2847,17 @@ img, svg {
   text-align: center;
 }
 
+.vote-warning-note {
+  margin-top: 0.65rem;
+  padding: 0.65rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #92400e;
+  background: var(--warning-light);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--radius-sm);
+}
+
 .vote-result-view,
 .vote-result-view {
   text-align: center;
