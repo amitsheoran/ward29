@@ -143,6 +143,7 @@
     setupCandidateVoting();
     setupVoterSearchAndFilters();
     setupInteractiveMap();
+    setupCandidatePhotoViewer();
     setupShareFeatures();
     renderDashboardVisuals();
     renderCandidatesList();
@@ -711,9 +712,10 @@
       let mediaMarkup = '';
       if (c.photo) {
         mediaMarkup = `
-          <div class="candidate-photo-frame">
+          <button type="button" class="candidate-photo-frame js-open-candidate-photo" data-photo="${c.photo}" data-name="${c.name}" aria-label="View ${c.name} photo full screen">
             <img src="${c.photo}" alt="${c.name}" class="candidate-photo-img" loading="lazy">
-          </div>
+            <span class="candidate-photo-tap-hint">View full photo · Download</span>
+          </button>
         `;
       } else {
         mediaMarkup = `
@@ -741,7 +743,7 @@
           </div>
           <div class="candidate-media-wrap">
             ${mediaMarkup}
-            <div>
+            <div class="candidate-info-block">
               <div class="candidate-name-title">${c.name}</div>
               <div style="font-size: 0.8125rem; font-weight: 700; color: var(--navy-900); font-family: var(--font-hindi);">${c.nameHi}</div>
               <div class="candidate-rel-text">${c.relation}</div>
@@ -1314,7 +1316,80 @@
     if (modalBackdrop) modalBackdrop.classList.remove('open');
   };
 
-  // --- 12. FULLSCREEN MAP VIEWER ---
+  // --- 12. CANDIDATE PHOTO VIEWER ---
+  function setupCandidatePhotoViewer() {
+    const modal = document.getElementById('candidatePhotoModalBackdrop');
+    const img = document.getElementById('candidatePhotoModalImg');
+    const title = document.getElementById('candidatePhotoTitle');
+    const closeBtn = document.getElementById('candidatePhotoCloseBtn');
+    const downloadBtn = document.getElementById('candidatePhotoDownloadBtn');
+    const grid = document.getElementById('candidatesGrid');
+
+    let currentPhotoUrl = '';
+    let currentFileName = 'candidate.jpg';
+
+    function closePhotoModal() {
+      if (modal) modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function openPhotoModal(photoSrc, candidateName) {
+      if (!modal || !img) return;
+      currentPhotoUrl = new URL(photoSrc, window.location.href).href;
+      const ext = photoSrc.split('.').pop().split('?')[0] || 'jpg';
+      currentFileName = candidateName.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-') + '.' + ext;
+      img.src = currentPhotoUrl;
+      img.alt = candidateName;
+      if (title) title.textContent = candidateName;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function downloadPhoto() {
+      if (!currentPhotoUrl) return;
+      try {
+        const res = await fetch(currentPhotoUrl);
+        const blob = await res.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = currentFileName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(blobUrl);
+        showToast('Photo download started');
+      } catch {
+        window.open(currentPhotoUrl, '_blank', 'noopener');
+        showToast('Open the image and save from your browser');
+      }
+    }
+
+    if (grid) {
+      grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.js-open-candidate-photo');
+        if (!btn) return;
+        const src = btn.getAttribute('data-photo');
+        const name = btn.getAttribute('data-name') || 'Candidate';
+        if (src) openPhotoModal(src, name);
+      });
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closePhotoModal);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadPhoto);
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.id === 'candidatePhotoViewport') closePhotoModal();
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && modal.classList.contains('open')) closePhotoModal();
+    });
+  }
+
+  // --- 13. FULLSCREEN MAP VIEWER ---
   function setupInteractiveMap() {
     const mapTrigger = document.getElementById('mapTriggerBtn');
     const openMapAction = document.getElementById('btnOpenMapAction');

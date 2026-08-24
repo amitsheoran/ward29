@@ -844,23 +844,40 @@ img, svg {
   border-radius: var(--radius-full);
 }
 
-/* Prominent Candidate Photo Frame (4:5 / 1:1 Aspect Ratio) */
+/* Prominent Candidate Photo Frame (stacked, full-width) */
 .candidate-media-wrap {
   display: flex;
-  align-items: center;
-  gap: 0.875rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
   margin-bottom: 0.875rem;
 }
 
+.candidate-info-block {
+  text-align: center;
+}
+
 .candidate-photo-frame {
-  width: 72px;
-  height: 72px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 280px;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 2px solid var(--border-color);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background: var(--bg-subtle);
+  padding: 0;
+  margin: 0;
+  cursor: zoom-in;
+  position: relative;
+  display: block;
+  font: inherit;
+  text-align: left;
+}
+
+.candidate-photo-frame:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
 }
 
 .candidate-photo-img {
@@ -868,20 +885,36 @@ img, svg {
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  display: block;
+  pointer-events: none;
+}
+
+.candidate-photo-tap-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 0.5rem 0.4rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-align: center;
+  pointer-events: none;
 }
 
 .candidate-avatar-placeholder {
-  width: 72px;
-  height: 72px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 200px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.375rem;
+  font-size: 2rem;
   font-weight: 900;
   color: white;
-  flex-shrink: 0;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .candidate-name-title {
@@ -2045,6 +2078,76 @@ img, svg {
 
 .map-modal-viewport:active {
   cursor: grabbing;
+}
+
+/* Candidate Photo Fullscreen Viewer */
+.candidate-photo-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 11, 20, 0.96);
+  backdrop-filter: blur(8px);
+  z-index: 550;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.candidate-photo-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.candidate-photo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  flex-shrink: 0;
+}
+
+.candidate-photo-modal-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: var(--font-hindi), var(--font-sans);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.candidate-photo-modal-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.candidate-photo-modal-viewport {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.candidate-photo-modal-img {
+  max-width: 100%;
+  max-height: calc(100vh - 72px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .map-modal-img {
