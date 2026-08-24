@@ -1,6 +1,6 @@
 # Ward 29 Pilani - Electoral Information & Community Poll (2026)
 
-A modern, production-quality, mobile-first static website for **Ward 29, Pilani, Rajasthan (नगर पालिका निर्वाचन नामावली, 2026)** with an interactive **Candidate Voting & Live Community Poll** and **Ward 29 WhatsApp Community**.
+A modern, production-quality, mobile-first static website for **Ward 29, Pilani, Rajasthan (नगर पालिका निर्वाचन नामावली, 2026)** with an interactive **Candidate Voting & Live Community Poll** and **Ward 29 WhatsApp Group**.
 
 This portal transforms official civic information and voter data into an accessible, fast, and structured web application with instant voter search, multi-field filtering, statistics visualizations, interactive boundary map, community voting, live poll results, and community chat access.
 
@@ -16,6 +16,7 @@ This portal transforms official civic information and voter data into an accessi
 3. **Poonam Sihag** - W/O Anil Sihag
 4. **Suman** - W/O Tilak
 5. **Aruna Madam** - W/O Bhupendra Sheoran
+6. **Deepa** - D/o/L Tarachand Saini
 
 ### Community Poll Features:
 - **One Vote per User/Session**: Server-side and client-side protection against duplicate votes.
@@ -25,10 +26,10 @@ This portal transforms official civic information and voter data into an accessi
 
 ---
 
-## 💬 Ward 29 WhatsApp Community
+## 💬 Ward 29 WhatsApp Group
 
-- **Official Invite Link**: [https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb](https://chat.whatsapp.com/BVidWwUcejyARy4kaVM4Cb)
-- Allows Ward 29 residents and community members to join the WhatsApp community and receive local updates.
+- **Official Invite Link**: [https://chat.whatsapp.com/KaQwhUeJbae7wA6onU4CmS](https://chat.whatsapp.com/KaQwhUeJbae7wA6onU4CmS)
+- Allows Ward 29 residents to join the WhatsApp group and receive local updates.
 
 ---
 

@@ -15,7 +15,8 @@ INSERT INTO public.candidates (id, name, relation) VALUES
 (2, 'Aditi Godara', 'W/O Amardeep Godara'),
 (3, 'Poonam Sihag', 'W/O Anil Sihag'),
 (4, 'Suman', 'W/O Tilak'),
-(5, 'Aruna Madam', 'W/O Bhupendra Sheoran')
+(5, 'Aruna Madam', 'W/O Bhupendra Sheoran'),
+(6, 'Deepa', 'D/o/L Tarachand Saini')
 ON CONFLICT (id) DO NOTHING;
 
 -- 2. Votes Table (One vote per user/session)

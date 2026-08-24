@@ -46,7 +46,7 @@
       relationHi: "पत्नी अनिल सिहाग",
       initials: "PS",
       color: "#059669",
-      photo: null
+      photo: "./assets/candidates/poonam.jpeg"
     },
     {
       id: 4,
@@ -67,6 +67,16 @@
       initials: "AM",
       color: "#8b5cf6",
       photo: null
+    },
+    {
+      id: 6,
+      name: "Deepa",
+      nameHi: "दीपा",
+      relation: "D/o/L Tarachand Saini",
+      relationHi: "पुत्री स्व. ताराचंद सैनी",
+      initials: "DS",
+      color: "#0d9488",
+      photo: "./assets/candidates/Dipa.jpg"
     }
   ];
 
@@ -99,7 +109,7 @@
       house: 'all'
     },
     poll: {
-      votes: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      votes: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
       totalVotes: 0,
       hasVoted: false,
       userVotedCandidateId: null,
@@ -166,7 +176,7 @@
       try {
         state.poll.votes = JSON.parse(savedVotes);
       } catch (e) {
-        state.poll.votes = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        state.poll.votes = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
       }
     }
     calculatePollTotals();
