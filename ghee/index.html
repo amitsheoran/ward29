@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="hi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Haryana Desi Ghee | 100% Purity Guarantee | Gardenia Glory, Sector 45 Noida</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Rozha One / Playfair Display for Royal Heritage + Plus Jakarta Sans for clean mobile legibility -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Supabase JS SDK (Official CDN for Direct Database Saving) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            royal: ['"Rozha One"', 'serif'],
+            hindi: ['"Yatra One"', 'cursive']
+          },
+          colors: {
+            ghee: {
+              50: '#FFFDF5',
+              100: '#FEF9E7',
+              200: '#FCF0C2',
+              300: '#F9E18B',
+              400: '#F5C842',
+              500: '#EAB308',
+              600: '#CA8A04',
+              700: '#A16207',
+              800: '#713F12',
+              900: '#422006',
+              950: '#271102'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FFFDF7;
+      color: #271102;
+      overflow-x: hidden;
+    }
+
+    /* Royal Golden Shimmer Effect */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .gold-shimmer {
+      background: linear-gradient(90deg, #B45309 0%, #F59E0B 25%, #FEF08A 50%, #F59E0B 75%, #B45309 100%);
+      background-size: 200% auto;
+      animation: shimmer 5s linear infinite;
+    }
+
+    /* Floating Animation for Steel Tin Illustration */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .float-tin {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+
+    /* Subtle Mandala / Traditional Pattern Overlay */
+    .royal-pattern {
+      background-color: #2A0F05;
+      background-image: radial-gradient(#F59E0B 0.65px, transparent 0.65px), radial-gradient(#D97706 0.65px, #2A0F05 0.65px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FEF9E7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D97706;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="antialiased pb-28 selection:bg-amber-500 selection:text-amber-950">
+
+  <!-- =====================================================================
+       TOP OWNER / ADMIN BAR (Switch between Customer View, Responses & Supabase Setup)
+       ===================================================================== -->
+  <div class="bg-[#1C0A03] text-amber-100 px-3 py-2 sticky top-0 z-40 border-b border-amber-500/30 shadow-lg">
+    <div class="max-w-3xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <!-- View Switcher -->
+      <div class="flex items-center gap-1 bg-[#2D1206] p-1 rounded-xl border border-amber-500/20">
+        <button onclick="switchTab('customer')" id="tab-btn-customer" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-amber-950 shadow">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Customer Pitch Page</span>
+        </button>
+        <button onclick="switchTab('admin')" id="tab-btn-admin" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-amber-200/80 hover:text-white">
+          <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>
+          <span>Responses (<span id="top-response-count">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- Supabase Config Button -->
+      <button onclick="openSupabaseModal()" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition">
+        <span id="db-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <i data-lucide="database" class="w-3.5 h-3.5"></i>
+        <span id="db-status-label">Connect Supabase DB</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden bg-[#1F0B04] text-amber-100 px-5 py-3 rounded-2xl shadow-2xl border-2 border-amber-400 flex items-center gap-2.5 text-xs sm:text-sm font-bold max-w-sm w-[92%]">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+    <span id="toast-text">Notification</span>
+  </div>
+
+  <!-- =====================================================================
+       VIEW 1: CUSTOMER PITCH & PRE-BOOKING LANDING PAGE (GARDENIA GLORY EXCLUSIVE)
+       ===================================================================== -->
+  <div id="view-customer" class="max-w-xl mx-auto">
+
+    <!-- ROYAL HERO HEADER -->
+    <header class="relative royal-pattern text-white px-5 pt-6 pb-10 rounded-b-[2.75rem] shadow-2xl border-b-4 border-amber-500 overflow-hidden">
+      <!-- Ambient Golden Glows -->
+      <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-amber-500/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 -left-20 w-60 h-60 rounded-full bg-yellow-500/15 blur-3xl pointer-events-none"></div>
+
+      <!-- Society Exclusive Top Ribbon -->
+      <div class="relative z-10 flex items-center justify-between gap-2 mb-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/30 to-amber-600/20 border border-amber-400/60 text-amber-200 text-[11px] font-extrabold tracking-wide uppercase shadow-inner">
+          <i data-lucide="building-2" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Gardenia Glory, Sector 45 Exclusive</span>
+        </div>
+        <a href="tel:+919876543210" class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-amber-200 text-xs font-bold backdrop-blur-sm transition">
+          <i data-lucide="phone-call" class="w-3 h-3 text-emerald-400"></i>
+          <span>Call Anju Ji</span>
+        </a>
+      </div>
+
+      <!-- Brand Title & Steel Tin Hero Visual -->
+      <div class="relative z-10 flex flex-col items-center text-center mt-2">
+        
+        <!-- Custom High-Detail SVG: Premium Brushed Steel Tin + Golden Danedar Ghee -->
+        <div class="float-tin relative w-40 h-44 my-1 flex items-center justify-center">
+          <!-- Golden Halo Behind Tin -->
+          <div class="absolute inset-2 rounded-full bg-gradient-to-tr from-amber-500/40 via-yellow-300/30 to-transparent blur-xl"></div>
+          
+          <svg viewBox="0 0 220 240" class="w-full h-full drop-shadow-[0_14px_20px_rgba(0,0,0,0.65)]" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Brushed Stainless Steel Gradient -->
+              <linearGradient id="steelBody" x1="35" y1="0" x2="185" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#9CA3AF"/>
+                <stop offset="18%" stop-color="#F3F4F6"/>
+                <stop offset="42%" stop-color="#D1D5DB"/>
+                <stop offset="60%" stop-color="#FFFFFF"/>
+                <stop offset="82%" stop-color="#9CA3AF"/>
+                <stop offset="100%" stop-color="#6B7280"/>
+              </linearGradient>
+              <linearGradient id="steelLid" x1="30" y1="0" x2="190" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6B7280"/>
+                <stop offset="30%" stop-color="#F9FAFB"/>
+                <stop offset="65%" stop-color="#D1D5DB"/>
+                <stop offset="100%" stop-color="#4B5563"/>
+              </linearGradient>
+              <linearGradient id="goldLabel" x1="40" y1="80" x2="180" y2="190" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#451A03"/>
+                <stop offset="50%" stop-color="#271102"/>
+                <stop offset="100%" stop-color="#451A03"/>
+              </linearGradient>
+              <linearGradient id="goldBorder" x1="35" y1="0" x2="185" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#B45309"/>
+                <stop offset="50%" stop-color="#FDE047"/>
+                <stop offset="100%" stop-color="#B45309"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Top Steel Handle -->
+            <path d="M75 34 C75 14, 145 14, 145 34" stroke="#E5E7EB" stroke-width="5" stroke-linecap="round"/>
+            <path d="M75 34 C75 16, 145 16, 145 34" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Tin Base Shadow -->
+            <ellipse cx="110" cy="216" rx="76" ry="14" fill="rgba(0,0,0,0.45)"/>
+
+            <!-- Main Cylindrical Steel Can Body -->
+            <path d="M40 50 L40 202 C40 214, 180 214, 180 202 L180 50 Z" fill="url(#steelBody)"/>
+
+            <!-- Metallic Rim Rings -->
+            <ellipse cx="110" cy="202" rx="70" ry="11" fill="url(#steelLid)" stroke="#6B7280" stroke-width="1"/>
+            <path d="M40 72 C40 82, 180 82, 180 72" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+            <path d="M40 184 C40 194, 180 194, 180 184" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+
+            <!-- Royal Brand Label on Steel Tin -->
+            <path d="M40 84 C40 94, 180 94, 180 84 L180 174 C180 184, 40 184, 40 174 Z" fill="url(#goldLabel)" stroke="url(#goldBorder)" stroke-width="3"/>
+
+            <!-- Label Text Inside SVG -->
+            <text x="110" y="108" text-anchor="middle" fill="#FDE047" font-size="9" font-weight="800" letter-spacing="1.5" font-family="sans-serif">★ 100% SHUDDH ★</text>
+            <text x="110" y="128" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="900" font-family="serif">HARYANA</text>
+            <text x="110" y="146" text-anchor="middle" fill="#F59E0B" font-size="14" font-weight="800" font-family="serif">DESI GHEE</text>
+            <rect x="65" y="154" width="90" height="14" rx="7" fill="#F59E0B"/>
+            <text x="110" y="164" text-anchor="middle" fill="#271102" font-size="8" font-weight="900" font-family="sans-serif">STEEL TIN PACK</text>
+
+            <!-- Steel Tin Top Lid & Airtight Cap -->
+            <ellipse cx="110" cy="50" rx="72" ry="14" fill="url(#steelLid)" stroke="#E5E7EB" stroke-width="1.5"/>
+            <ellipse cx="110" cy="49" rx="58" ry="10" fill="#D1D5DB" stroke="#6B7280" stroke-width="1"/>
+            <ellipse cx="110" cy="47" rx="28" ry="6" fill="url(#steelBody)" stroke="#4B5563" stroke-width="1.2"/>
+
+            <!-- Golden Ghee Drop / Badge on Corner -->
+            <circle cx="172" cy="70" r="22" fill="#059669" stroke="#FDE047" stroke-width="2.5"/>
+            <text x="172" y="67" text-anchor="middle" fill="#FFFFFF" font-size="8" font-weight="900">100%</text>
+            <text x="172" y="77" text-anchor="middle" fill="#FEF08A" font-size="7.5" font-weight="800">PURE</text>
+          </svg>
+        </div>
+
+        <!-- Purity Guarantee Pill -->
+        <div class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full gold-shimmer text-amber-950 font-extrabold text-xs sm:text-sm shadow-lg mb-2">
+          <i data-lucide="shield-check" class="w-4 h-4 stroke-[2.5]"></i>
+          <span>100% PURITY KI PURI GUARANTEE HAI!</span>
+        </div>
+
+        <!-- Main Brand Name -->
+        <h1 class="font-royal text-4xl sm:text-5xl tracking-wide text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-amber-500 drop-shadow">
+          Haryana Desi Ghee
+        </h1>
+
+        <p class="text-amber-300 font-bold text-sm sm:text-base mt-1">
+          ✨ प्रीमियम और सुरक्षित <span class="underline decoration-amber-400">Steel Tin Packaging</span> में उपलब्ध ✨
+        </p>
+
+        <!-- Bhiwani Haryana Origin Box -->
+        <div class="mt-4 bg-gradient-to-br from-amber-950/90 via-[#381607]/90 to-amber-950/90 border border-amber-400/40 rounded-2xl p-4 text-left shadow-inner backdrop-blur-xs">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-xl shrink-0 mt-0.5">
+              🏺
+            </div>
+            <div>
+              <h2 class="text-amber-300 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+                सीधे भिवानी (हरियाणा) और आस-पास के गाँवों से आपके घर तक!
+              </h2>
+              <p class="text-amber-100/95 text-xs sm:text-sm leading-relaxed mt-1">
+                यह घी सीधे <strong>भिवानी ज़िले (Bhiwani, Haryana)</strong> और हरियाणा बॉर्डर से सटे आस-पास के गाँवों के किसान परिवारों से आता है। पारंपरिक तरीके से बना, दानेदार, खुशबूदार और <strong>बिना किसी मिलावट के 100% शुद्ध देसी घी</strong>।
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neighbor Trust Banner (Anju Bajpai - Tower A1, 1503 Gardenia Glory) -->
+        <div class="mt-3 w-full bg-emerald-950/90 border-2 border-emerald-400/50 rounded-2xl p-3.5 text-left flex items-center gap-3 shadow-lg">
+          <div class="w-11 h-11 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-300 shrink-0 font-extrabold text-lg">
+            🏠
+          </div>
+          <div class="text-xs leading-snug">
+            <div class="text-emerald-300 font-extrabold uppercase tracking-wide text-[11px]">
+              🤝 Aapki Apni Society Resident Ka Vishwas:
+            </div>
+            <div class="text-white font-bold text-xs sm:text-sm mt-0.5">
+              Anju Bajpai <span class="text-amber-300 font-semibold">(Flat 1503, 15th Floor, Tower A1)</span>
+            </div>
+            <div class="text-emerald-200/90 text-[11px] mt-0.5">
+              📍 Gardenia Glory, Sector 45, Noida • 📞 +91 9876543210
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="px-4 -mt-5 relative z-20 space-y-6">
+
+      <!-- ===============================================================
+           4 CORE GUARANTEES (STEEL TIN, BHIWANI ORIGIN, PURITY, SOCIETY)
+           =============================================================== -->
+      <section class="bg-white rounded-3xl p-4 shadow-xl border border-amber-200/90 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-center">
+          <div class="text-2xl mb-1">🥫</div>
+          <div class="text-xs font-extrabold text-amber-950">Steel Tin Pack</div>
+          <div class="text-[10px] text-amber-800 font-medium">Achi & Safe Packaging</div>
+        </div>
+        <div class="bg-emerald-50/80 border border-emerald-200/70 rounded-2xl p-3 text-center">
+          <div class="text-2xl mb-1">🛡️</div>
+          <div class="text-xs font-extrabold text-emerald-950">100% Purity</div>
+          <div class="text-[10px] text-emerald-800 font-medium">Puri Guarantee Hai</div>
+        </div>
+        <div class="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-center">
+          <div class="text-2xl mb-1">🌾</div>
+          <div class="text-xs font-extrabold text-amber-950">Bhiwani Origin</div>
+          <div class="text-[10px] text-amber-800 font-medium">Haryana Border Villages</div>
+        </div>
+        <div class="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-center">
+          <div class="text-2xl mb-1">🏢</div>
+          <div class="text-xs font-extrabold text-amber-950">Tower A1, 1503</div>
+          <div class="text-[10px] text-amber-800 font-medium">Instant Flat Delivery</div>
+        </div>
+      </section>
+
+      <!-- ===============================================================
+           STEEL TIN PRICING & PACK SELECTION SECTION
+           =============================================================== -->
+      <section class="bg-white rounded-3xl p-5 shadow-xl border-2 border-amber-300/80">
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+            Step 1 • Select Your Steel Tin Pack
+          </span>
+          <span class="text-[11px] font-bold text-emerald-700 flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Steel Tin Included
+          </span>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-extrabold text-amber-950 mt-1">
+          Haryana Desi Ghee — Steel Tin Packs
+        </h2>
+        <p class="text-xs text-stone-600 mt-0.5">
+          प्रीमियम फूड-ग्रेड <strong>Steel Tin</strong> में पैक — जिससे घी महीनों तक ताज़ा रहे और बाद में टिन आपके किचन के काम आए! (नीचे अपना पैक चुनें):
+        </p>
+
+        <!-- 4 Pricing Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-4" id="pack-cards-container">
+          
+          <!-- Pack 1: 0.5 KG -->
+          <div onclick="selectPack('0.5 KG Steel Tin - ₹1,000')" data-pack="0.5 KG Steel Tin - ₹1,000" class="pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-stone-200 bg-stone-50/60 hover:border-amber-400">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-stone-200 text-stone-800">
+                  Trial / Small Pack
+                </span>
+                <h3 class="text-lg font-extrabold text-amber-950 mt-1.5 flex items-center gap-1.5">
+                  <span>🥫 0.5 KG</span>
+                  <span class="text-xs font-bold text-stone-500">(500 gm)</span>
+                </h3>
+                <p class="text-[11px] text-stone-600 font-medium mt-0.5">
+                  Premium Steel Tin Packaging
+                </p>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-black text-amber-900">₹1,000</div>
+                <div class="text-[10px] font-bold text-stone-500">for 0.5 KG Tin</div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-stone-200/80 flex items-center justify-between text-xs font-bold">
+              <span class="text-emerald-700">✓ Purity Test Guaranteed</span>
+              <span class="pack-check-indicator w-5 h-5 rounded-full border-2 border-stone-300 flex items-center justify-center text-xs"></span>
+            </div>
+          </div>
+
+          <!-- Pack 2: 1 KG (MOST POPULAR) -->
+          <div onclick="selectPack('1 KG Steel Tin - ₹1,800')" data-pack="1 KG Steel Tin - ₹1,800" class="pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-amber-600 bg-amber-50/70 shadow-md">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-500 text-amber-950 shadow-xs">
+                  ⭐ Most Popular
+                </span>
+                <h3 class="text-lg font-extrabold text-amber-950 mt-1.5 flex items-center gap-1.5">
+                  <span>🥫 1 KG</span>
+                  <span class="text-xs font-bold text-amber-800">Steel Tin</span>
+                </h3>
+                <p class="text-[11px] text-amber-900 font-semibold mt-0.5">
+                  Save ₹200 • Monthly Family Pack
+                </p>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-black text-amber-900">₹1,800</div>
+                <div class="text-[10px] font-bold text-emerald-700">₹1,800 / KG</div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-amber-200 flex items-center justify-between text-xs font-bold">
+              <span class="text-emerald-800">✓ Best for Gardenia Families</span>
+              <span class="pack-check-indicator w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs">✓</span>
+            </div>
+          </div>
+
+          <!-- Pack 3: 2 KG -->
+          <div onclick="selectPack('2 KG Steel Tin - ₹3,499')" data-pack="2 KG Steel Tin - ₹3,499" class="pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-stone-200 bg-stone-50/60 hover:border-amber-400">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900">
+                  Value Saver Pack
+                </span>
+                <h3 class="text-lg font-extrabold text-amber-950 mt-1.5 flex items-center gap-1.5">
+                  <span>🥫 2 KG</span>
+                  <span class="text-xs font-bold text-stone-500">Steel Tin</span>
+                </h3>
+                <p class="text-[11px] text-stone-600 font-medium mt-0.5">
+                  Extra Savings + Heavy Duty Steel Tin
+                </p>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-black text-amber-900">₹3,499</div>
+                <div class="text-[10px] font-bold text-emerald-700">Total for 2 KG</div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-stone-200/80 flex items-center justify-between text-xs font-bold">
+              <span class="text-emerald-700">✓ Effective ₹1,749 / KG</span>
+              <span class="pack-check-indicator w-5 h-5 rounded-full border-2 border-stone-300 flex items-center justify-center text-xs"></span>
+            </div>
+          </div>
+
+          <!-- Pack 4: 5 KG -->
+          <div onclick="selectPack('5 KG Steel Tin - ₹8,499')" data-pack="5 KG Steel Tin - ₹8,499" class="pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-stone-200 bg-stone-50/60 hover:border-amber-400">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-900 text-amber-200">
+                  👑 Super Wholesale Saver
+                </span>
+                <h3 class="text-lg font-extrabold text-amber-950 mt-1.5 flex items-center gap-1.5">
+                  <span>🥫 5 KG</span>
+                  <span class="text-xs font-bold text-stone-500">Steel Tin</span>
+                </h3>
+                <p class="text-[11px] text-stone-600 font-medium mt-0.5">
+                  Joint Family / Stock Pack (Big Savings)
+                </p>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-black text-amber-900">₹8,499</div>
+                <div class="text-[10px] font-bold text-emerald-700">Per 5 KG Tin</div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-stone-200/80 flex items-center justify-between text-xs font-bold">
+              <span class="text-emerald-700">✓ Effective ₹1,699 / KG</span>
+              <span class="pack-check-indicator w-5 h-5 rounded-full border-2 border-stone-300 flex items-center justify-center text-xs"></span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===============================================================
+           GARDENIA GLORY RESIDENT INTEREST & PRE-ORDER FORM
+           (ONLY Name, Mobile, Tower, Floor/Flat + Selected Pack)
+           =============================================================== -->
+      <section id="interest-form-section" class="bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border-2 border-amber-500 relative overflow-hidden">
+        <!-- Top Decorative Gold Bar -->
+        <div class="absolute top-0 left-0 right-0 h-2 gold-shimmer"></div>
+
+        <!-- SUCCESS STATE (Hidden until form submitted) -->
+        <div id="form-success-view" class="hidden text-center py-4 space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-500 text-emerald-700 flex items-center justify-center mx-auto shadow-md">
+            <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+          </div>
+
+          <div class="space-y-1">
+            <span class="inline-block text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">
+              🎉 Response Saved Successfully!
+            </span>
+            <h3 class="text-2xl font-extrabold text-amber-950 pt-1" id="success-greeting">
+              Dhanyawad! 🙏
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+              Aapki details <strong>Haryana Desi Ghee (Gardenia Glory Priority List)</strong> me save ho gayi hain. <strong>Anju Bajpai Ji (Tower A1, Flat 1503)</strong> jald hi aapse sampark karengi!
+            </p>
+          </div>
+
+          <!-- Summary Card -->
+          <div class="bg-amber-50/90 border border-amber-200 rounded-2xl p-4 text-left text-xs space-y-1.5 max-w-md mx-auto">
+            <div class="font-extrabold text-amber-950 text-sm border-b border-amber-200 pb-1.5 mb-1">
+              📋 Aapki Entry Details:
+            </div>
+            <div><strong>👤 Name:</strong> <span id="sum-name"></span></div>
+            <div><strong>📞 Mobile:</strong> <span id="sum-mobile"></span></div>
+            <div><strong>🏢 Gardenia Glory Address:</strong> Tower <span id="sum-tower" class="font-bold text-amber-900"></span> — <span id="sum-floor" class="font-bold text-amber-900"></span></div>
+            <div><strong>🥫 Selected Steel Tin Pack:</strong> <span id="sum-pack" class="font-bold text-emerald-800"></span></div>
+          </div>
+
+          <!-- Direct WhatsApp Confirmation Button -->
+          <div class="space-y-2.5 pt-2">
+            <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noreferrer" class="w-full py-3.5 px-5 rounded-2xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-sm sm:text-base shadow-lg flex items-center justify-center gap-2 transition">
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              <span>WhatsApp Par Anju Ji Ko Confirm Karein</span>
+            </a>
+
+            <button onclick="resetCustomerForm()" class="w-full py-2.5 px-4 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs transition">
+              + Kisi Aur Flat / Padosi Ki Entry Karein
+            </button>
+          </div>
+        </div>
+
+        <!-- ACTIVE FORM VIEW -->
+        <form id="ghee-interest-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <div class="border-b border-amber-100 pb-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900">
+                Step 2 • Gardenia Glory Resident Entry
+              </span>
+              <span class="text-[11px] font-bold text-amber-800">⚡ Takes 20 Seconds</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-amber-950 mt-1.5">
+              Apna Interest Darj Karein 🏺
+            </h2>
+            <p class="text-xs text-stone-600 mt-0.5">
+              अगर आप भी अपने परिवार के लिए भिवानी (हरियाणा) का <strong>100% शुद्ध देसी घी (Steel Tin में)</strong> लेना चाहते हैं, तो नीचे अपनी डिटेल्स भरें:
+            </p>
+          </div>
+
+          <!-- Error Box -->
+          <div id="form-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-300 text-red-700 text-xs font-bold flex items-center gap-2">
+            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+            <span id="form-error-text">Please fill all fields</span>
+          </div>
+
+          <!-- Selected Steel Tin Pack Badge + Switcher -->
+          <div class="bg-amber-50/90 p-3.5 rounded-2xl border border-amber-300">
+            <label class="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-2">
+              Selected Steel Tin Pack (आपका चुना हुआ पैक):
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="selectPack('0.5 KG Steel Tin - ₹1,000')" data-pack-btn="0.5 KG Steel Tin - ₹1,000" class="pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border transition text-center">
+                0.5 KG • ₹1,000
+              </button>
+              <button type="button" onclick="selectPack('1 KG Steel Tin - ₹1,800')" data-pack-btn="1 KG Steel Tin - ₹1,800" class="pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border transition text-center">
+                ⭐ 1 KG • ₹1,800
+              </button>
+              <button type="button" onclick="selectPack('2 KG Steel Tin - ₹3,499')" data-pack-btn="2 KG Steel Tin - ₹3,499" class="pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border transition text-center">
+                2 KG • ₹3,499
+              </button>
+              <button type="button" onclick="selectPack('5 KG Steel Tin - ₹8,499')" data-pack-btn="5 KG Steel Tin - ₹8,499" class="pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border transition text-center">
+                👑 5 KG • ₹8,499
+              </button>
+            </div>
+            <input type="hidden" id="input-pack" value="1 KG Steel Tin - ₹1,800" />
+          </div>
+
+          <!-- FIELD 1: NAME -->
+          <div>
+            <label for="input-name" class="block text-xs font-extrabold text-stone-800 mb-1">
+              1. Aapka Naam (Full Name) <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <i data-lucide="user" class="w-4 h-4 text-amber-700 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input
+                type="text"
+                id="input-name"
+                required
+                placeholder="अपना नाम लिखें (e.g., Rajesh Sharma / Pooja Gupta)"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-semibold bg-stone-50/70 transition"
+              />
+            </div>
+          </div>
+
+          <!-- FIELD 2: MOBILE NUMBER -->
+          <div>
+            <label for="input-mobile" class="block text-xs font-extrabold text-stone-800 mb-1">
+              2. Mobile / WhatsApp Number <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-900 font-extrabold text-sm">
+                +91
+              </span>
+              <input
+                type="tel"
+                id="input-mobile"
+                required
+                maxlength="10"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                placeholder="10-Digit Mobile Number"
+                class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-extrabold tracking-wider bg-stone-50/70 transition"
+              />
+            </div>
+          </div>
+
+          <!-- FIELD 3: TOWER (GARDENIA GLORY) -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="input-tower" class="block text-xs font-extrabold text-stone-800">
+                3. Tower (Gardenia Glory Tower Name/No.) <span class="text-red-500">*</span>
+              </label>
+              <span class="text-[10px] font-bold text-amber-800">Tap below or type</span>
+            </div>
+            <div class="relative">
+              <i data-lucide="building" class="w-4 h-4 text-amber-700 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input
+                type="text"
+                id="input-tower"
+                required
+                placeholder="अपना Tower लिखें (जैसे: A1, A2, B1, C2...)"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-bold bg-stone-50/70 transition"
+              />
+            </div>
+            <!-- Quick Tap Helper Chips for Gardenia Glory Towers -->
+            <div class="flex flex-wrap items-center gap-1.5 mt-2">
+              <span class="text-[10px] font-bold text-stone-500 mr-1">Quick Select Tower:</span>
+              <button type="button" onclick="setTower('A1')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">A1</button>
+              <button type="button" onclick="setTower('A2')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">A2</button>
+              <button type="button" onclick="setTower('B1')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">B1</button>
+              <button type="button" onclick="setTower('B2')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">B2</button>
+              <button type="button" onclick="setTower('C1')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">C1</button>
+              <button type="button" onclick="setTower('C2')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">C2</button>
+              <button type="button" onclick="setTower('D1')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">D1</button>
+              <button type="button" onclick="setTower('D2')" class="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-extrabold text-[11px] border border-amber-300 transition">D2</button>
+            </div>
+          </div>
+
+          <!-- FIELD 4: FLOOR & HOUSE / FLAT NUMBER (1 Floor = 4 Flats helper) -->
+          <div>
+            <label for="input-floor" class="block text-xs font-extrabold text-stone-800 mb-1">
+              4. Floor & Flat / House Number <span class="text-red-500">*</span>
+            </label>
+            <p class="text-[11px] text-amber-800 font-semibold mb-1.5 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+              💡 <strong>Note:</strong> एक फ्लोर पर 4 फ्लैट्स हैं — कृपया अपना <strong>Floor</strong> और <strong>Flat / House No.</strong> दोनों लिखें (जैसे: <em>15th Floor, Flat 1503</em> या <em>8th Floor, Flat 802</em>)
+            </p>
+            <div class="relative">
+              <i data-lucide="home" class="w-4 h-4 text-amber-700 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input
+                type="text"
+                id="input-floor"
+                required
+                placeholder="e.g., 15th Floor, Flat 1503 (या Floor 4, Flat 401)"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-bold bg-stone-50/70 transition"
+              />
+            </div>
+          </div>
+
+          <!-- SUBMIT CTA BUTTON -->
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-700 hover:to-amber-700 text-amber-950 font-black text-base shadow-xl shadow-amber-900/20 border-2 border-amber-300 flex items-center justify-center gap-2 transition active:scale-[0.99]"
+          >
+            <i data-lucide="send" class="w-5 h-5 stroke-[2.5]"></i>
+            <span id="submit-btn-text">Submit My Interest (अंजू जी को भेजें)</span>
+          </button>
+
+          <p class="text-[11px] text-center text-stone-500 font-medium">
+            🔒 अभी कोई पेमेंट नहीं करनी है! आप घी की खुशबू और शुद्धता देखने के बाद ही लें।
+          </p>
+        </form>
+      </section>
+
+      <!-- ===============================================================
+           WHY BHIWANI HARYANA GHEE IS SPECIAL (TRUST & STORY SECTION)
+           =============================================================== -->
+      <section class="royal-pattern text-white rounded-3xl p-5 sm:p-6 shadow-xl border-2 border-amber-500/40 space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center font-black text-xl shrink-0">
+            ✨
+          </div>
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-300">
+              Our Purity Promise
+            </span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white">
+              Haryana Desi Ghee ही क्यों चुनें?
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="bg-white/10 border border-amber-400/30 rounded-2xl p-3.5 backdrop-blur-xs">
+            <div class="font-extrabold text-amber-300 text-sm mb-1 flex items-center gap-1.5">
+              <span>🐄</span> 1. भिवानी (हरियाणा) के गाँवों से सीधा
+            </div>
+            <p class="text-amber-100/90 leading-relaxed">
+              यह किसी फैक्ट्री या पैकेट वाला घी नहीं है। यह सीधे भिवानी ज़िले और हरियाणा बॉर्डर के आस-पास के गाँवों से आता है जहाँ पशुओं को प्राकृतिक चारा खिलाया जाता है।
+            </p>
+          </div>
+
+          <div class="bg-white/10 border border-amber-400/30 rounded-2xl p-3.5 backdrop-blur-xs">
+            <div class="font-extrabold text-amber-300 text-sm mb-1 flex items-center gap-1.5">
+              <span>🛡️</span> 2. 100% Purity Ki Puri Guarantee
+            </div>
+            <p class="text-amber-100/90 leading-relaxed">
+              दानेदार बनावट, असली देसी खुशबू और शत-प्रतिशत शुद्धता की पूरी गारंटी। किसी भी प्रकार के पाम ऑयल, वनस्पति या केमिकल से 100% मुक्त!
+            </p>
+          </div>
+
+          <div class="bg-white/10 border border-amber-400/30 rounded-2xl p-3.5 backdrop-blur-xs">
+            <div class="font-extrabold text-amber-300 text-sm mb-1 flex items-center gap-1.5">
+              <span>🥫</span> 3. प्रीमियम Steel Tin पैकेजिंग
+            </div>
+            <p class="text-amber-100/90 leading-relaxed">
+              प्लास्टिक के बजाय हम आपको <strong>मजबूत और आकर्षक Steel Tin</strong> में घी देते हैं। न लीक होने का डर, न प्लास्टिक का नुकसान!
+            </p>
+          </div>
+
+          <div class="bg-white/10 border border-amber-400/30 rounded-2xl p-3.5 backdrop-blur-xs">
+            <div class="font-extrabold text-amber-300 text-sm mb-1 flex items-center gap-1.5">
+              <span>🏢</span> 4. आपके अपने Gardenia Glory में उपलब्ध
+            </div>
+            <p class="text-amber-100/90 leading-relaxed">
+              आपकी अपनी सोसाइटी <strong>Tower A1, Flat 1503 (15th Floor)</strong> से सीधा आपके फ्लैट तक डिलीवरी — या आप स्वयं आकर भी देख और ले सकते हैं!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===============================================================
+           OFFICIAL CONTACT & ADDRESS CARD (ANJU BAJPAI - GARDENIA GLORY)
+           =============================================================== -->
+      <section class="bg-white rounded-3xl p-5 border-2 border-amber-200 shadow-md space-y-4">
+        <div class="flex items-start gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center text-2xl shrink-0">
+            👩‍💼
+          </div>
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900">
+              Verified Gardenia Glory Resident
+            </span>
+            <h3 class="text-lg font-extrabold text-amber-950 mt-1">
+              Anju Bajpai — Haryana Desi Ghee
+            </h3>
+            <p class="text-xs text-stone-600 font-medium mt-0.5 leading-relaxed">
+              📍 <strong>Address:</strong> 1503, 15th Floor, A1 Tower, Gardenia Glory, Sector 45, Noida - 201303, Uttar Pradesh
+            </p>
+            <p class="text-xs text-amber-900 font-extrabold mt-1">
+              📞 Mobile / WhatsApp: +91 9876543210
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+          <a
+            href="https://wa.me/919876543210?text=Namaste%20Anju%20Ji!%20Main%20Gardenia%20Glory%20se%20bol%20raha/rahi%20hoon.%20Mujhe%20Haryana%20Desi%20Ghee%20(Steel%20Tin)%20ke%20baare%20me%20jaankari%20chahiye."
+            target="_blank"
+            rel="noreferrer"
+            class="py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow"
+          >
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>WhatsApp Anju Ji (+91 9876543210)</span>
+          </a>
+
+          <button
+            onclick="shareInSocietyWhatsApp()"
+            class="py-3 px-4 rounded-xl bg-amber-950 hover:bg-amber-900 text-amber-200 font-extrabold text-xs flex items-center justify-center gap-2 shadow"
+          >
+            <i data-lucide="share-2" class="w-4 h-4"></i>
+            <span>Share in Gardenia Glory Group</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =====================================================================
+       VIEW 2: OWNER RESPONSES & DEMAND CALCULATOR (FOR ANJU BAJPAI)
+       ===================================================================== -->
+  <div id="view-admin" class="hidden max-w-4xl mx-auto px-4 pt-6 space-y-6">
+    <!-- Admin Header -->
+    <div class="royal-pattern text-white p-6 rounded-3xl shadow-xl border-2 border-amber-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
+          Gardenia Glory Demand Tracker
+        </span>
+        <h2 class="text-2xl font-extrabold mt-2">
+          Haryana Desi Ghee — Customer Responses
+        </h2>
+        <p class="text-xs text-amber-100/80 mt-0.5">
+          Owner: <strong>Anju Bajpai</strong> (1503, 15th Floor, Tower A1, Gardenia Glory, Sector 45, Noida)
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button onclick="loadDemoEntries()" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-200 text-xs font-bold border border-white/15 transition">
+          + Load 3 Sample Flat Entries
+        </button>
+        <button onclick="exportResponsesToCSV()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-amber-950 font-extrabold text-xs flex items-center gap-1.5 shadow transition">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Download Excel (CSV)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 Key Analytics Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+      <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
+        <div class="text-[11px] font-extrabold uppercase text-stone-500">Interested Flats</div>
+        <div class="text-3xl font-black text-amber-950 mt-1" id="stat-total-leads">0</div>
+        <div class="text-[11px] text-emerald-700 font-bold mt-0.5">Gardenia Glory Families</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
+        <div class="text-[11px] font-extrabold uppercase text-stone-500">Total Ghee Demand</div>
+        <div class="text-3xl font-black text-amber-950 mt-1"><span id="stat-total-kg">0</span> <span class="text-base">KG</span></div>
+        <div class="text-[11px] text-amber-800 font-bold mt-0.5">From Bhiwani Haryana</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
+        <div class="text-[11px] font-extrabold uppercase text-stone-500">Towers Covered</div>
+        <div class="text-3xl font-black text-amber-950 mt-1" id="stat-total-towers">0</div>
+        <div class="text-[11px] text-stone-500 font-bold mt-0.5">In Gardenia Glory</div>
+      </div>
+
+      <div class="bg-gradient-to-br from-amber-900 to-amber-950 text-white p-4 rounded-2xl shadow-md border border-amber-500/40">
+        <div class="text-[11px] font-extrabold uppercase text-amber-300">Est. Order Value</div>
+        <div class="text-2xl sm:text-3xl font-black text-amber-300 mt-1" id="stat-total-revenue">₹0</div>
+        <div class="text-[11px] text-amber-100/80 font-medium mt-0.5">Total Pre-Booking Value</div>
+      </div>
+    </div>
+
+    <!-- Responses List -->
+    <div class="bg-white rounded-3xl p-5 border border-amber-200 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
+        <div>
+          <h3 class="text-lg font-extrabold text-amber-950">
+            📋 Resident Entries (Name, Mobile, Tower, Floor/Flat)
+          </h3>
+          <p class="text-xs text-stone-500">
+            All responses are saved locally and synced to your Supabase DB (when configured).
+          </p>
+        </div>
+        <button onclick="fetchFromSupabaseIfConnected()" class="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs flex items-center gap-1.5 self-start">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh List</span>
+        </button>
+      </div>
+
+      <div id="admin-responses-list" class="space-y-3">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       STICKY MOBILE BOTTOM CTA BAR
+       ===================================================================== -->
+  <div id="sticky-bottom-bar" class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-amber-400 px-4 py-2.5 shadow-2xl">
+    <div class="max-w-xl mx-auto flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <div class="text-[11px] font-extrabold uppercase text-emerald-800 flex items-center gap-1">
+          <span>🛡️ 100% Purity Guarantee</span>
+        </div>
+        <div class="text-xs sm:text-sm font-black text-amber-950 truncate" id="sticky-selected-pack">
+          Selected: 1 KG Steel Tin - ₹1,800
+        </div>
+      </div>
+      <a href="#interest-form-section" class="px-4 py-2.5 rounded-xl gold-shimmer text-amber-950 font-black text-xs sm:text-sm shadow-md flex items-center gap-1 shrink-0">
+        <span>Book Now</span>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL: SUPABASE DB CONFIGURATION & READY-TO-COPY SQL TABLE CODE
+       ===================================================================== -->
+  <div id="supabase-modal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border-2 border-amber-400 space-y-4 my-8">
+      <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900">
+            Supabase Cloud Database Setup
+          </span>
+          <h3 class="text-lg font-extrabold text-stone-900 mt-1">
+            Connect Your Supabase DB (Or Hardcode in HTML)
+          </h3>
+        </div>
+        <button onclick="closeSupabaseModal()" class="p-1.5 rounded-full hover:bg-stone-100 text-stone-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 leading-relaxed">
+          💡 <strong>How it works:</strong> Aap yahan apना <code>SUPABASE_URL</code> aur <code>SUPABASE_ANON_KEY</code> daal kar test kar sakte hain, ya code ke andar line <code>615</code> par seedha paste karke Netlify/Vercel par deploy kar sakte hain!
+        </div>
+
+        <div>
+          <label class="block font-extrabold text-stone-700 mb-1">1. Supabase Project URL</label>
+          <input
+            type="text"
+            id="sb-url-input"
+            placeholder="https://xyzcompany.supabase.co"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 font-mono text-xs"
+          />
+        </div>
+
+        <div>
+          <label class="block font-extrabold text-stone-700 mb-1">2. Supabase Anon / Public Key</label>
+          <input
+            type="text"
+            id="sb-key-input"
+            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 font-mono text-xs"
+          />
+        </div>
+
+        <!-- Ready-to-run SQL Script for Supabase SQL Editor -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-extrabold text-stone-700">3. Run this SQL in your Supabase SQL Editor:</label>
+            <button type="button" onclick="copySqlScript()" class="px-2.5 py-1 rounded-lg bg-stone-800 text-white font-bold text-[11px] flex items-center gap-1">
+              <i data-lucide="copy" class="w-3 h-3"></i> Copy SQL
+            </button>
+          </div>
+          <pre id="sql-code-block" class="bg-stone-900 text-emerald-300 p-3 rounded-xl overflow-x-auto font-mono text-[11px] leading-relaxed select-all">create table if not exists public.ghee_responses (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  mobile text not null,
+  tower text not null,
+  floor_flat text not null,
+  selected_pack text not null,
+  pack_kg numeric default 1,
+  pack_price numeric default 1800,
+  society text default 'Gardenia Glory, Sector 45, Noida',
+  created_at timestamptz default now()
+);
+
+alter table public.ghee_responses enable row level security;
+
+create policy "Allow public insert" on public.ghee_responses
+  for insert to anon with check (true);
+
+create policy "Allow public select" on public.ghee_responses
+  for select to anon using (true);</pre>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-stone-200">
+          <button type="button" onclick="closeSupabaseModal()" class="px-4 py-2.5 rounded-xl bg-stone-100 text-stone-700 font-bold">
+            Close
+          </button>
+          <button type="button" onclick="saveSupabaseCredentials()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow">
+            Save & Connect Supabase
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       JAVASCRIPT: FORM LOGIC, SUPABASE INTEGRATION & OWNER DASHBOARD
+       ===================================================================== -->
+  <script>
+    // =====================================================================
+    // 🔧 DEVELOPER / OWNER CONFIGURATION: PASTE YOUR SUPABASE DETAILS HERE
+    // =====================================================================
+    const DEFAULT_SUPABASE_URL = "https://cjkskasxnzgzkxfksexm.supabase.co";
+    const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_CNB3caNWb9_KzlK1WVkC2g_DtfatQWl";
+    const SUPABASE_TABLE_NAME = "ghee_responses";
+
+    // Brand Constants (Hardcoded as requested)
+    const BRAND_INFO = {
+      brandName: "Haryana Desi Ghee",
+      ownerName: "Anju Bajpai",
+      ownerPhone: "919876543210",
+      address: "1503, 15th Floor, A1 Tower, Gardenia Glory, Sector 45, Noida - 201303, Uttar Pradesh"
+    };
+
+    // Pack catalog metadata for automatic KG & Revenue calculation
+    const PACK_METADATA = {
+      "0.5 KG Steel Tin - ₹1,000": { kg: 0.5, price: 1000 },
+      "1 KG Steel Tin - ₹1,800": { kg: 1, price: 1800 },
+      "2 KG Steel Tin - ₹3,499": { kg: 2, price: 3499 },
+      "5 KG Steel Tin - ₹8,499": { kg: 5, price: 8499 }
+    };
+
+    // State Management
+    let selectedPackValue = "1 KG Steel Tin - ₹1,800";
+    let supabaseClient = null;
+    let allResponses = [];
+
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initSupabaseConnection();
+      loadLocalResponses();
+      selectPack(selectedPackValue);
+    });
+
+    // Initialize Supabase Client (from hardcoded constants or UI settings)
+    function initSupabaseConnection() {
+      let savedUrl = DEFAULT_SUPABASE_URL;
+      let savedKey = DEFAULT_SUPABASE_ANON_KEY;
+      try {
+        savedUrl = savedUrl || window._sbUrl || "";
+        savedKey = savedKey || window._sbKey || "";
+      } catch (e) {}
+
+      const dotEl = document.getElementById('db-status-dot');
+      const labelEl = document.getElementById('db-status-label');
+
+      if (savedUrl && savedKey && window.supabase) {
+        try {
+          supabaseClient = window.supabase.createClient(savedUrl, savedKey);
+          dotEl.className = "w-2 h-2 rounded-full bg-emerald-400";
+          labelEl.textContent = "Supabase Connected";
+          fetchFromSupabaseIfConnected();
+        } catch (err) {
+          console.error("Supabase init error:", err);
+        }
+      } else {
+        dotEl.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+        labelEl.textContent = "Connect Supabase DB";
+      }
+    }
+
+    // Load initial / stored responses
+    function loadLocalResponses() {
+      renderAdminDashboard();
+    }
+
+    // Show Toast Message
+    function showToast(message) {
+      const box = document.getElementById('toast-box');
+      const text = document.getElementById('toast-text');
+      text.textContent = message;
+      box.classList.remove('hidden');
+      setTimeout(() => {
+        box.classList.add('hidden');
+      }, 3800);
+    }
+
+    // Switch between Customer Landing Page & Owner Dashboard
+    function switchTab(tab) {
+      const custView = document.getElementById('view-customer');
+      const adminView = document.getElementById('view-admin');
+      const btnCust = document.getElementById('tab-btn-customer');
+      const btnAdmin = document.getElementById('tab-btn-admin');
+      const stickyBar = document.getElementById('sticky-bottom-bar');
+
+      if (tab === 'customer') {
+        custView.classList.remove('hidden');
+        adminView.classList.add('hidden');
+        stickyBar.classList.remove('hidden');
+        btnCust.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-amber-950 shadow";
+        btnAdmin.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-amber-200/80 hover:text-white";
+      } else {
+        custView.classList.add('hidden');
+        adminView.classList.remove('hidden');
+        stickyBar.classList.add('hidden');
+        btnAdmin.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-amber-950 shadow";
+        btnCust.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-amber-200/80 hover:text-white";
+        renderAdminDashboard();
+      }
+    }
+
+    // Select a Steel Tin Pack Size
+    function selectPack(packString) {
+      selectedPackValue = packString;
+      const hiddenInput = document.getElementById('input-pack');
+      if (hiddenInput) hiddenInput.value = packString;
+
+      // Update Top Pricing Cards
+      document.querySelectorAll('.pack-card').forEach((card) => {
+        const isMatch = card.getAttribute('data-pack') === packString;
+        const indicator = card.querySelector('.pack-check-indicator');
+        if (isMatch) {
+          card.className = "pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-amber-600 bg-amber-50/90 shadow-md ring-2 ring-amber-500/20";
+          if (indicator) {
+            indicator.className = "pack-check-indicator w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold";
+            indicator.textContent = "✓";
+          }
+        } else {
+          card.className = "pack-card cursor-pointer rounded-2xl p-4 border-2 transition-all relative overflow-hidden select-none border-stone-200 bg-stone-50/60 hover:border-amber-400";
+          if (indicator) {
+            indicator.className = "pack-check-indicator w-5 h-5 rounded-full border-2 border-stone-300 flex items-center justify-center text-xs";
+            indicator.textContent = "";
+          }
+        }
+      });
+
+      // Update Form Pack Pills
+      document.querySelectorAll('.pack-pill').forEach((pill) => {
+        const isMatch = pill.getAttribute('data-pack-btn') === packString;
+        if (isMatch) {
+          pill.className = "pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border-2 transition text-center bg-amber-600 text-white border-amber-700 shadow-xs";
+        } else {
+          pill.className = "pack-pill py-2 px-2.5 rounded-xl text-xs font-extrabold border transition text-center bg-white text-stone-700 border-stone-300 hover:border-amber-500";
+        }
+      });
+
+      // Update Sticky Bottom Bar
+      const stickyLabel = document.getElementById('sticky-selected-pack');
+      if (stickyLabel) {
+        stickyLabel.textContent = `Selected: ${packString}`;
+      }
+    }
+
+    // Quick-set Gardenia Glory Tower chip
+    function setTower(towerName) {
+      const towerInput = document.getElementById('input-tower');
+      if (towerInput) {
+        towerInput.value = `Tower ${towerName}`;
+        towerInput.focus();
+      }
+    }
+
+    // Handle Customer Form Submission (Saves to Supabase DB + In-Memory Dashboard)
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      const errBox = document.getElementById('form-error-box');
+      const errText = document.getElementById('form-error-text');
+      errBox.classList.add('hidden');
+
+      const name = document.getElementById('input-name').value.trim();
+      const mobileRaw = document.getElementById('input-mobile').value.replace(/\D/g, '');
+      const tower = document.getElementById('input-tower').value.trim();
+      const floorFlat = document.getElementById('input-floor').value.trim();
+      const pack = selectedPackValue;
+
+      if (!name) {
+        errText.textContent = "कृपया अपना नाम लिखें (Please enter your name).";
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (mobileRaw.length !== 10) {
+        errText.textContent = "कृपया सही 10-अंकों का मोबाइल नंबर लिखें (Enter valid 10-digit mobile number).";
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (!tower) {
+        errText.textContent = "कृपया अपना Tower लिखें (e.g., Tower A1, B2).";
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (!floorFlat) {
+        errText.textContent = "कृपया अपना Floor और Flat/House नंबर लिखें (e.g., 15th Floor, Flat 1503).";
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      const submitBtnText = document.getElementById('submit-btn-text');
+      submitBtn.disabled = true;
+      submitBtnText.textContent = "Saving Your Response...";
+
+      const meta = PACK_METADATA[pack] || { kg: 1, price: 1800 };
+
+      const entryPayload = {
+        name: name,
+        mobile: mobileRaw,
+        tower: tower,
+        floor_flat: floorFlat,
+        selected_pack: pack,
+        pack_kg: meta.kg,
+        pack_price: meta.price,
+        society: "Gardenia Glory, Sector 45, Noida",
+        created_at: new Date().toISOString()
+      };
+
+      // 1. Save to Supabase Database if connected
+      if (supabaseClient) {
+        try {
+          const { error } = await supabaseClient
+            .from(SUPABASE_TABLE_NAME)
+            .insert([entryPayload]);
+
+          if (error) {
+            console.error("Supabase Insert Error:", error.message);
+          }
+        } catch (dbErr) {
+          console.error("Supabase Request Failed:", dbErr);
+        }
+      }
+
+      // 2. Add to Dashboard State
+      allResponses.unshift({
+        id: Date.now().toString(),
+        ...entryPayload
+      });
+      renderAdminDashboard();
+
+      // 3. Populate & Show Celebratory Confirmation View
+      document.getElementById('ghee-interest-form').classList.add('hidden');
+      const successView = document.getElementById('form-success-view');
+      successView.classList.remove('hidden');
+
+      document.getElementById('success-greeting').textContent = `Dhanyawad, ${name} Ji! 🙏`;
+      document.getElementById('sum-name').textContent = name;
+      document.getElementById('sum-mobile').textContent = `+91 ${mobileRaw}`;
+      document.getElementById('sum-tower').textContent = tower;
+      document.getElementById('sum-floor').textContent = floorFlat;
+      document.getElementById('sum-pack').textContent = pack;
+
+      // Build WhatsApp message for Anju Bajpai (+919876543210)
+      const waMessage = `🏺 *Namaste Anju Bajpai Ji (Haryana Desi Ghee)!*
+Main *Gardenia Glory* se bol raha/rahi hoon. Maine Bhiwani (Haryana) ke 100% Shuddh Desi Ghee (Steel Tin) ke liye apna interest bhara hai:
+
+👤 *Name:* ${name}
+📞 *Mobile:* +91 ${mobileRaw}
+🏢 *Tower:* ${tower}
+🏠 *Floor & Flat No:* ${floorFlat}
+🥫 *Selected Pack:* ${pack}
+
+Jab ghee available ho to kripya mujhe inform karein!`;
+
+      const waUrl = `https://wa.me/${BRAND_INFO.ownerPhone}?text=${encodeURIComponent(waMessage)}`;
+      document.getElementById('whatsapp-confirm-btn').setAttribute('href', waUrl);
+
+      submitBtn.disabled = false;
+      submitBtnText.textContent = "Submit My Interest (अंजू जी को भेजें)";
+      showToast("🎉 Aapka response darj ho gaya hai!");
+      lucide.createIcons();
+    }
+
+    // Reset Customer Form to add another entry
+    function resetCustomerForm() {
+      document.getElementById('input-name').value = "";
+      document.getElementById('input-mobile').value = "";
+      document.getElementById('input-floor').value = "";
+      document.getElementById('form-success-view').classList.add('hidden');
+      document.getElementById('ghee-interest-form').classList.remove('hidden');
+    }
+
+    // Fetch existing entries from Supabase if connected
+    async function fetchFromSupabaseIfConnected() {
+      if (!supabaseClient) {
+        renderAdminDashboard();
+        return;
+      }
+      try {
+        const { data, error } = await supabaseClient
+          .from(SUPABASE_TABLE_NAME)
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && Array.isArray(data)) {
+          allResponses = data;
+          renderAdminDashboard();
+          showToast(`✅ Synced ${data.length} responses from Supabase DB!`);
+        }
+      } catch (err) {
+        console.error("Failed to fetch from Supabase:", err);
+      }
+    }
+
+    // Render Owner Dashboard & Viability Calculator
+    function renderAdminDashboard() {
+      const countBadge = document.getElementById('top-response-count');
+      if (countBadge) countBadge.textContent = allResponses.length;
+
+      const totalLeads = allResponses.length;
+      const totalKg = allResponses.reduce((acc, r) => acc + (Number(r.pack_kg) || 1), 0);
+      const totalRevenue = allResponses.reduce((acc, r) => acc + (Number(r.pack_price) || 1800), 0);
+
+      const uniqueTowers = new Set(
+        allResponses.map((r) => (r.tower || '').trim().toUpperCase()).filter(Boolean)
+      );
+
+      document.getElementById('stat-total-leads').textContent = totalLeads;
+      document.getElementById('stat-total-kg').textContent = totalKg;
+      document.getElementById('stat-total-towers').textContent = uniqueTowers.size;
+      document.getElementById('stat-total-revenue').textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+
+      const listContainer = document.getElementById('admin-responses-list');
+      if (!listContainer) return;
+
+      if (allResponses.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-10 px-4 bg-amber-50/50 rounded-2xl border border-dashed border-amber-300 space-y-2">
+            <div class="text-3xl">🏺</div>
+            <div class="font-extrabold text-amber-950 text-sm">Abhi Tak Koi Entry Nahi Aayi Hai</div>
+            <p class="text-xs text-stone-600 max-w-md mx-auto">
+              Gardenia Glory ke WhatsApp groups me is page ka link share karein, ya upar <strong>"+ Load 3 Sample Flat Entries"</strong> button dabakar dashboard test karein.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = allResponses.map((item, index) => {
+        const replyMsg = `Namaste ${item.name} Ji! 🙏\nMain Anju Bajpai (Tower A1, Flat 1503, Gardenia Glory) bol rahi hoon. *Haryana Desi Ghee* (${item.selected_pack}) me interest dikhane ke liye dhanyawad! Aapka flat (${item.tower}, ${item.floor_flat}) hamari priority list me note ho gaya hai.`;
+        const waReplyUrl = `https://wa.me/91${item.mobile}?text=${encodeURIComponent(replyMsg)}`;
+
+        return `
+          <div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/40 hover:bg-amber-50 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-extrabold text-amber-950 text-base">${escapeHtml(item.name)}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-950 font-extrabold text-xs">
+                  🏢 ${escapeHtml(item.tower)}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-xs">
+                  🏠 ${escapeHtml(item.floor_flat)}
+                </span>
+              </div>
+              <div class="text-xs text-stone-700 flex flex-wrap items-center gap-3 pt-0.5">
+                <span><strong>📞 Mobile:</strong> +91 ${escapeHtml(item.mobile)}</span>
+                <span><strong>🥫 Pack:</strong> <span class="text-amber-900 font-bold">${escapeHtml(item.selected_pack)}</span></span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <a href="${waReplyUrl}" target="_blank" rel="noreferrer" class="px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-xs flex items-center gap-1.5 shadow-xs">
+                WhatsApp Resident
+              </a>
+              <a href="tel:+91${escapeHtml(item.mobile)}" class="px-3 py-2 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold text-xs">
+                Call
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Load 3 Sample Gardenia Glory Entries to preview Owner Analytics
+    function loadDemoEntries() {
+      const demos = [
+        {
+          id: "demo-1",
+          name: "Rohit Khanna",
+          mobile: "9811223344",
+          tower: "Tower A1",
+          floor_flat: "12th Floor, Flat 1202",
+          selected_pack: "1 KG Steel Tin - ₹1,800",
+          pack_kg: 1,
+          pack_price: 1800,
+          created_at: new Date().toISOString()
+        },
+        {
+          id: "demo-2",
+          name: "Meenakshi Verma",
+          mobile: "9899776655",
+          tower: "Tower B2",
+          floor_flat: "8th Floor, Flat 804",
+          selected_pack: "2 KG Steel Tin - ₹3,499",
+          pack_kg: 2,
+          pack_price: 3499,
+          created_at: new Date().toISOString()
+        },
+        {
+          id: "demo-3",
+          name: "Suresh Agarwal",
+          mobile: "9711445566",
+          tower: "Tower C1",
+          floor_flat: "4th Floor, Flat 401",
+          selected_pack: "5 KG Steel Tin - ₹8,499",
+          pack_kg: 5,
+          pack_price: 8499,
+          created_at: new Date().toISOString()
+        }
+      ];
+      allResponses = [...demos, ...allResponses];
+      renderAdminDashboard();
+      showToast("✅ 3 Sample Gardenia Glory entries loaded!");
+    }
+
+    // Export Responses to CSV (Excel)
+    function exportResponsesToCSV() {
+      if (allResponses.length === 0) {
+        showToast("No responses to export yet.");
+        return;
+      }
+      const headers = ["Name", "Mobile", "Tower", "Floor & Flat No", "Selected Steel Tin Pack", "KG", "Price (INR)", "Society"];
+      const rows = allResponses.map(r => [
+        `"${(r.name || '').replace(/"/g, '""')}"`,
+        `"${r.mobile || ''}"`,
+        `"${(r.tower || '').replace(/"/g, '""')}"`,
+        `"${(r.floor_flat || '').replace(/"/g, '""')}"`,
+        `"${r.selected_pack || ''}"`,
+        r.pack_kg || 1,
+        r.pack_price || 1800,
+        `"Gardenia Glory, Sector 45, Noida"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      link.setAttribute("download", "Haryana_Desi_Ghee_Gardenia_Glory_Leads.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("📊 CSV Downloaded for Excel!");
+    }
+
+    // Share pitch in Gardenia Glory WhatsApp Group
+    function shareInSocietyWhatsApp() {
+      const shareText = `🏺 *HARYANA DESI GHEE — Gardenia Glory Exclusive!* 🏺
+सीधे भिवानी (हरियाणा) और आस-पास के गाँवों से *100% शुद्ध दानेदार देसी घी* अब हमारी अपनी सोसाइटी *Gardenia Glory (Tower A1, Flat 1503 - Anju Bajpai Ji)* में उपलब्ध!
+
+🛡️ *100% Purity Ki Puri Guarantee Hai!*
+🥫 *Available in Premium Steel Tin Packaging:*
+• 0.5 KG Steel Tin — ₹1,000
+• 1 KG Steel Tin — ₹1,800
+• 2 KG Steel Tin — ₹3,499
+• 5 KG Steel Tin — ₹8,499
+
+👇 अपने फ्लैट के लिए बुक करने या इंटरेस्ट दर्ज करने के लिए नीचे लिंक पर क्लिक करें:
+${window.location.href}`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+    }
+
+    // Supabase Modal Functions
+    function openSupabaseModal() {
+      document.getElementById('supabase-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeSupabaseModal() {
+      document.getElementById('supabase-modal').classList.add('hidden');
+    }
+    function saveSupabaseCredentials() {
+      const url = document.getElementById('sb-url-input').value.trim();
+      const key = document.getElementById('sb-key-input').value.trim();
+      if (!url || !key) {
+        showToast("Please enter both Supabase URL and Anon Key.");
+        return;
+      }
+      window._sbUrl = url;
+      window._sbKey = key;
+      initSupabaseConnection();
+      closeSupabaseModal();
+      showToast("✅ Supabase Connected Successfully!");
+    }
+    function copySqlScript() {
+      const sqlText = document.getElementById('sql-code-block').innerText;
+      const tempArea = document.createElement('textarea');
+      tempArea.value = sqlText;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempArea);
+      showToast("📋 Supabase SQL Table Script Copied!");
+    }
+
+    // Utility to prevent XSS
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>
